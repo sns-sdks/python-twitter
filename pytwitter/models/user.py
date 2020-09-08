@@ -63,6 +63,7 @@ class Withheld(BaseModel):
     """
     refer: https://help.twitter.com/en/rules-and-policies/tweet-withheld-by-country
     """
+
     country_codes: Optional[List[str]] = field(default=None, repr=False)
 
 
@@ -71,6 +72,7 @@ class User(BaseModel):
     """
     A class representing the user object.
     """
+
     id: Optional[str] = field(default=None)
     name: Optional[str] = field(default=None, compare=False)
     username: Optional[str] = field(default=None, compare=False)
@@ -83,4 +85,6 @@ class User(BaseModel):
     url: Optional[str] = field(default=None, repr=False, compare=False)
     verified: Optional[bool] = field(default=None, repr=False, compare=False)
     entities: Optional[UserEntities] = field(default=None, repr=False, compare=False)
-    public_metrics: Optional[PublicMetrics] = field(default=None, repr=False, compare=False)
+    public_metrics: Optional[PublicMetrics] = field(
+        default=None, repr=False, compare=False
+    )
