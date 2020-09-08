@@ -1,0 +1,46 @@
+{
+  "created_at": "2013-12-14T04:35:55.000Z",
+  "public_metrics": {
+    "followers_count": 510710,
+    "following_count": 2031,
+    "tweet_count": 3599,
+    "listed_count": 1617
+  },
+  "protected": false,
+  "profile_image_url": "https://pbs.twimg.com/profile_images/1283786620521652229/lEODkLTh_normal.jpg",
+  "pinned_tweet_id": "1293593516040269825",
+  "name": "Twitter Dev",
+  "description": "The voice of the #TwitterDev team and your official source for updates, news, and events, related to the #TwitterAPI.",
+  "username": "TwitterDev",
+  "verified": true,
+  "id": "2244994945",
+  "entities": {
+    "url": {
+      "urls": [
+        {
+          "start": 0,
+          "end": 23,
+          "url": "https://t.co/3ZX3TNiZCY",
+          "expanded_url": "https://developer.twitter.com/en/community",
+          "display_url": "developer.twitter.com/en/community"
+        }
+      ]
+    },
+    "description": {
+      "hashtags": [
+        {
+          "start": 17,
+          "end": 28,
+          "tag": "TwitterDev"
+        },
+        {
+          "start": 105,
+          "end": 116,
+          "tag": "TwitterAPI"
+        }
+      ]
+    }
+  },
+  "location": "127.0.0.1",
+  "url": "https://t.co/3ZX3TNiZCY"
+}
