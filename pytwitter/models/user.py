@@ -64,6 +64,7 @@ class UserWithheld(BaseModel):
     refer: https://help.twitter.com/en/rules-and-policies/tweet-withheld-by-country
     """
 
+    scope: Optional[str] = field(default=None)
     country_codes: Optional[List[str]] = field(default=None, repr=False)
 
 
