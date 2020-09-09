@@ -44,7 +44,9 @@ class Media(BaseModel):
     type: Optional[str] = field(default=None)
     duration_ms: Optional[int] = field(default=None, repr=False)
     height: Optional[int] = field(default=None, repr=False)
-    non_public_metrics: Optional[MediaNonPublicMetrics] = field(default=None, repr=False)
+    non_public_metrics: Optional[MediaNonPublicMetrics] = field(
+        default=None, repr=False
+    )
     organic_metrics: Optional[MediaOrganicMetrics] = field(default=None, repr=False)
     preview_image_url: Optional[str] = field(default=None, repr=False)
     promoted_metrics: Optional[MediaPromotedMetrics] = field(default=None, repr=False)

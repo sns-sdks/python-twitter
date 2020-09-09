@@ -19,7 +19,9 @@ class PlaceGeoProperties(BaseModel):
 class PlaceGeo(BaseModel):
     type: Optional[str] = field(default=None)
     bbox: Optional[List[float]] = field(default=None, repr=False)
-    properties: Optional[Union[Dict, PlaceGeoProperties]] = field(default=None, repr=False)
+    properties: Optional[Union[Dict, PlaceGeoProperties]] = field(
+        default=None, repr=False
+    )
 
     def __post_init__(self):
         if self.properties is not None and isinstance(self.properties, dict):
@@ -29,7 +31,7 @@ class PlaceGeo(BaseModel):
                     (key, Optional[type(value)], field(default=None, repr=False))
                     for key, value in self.properties.items()
                 ],
-                bases=(PlaceGeoProperties,)
+                bases=(PlaceGeoProperties,),
             )
             self.properties = new_properties.new_from_json_dict(self.properties)
 
