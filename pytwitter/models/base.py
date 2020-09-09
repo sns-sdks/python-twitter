@@ -1,4 +1,4 @@
-from dataclasses import dataclass, Field, MISSING
+from dataclasses import dataclass
 from typing import (
     Dict,
     Type,
@@ -26,17 +26,3 @@ class BaseModel(DataClassJsonMixin):
         # save origin data
         cls._json = data
         return c
-
-
-def no_compare_field():
-    return Field(
-        default=None, default_factory=MISSING, init=True,
-        repr=False, hash=None, compare=False, metadata=None
-    )
-
-
-def no_repr_field():
-    return Field(
-        default=None, default_factory=MISSING, init=True,
-        repr=False, hash=None, compare=True, metadata=None
-    )

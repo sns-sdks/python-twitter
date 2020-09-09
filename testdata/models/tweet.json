@@ -1,0 +1,106 @@
+{
+  "id": "1212092628029698048",
+  "text": "We believe the best future version of our API will come from building it with YOU. Here’s to another great year with everyone who builds on the Twitter platform. We can’t wait to continue working with you in the new year. https://t.co/yvxdK6aOo2",
+  "possibly_sensitive": false,
+  "referenced_tweets": [
+    {
+      "type": "replied_to",
+      "id": "1212092627178287104"
+    }
+  ],
+  "entities": {
+    "urls": [
+      {
+        "start": 222,
+        "end": 245,
+        "url": "https://t.co/yvxdK6aOo2",
+        "expanded_url": "https://twitter.com/LovesNandos/status/1211797914437259264/photo/1",
+        "display_url": "pic.twitter.com/yvxdK6aOo2"
+      }
+    ],
+    "annotations": [
+      {
+        "start": 144,
+        "end": 150,
+        "probability": 0.626,
+        "type": "Product",
+        "normalized_text": "Twitter"
+      }
+    ]
+  },
+  "author_id": "2244994945",
+  "public_metrics": {
+    "retweet_count": 8,
+    "reply_count": 2,
+    "like_count": 40,
+    "quote_count": 1
+  },
+  "lang": "en",
+  "created_at": "2019-12-31T19:26:16.000Z",
+  "source": "Twitter Web App",
+  "in_reply_to_user_id": "2244994945",
+  "attachments": {
+    "media_keys": [
+      "16_1211797899316740096"
+    ]
+  },
+  "context_annotations": [
+    {
+      "domain": {
+        "id": "119",
+        "name": "Holiday",
+        "description": "Holidays like Christmas or Halloween"
+      },
+      "entity": {
+        "id": "1186637514896920576",
+        "name": "New Years Eve"
+      }
+    },
+    {
+      "domain": {
+        "id": "119",
+        "name": "Holiday",
+        "description": "Holidays like Christmas or Halloween"
+      },
+      "entity": {
+        "id": "1206982436287963136",
+        "name": "Happy New Year: It’s finally 2020 everywhere!",
+        "description": "Catch fireworks and other celebrations as people across the globe enter the new year.\nPhoto via @GettyImages "
+      }
+    },
+    {
+      "domain": {
+        "id": "46",
+        "name": "Brand Category",
+        "description": "Categories within Brand Verticals that narrow down the scope of Brands"
+      },
+      "entity": {
+        "id": "781974596752842752",
+        "name": "Services"
+      }
+    },
+    {
+      "domain": {
+        "id": "47",
+        "name": "Brand",
+        "description": "Brands and Companies"
+      },
+      "entity": {
+        "id": "10045225402",
+        "name": "Twitter"
+      }
+    },
+    {
+      "domain": {
+        "id": "119",
+        "name": "Holiday",
+        "description": "Holidays like Christmas or Halloween"
+      },
+      "entity": {
+        "id": "1206982436287963136",
+        "name": "Happy New Year: It’s finally 2020 everywhere!",
+        "description": "Catch fireworks and other celebrations as people across the globe enter the new year.\nPhoto via @GettyImages "
+      }
+    }
+  ]
+}

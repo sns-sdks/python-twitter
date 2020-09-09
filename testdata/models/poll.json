@@ -1,0 +1,18 @@
+{
+  "id": "1199786642468413448",
+  "voting_status": "closed",
+  "duration_minutes": 1440,
+  "options": [
+    {
+      "position": 1,
+      "label": "“C Sharp”",
+      "votes": 795
+    },
+    {
+      "position": 2,
+      "label": "“C Hashtag”",
+      "votes": 156
+    }
+  ],
+  "end_datetime": "2019-11-28T20:26:41.000Z"
+}
