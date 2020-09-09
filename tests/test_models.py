@@ -30,3 +30,12 @@ def test_tweet(helpers):
     assert len(tweet.context_annotations) == 5
     assert tweet.context_annotations[0].domain.id == "119"
     assert tweet.context_annotations[0].entity.name == "New Years Eve"
+
+
+def test_media(helpers):
+    media_data = helpers.load_json_data("testdata/models/media.json")
+    media = models.Media.new_from_json_dict(media_data)
+
+    assert media.media_key == "13_1263145212760805376"
+    assert media.duration_ms == 46947
+    assert media.public_metrics.view_count == 6909260
