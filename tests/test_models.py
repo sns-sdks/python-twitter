@@ -39,3 +39,13 @@ def test_media(helpers):
     assert media.media_key == "13_1263145212760805376"
     assert media.duration_ms == 46947
     assert media.public_metrics.view_count == 6909260
+
+
+def test_poll(helpers):
+    poll_data = helpers.load_json_data("testdata/models/poll.json")
+    poll = models.Poll.new_from_json_dict(poll_data)
+
+    assert poll.id == "1199786642468413448"
+    assert poll.duration_minutes == 1440
+    assert len(poll.options) == 2
+    assert poll.options[0].position == 1
