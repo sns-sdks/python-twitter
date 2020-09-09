@@ -49,3 +49,13 @@ def test_poll(helpers):
     assert poll.duration_minutes == 1440
     assert len(poll.options) == 2
     assert poll.options[0].position == 1
+
+
+def test_place(helpers):
+    place_data = helpers.load_json_data("testdata/models/place.json")
+    place = models.Place.new_from_json_dict(place_data)
+
+    assert place.id == "01a9a39529b27f36"
+    assert place.geo.type == "Feature"
+    assert len(place.geo.bbox) == 4
+    assert place.geo.properties.name == "Dinagat Islands"
