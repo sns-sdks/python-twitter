@@ -30,8 +30,12 @@ class TweetContextAnnotationEntity(BaseModel):
 
 @dataclass
 class TweetContextAnnotation(BaseModel):
-    domain: Optional[TweetContextAnnotationDomain] = field(default=None, repr=False, compare=False)
-    entity: Optional[TweetContextAnnotationEntity] = field(default=None, repr=False, compare=False)
+    domain: Optional[TweetContextAnnotationDomain] = field(
+        default=None, repr=False, compare=False
+    )
+    entity: Optional[TweetContextAnnotationEntity] = field(
+        default=None, repr=False, compare=False
+    )
 
 
 @dataclass
@@ -75,7 +79,9 @@ class TweetEntitiesUrl(BaseModel):
 
 @dataclass
 class TweetEntities(BaseModel):
-    annotations: Optional[List[TweetEntitiesAnnotation]] = field(default=None, repr=False)
+    annotations: Optional[List[TweetEntitiesAnnotation]] = field(
+        default=None, repr=False
+    )
     cashtags: Optional[List[TweetEntitiesCashtag]] = field(default=None, repr=False)
     hashtags: Optional[List[TweetEntitiesHashtag]] = field(default=None, repr=False)
     mentions: Optional[List[TweetEntitiesMention]] = field(default=None, repr=False)
@@ -145,20 +151,34 @@ class Tweet(BaseModel):
 
     id: Optional[str] = field(default=None)
     text: Optional[str] = field(default=None)
-    attachments: Optional[TweetAttachments] = field(default=None, repr=False, compare=False)
+    attachments: Optional[TweetAttachments] = field(
+        default=None, repr=False, compare=False
+    )
     author_id: Optional[str] = field(default=None, repr=False, compare=False)
-    context_annotations: Optional[List[TweetContextAnnotation]] = field(default=None, repr=False, compare=False)
+    context_annotations: Optional[List[TweetContextAnnotation]] = field(
+        default=None, repr=False, compare=False
+    )
     conversation_id: Optional[str] = field(default=None, repr=False, compare=False)
     created_at: Optional[str] = field(default=None, repr=False, compare=False)
     entities: Optional[TweetEntities] = field(default=None, repr=False, compare=False)
     geo: Optional[TweetGeo] = field(default=None, repr=False, compare=False)
     in_reply_to_user_id: Optional[str] = field(default=None, repr=False, compare=False)
     lang: Optional[str] = field(default=None, repr=False, compare=False)
-    non_public_metrics: Optional[TweetNonPublicMetrics] = field(default=None, repr=False, compare=False)
-    organic_metrics: Optional[TweetNonPublicMetrics] = field(default=None, repr=False, compare=False)
+    non_public_metrics: Optional[TweetNonPublicMetrics] = field(
+        default=None, repr=False, compare=False
+    )
+    organic_metrics: Optional[TweetNonPublicMetrics] = field(
+        default=None, repr=False, compare=False
+    )
     possibly_sensitive: Optional[bool] = field(default=None, repr=False, compare=False)
-    promoted_metrics: Optional[TweetPromotedMetrics] = field(default=None, repr=False, compare=False)
-    public_metrics: Optional[TweetPublicMetrics] = field(default=None, repr=False, compare=False)
-    referenced_tweets: Optional[List[TweetReferencedTweet]] = field(default=None, repr=False, compare=False)
+    promoted_metrics: Optional[TweetPromotedMetrics] = field(
+        default=None, repr=False, compare=False
+    )
+    public_metrics: Optional[TweetPublicMetrics] = field(
+        default=None, repr=False, compare=False
+    )
+    referenced_tweets: Optional[List[TweetReferencedTweet]] = field(
+        default=None, repr=False, compare=False
+    )
     source: Optional[str] = field(default=None, repr=False, compare=False)
     withheld: Optional[TweetWithheld] = field(default=None, repr=False, compare=False)
