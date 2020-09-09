@@ -23,7 +23,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: venv
-          key: ${{ matrix.python-version }}-poetry-${{ hashFiles('poetry.lock') }}
+          key: ${{ matrix.python-version }}-poetry-${{ hashFiles('pyproject.toml') }}
       - name: Install dependencies
         run: |
           python -m venv venv
