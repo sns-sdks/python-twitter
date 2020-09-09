@@ -59,7 +59,7 @@ class PublicMetrics(BaseModel):
 
 
 @dataclass
-class Withheld(BaseModel):
+class UserWithheld(BaseModel):
     """
     refer: https://help.twitter.com/en/rules-and-policies/tweet-withheld-by-country
     """
@@ -88,3 +88,4 @@ class User(BaseModel):
     public_metrics: Optional[PublicMetrics] = field(
         default=None, repr=False, compare=False
     )
+    withheld: Optional[UserWithheld] = field(default=None, repr=False, compare=False)
