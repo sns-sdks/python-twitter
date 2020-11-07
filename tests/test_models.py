@@ -59,3 +59,14 @@ def test_place(helpers):
     assert place.geo.type == "Feature"
     assert len(place.geo.bbox) == 4
     assert place.geo.properties.name == "Dinagat Islands"
+
+
+def test_includes(helpers):
+    includes_data = helpers.load_json_data("testdata/models/expansions.json")
+    includes = models.Includes.new_from_json_dict(includes_data)
+
+    assert len(includes.media) == 1
+    assert len(includes.users) == 1
+    assert includes.tweets[0].author_id == "2244994945"
+    assert len(includes.polls[0].options) == 2
+    assert includes.places[0].id == "01a9a39529b27f36"

@@ -1,0 +1,51 @@
+{
+  "media": [
+    {
+      "media_key": "16_1211797899316740096",
+      "type": "animated_gif"
+    }
+  ],
+  "users": [
+    {
+      "id": "2244994945",
+      "name": "Twitter Dev",
+      "username": "TwitterDev"
+    }
+  ],
+  "tweets": [
+    {
+      "author_id": "2244994945",
+      "id": "1212092627178287104",
+      "referenced_tweets": [
+        {
+          "type": "replied_to",
+          "id": "1212092626247110657"
+        }
+      ],
+      "text": "These launches would not be possible without the feedback you provided along the way, so THANK YOU to everyone who has contributed your time and ideas. Have more feedback? Let us know ⬇️ https://t.co/Vxp4UKnuJ9"
+    }
+  ],
+  "polls": [
+    {
+      "id": "1199786642468413448",
+      "options": [
+        {
+          "position": 1,
+          "label": "“C Sharp”",
+          "votes": 795
+        },
+        {
+          "position": 2,
+          "label": "“C Hashtag”",
+          "votes": 156
+        }
+      ]
+    }
+  ],
+  "places": [
+    {
+      "full_name": "Manhattan, NY",
+      "id": "01a9a39529b27f36"
+    }
+  ]
+}
