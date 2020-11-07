@@ -30,6 +30,9 @@ class TweetContextAnnotationEntity(BaseModel):
 
 @dataclass
 class TweetContextAnnotation(BaseModel):
+    """
+    Refer https://developer.twitter.com/en/docs/twitter-api/annotations
+    """
     domain: Optional[TweetContextAnnotationDomain] = field(
         default=None, repr=False, compare=False
     )
