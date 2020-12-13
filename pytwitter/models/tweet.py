@@ -3,6 +3,7 @@
 
     Refer: https://developer.twitter.com/en/docs/twitter-api/data-dictionary/object-model/tweet
 """
+import textwrap
 from dataclasses import dataclass, field
 from typing import Optional, List
 
@@ -186,3 +187,10 @@ class Tweet(BaseModel):
     )
     source: Optional[str] = field(default=None, repr=False, compare=False)
     withheld: Optional[TweetWithheld] = field(default=None, repr=False, compare=False)
+
+    def __repr__(self):
+        text = self.text
+        if text:
+            # Make text shorter to display.
+            text = textwrap.shorten(self.text, width=50, placeholder="...")
+        return f"Tweet(id={self.id}, text={text})"

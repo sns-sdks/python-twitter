@@ -21,6 +21,7 @@ def test_tweet(helpers):
     tweet = models.Tweet.new_from_json_dict(tweet_data)
 
     assert tweet.id == "1212092628029698048"
+    assert len(repr(tweet)) < 100
     assert not tweet.possibly_sensitive
     assert tweet.referenced_tweets[0].id == "1212092627178287104"
     assert tweet.entities.urls[0].url == "https://t.co/yvxdK6aOo2"
