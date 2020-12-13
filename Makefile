@@ -39,6 +39,9 @@ cov-html: clean-pyc
 	pytest -s --cov=pytwitter --cov-report html
 
 lint:
+	black .
+
+lint-check:
 	black --check .
 
 test:
