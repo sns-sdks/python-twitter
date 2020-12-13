@@ -1,6 +1,11 @@
 python-twitter
 
-A simple Python wrapper around for Twitter API v2 :sparkles: :cake: :sparkles: .
+A simple Python wrapper around for Twitter API v2 :sparkles: :cake: :sparkles:.
+
+.. image:: https://github.com/sns-sdks/python-twitter/workflows/Test/badge.svg
+    :target: https://github.com/sns-sdks/python-facebook/actions
+    :alt: Build Status
+
 
 ============
 Introduction
