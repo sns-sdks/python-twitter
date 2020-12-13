@@ -2,6 +2,8 @@ import json
 
 import pytest
 
+from pytwitter import Api
+
 
 class Helpers:
     @staticmethod
@@ -13,3 +15,8 @@ class Helpers:
 @pytest.fixture
 def helpers():
     return Helpers
+
+
+@pytest.fixture
+def api():
+    return Api(bearer_token="access token")
