@@ -96,19 +96,22 @@ class Api:
 
         return data
 
-    def users_by_ids(
+    def get_users(
         self,
         *,
-        ids: Union[str, List, Tuple],
+        ids: Optional[Union[str, List, Tuple]] = None,
+        usernames: Optional[Union[str, List, Tuple]] = None,
         user_fields: Optional[Union[str, List, Tuple]] = None,
         tweet_fields: Optional[Union[str, List, Tuple]] = None,
         expansions: Optional[Union[str, List, Tuple]] = None,
         return_json: bool = False,
     ):
         """
-        Returns a variety of information about one or more users specified by the requested IDs.
+        Returns a variety of information about one or more users specified by the requested IDs or usernames.
 
         :param ids: The IDs for target users, Up to 100 are allowed in a single request.
+        :param usernames: The username for target users, Up to 100 are allowed in a single request.
+            Either ids or username is required for this method.
         :param user_fields: Fields for the user object.
         :param tweet_fields: Fields for the tweet object.
         :param expansions: Fields for expansions.
@@ -117,7 +120,6 @@ class Api:
             - data: data for the users
             - includes: expansions data.
         """
-
         args = {
             "ids": enf_comma_separated(name="ids", value=ids),
             "user.fields": enf_comma_separated(name="user_fields", value=user_fields),
@@ -127,8 +129,17 @@ class Api:
             "expansions": enf_comma_separated(name="expansions", value=expansions),
         }
 
+        if ids:
+            args["ids"] = enf_comma_separated(name="ids", value=ids)
+            path = "users"
+        elif usernames:
+            args["usernames"] = enf_comma_separated(name="usernames", value=usernames)
+            path = "users/by"
+        else:
+            raise PyTwitterError("Specify at least one of ids or usernames")
+
         resp = self._request(
-            url=f"{self.BASE_URL_V2}/users",
+            url=f"{self.BASE_URL_V2}/{path}",
             params=args,
         )
         data = self._parse_response(resp)
@@ -142,19 +153,21 @@ class Api:
                 md.Includes.new_from_json_dict(includes),
             )
 
-    def user_by_id(
+    def get_user(
         self,
         *,
-        user_id: str,
+        user_id: Optional[str] = None,
+        username: Optional[str] = None,
         user_fields: Optional[Union[str, List, Tuple]] = None,
         tweet_fields: Optional[Union[str, List, Tuple]] = None,
         expansions: Optional[Union[str, List, Tuple]] = None,
         return_json: bool = False,
     ):
         """
-        Returns a variety of information about a single user specified by the requested ID.
+        Returns a variety of information about a single user specified by the requested ID or username.
 
-        :param user_id: The ID of the user
+        :param user_id: The ID of target user.
+        :param username: The username of target user.
         :param user_fields: Fields for the user object.
         :param tweet_fields: Fields for the tweet object.
         :param expansions: Fields for expansions.
@@ -172,8 +185,15 @@ class Api:
             "expansions": enf_comma_separated(name="expansions", value=expansions),
         }
 
+        if user_id:
+            path = f"users/{user_id}"
+        elif username:
+            path = f"users/by/username/{username}"
+        else:
+            raise PyTwitterError("Specify at least one of user_id or username")
+
         resp = self._request(
-            url=f"{self.BASE_URL_V2}/users/{user_id}",
+            url=f"{self.BASE_URL_V2}/{path}",
             params=args,
         )
         data = self._parse_response(resp)
