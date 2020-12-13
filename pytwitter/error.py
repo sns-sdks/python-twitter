@@ -1,4 +1,3 @@
-
 class PyTwitterError(Exception):
     """Base class for Twitter errors"""
 
@@ -10,5 +9,5 @@ class PyTwitterError(Exception):
 
 class PythonTwitterDeprecationWarning(DeprecationWarning):
     """Base class for python-twitter deprecation warnings"""
-    pass
 
+    pass
