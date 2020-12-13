@@ -192,5 +192,5 @@ class Tweet(BaseModel):
         text = self.text
         if text:
             # Make text shorter to display.
-            text = textwrap.shorten(self.text, width=50, placeholder='...')
+            text = textwrap.shorten(self.text, width=50, placeholder="...")
         return f"Tweet(id={self.id}, text={text})"
