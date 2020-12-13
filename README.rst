@@ -6,6 +6,9 @@ A simple Python wrapper around for Twitter API v2 :sparkles: :cake: :sparkles:.
     :target: https://github.com/sns-sdks/python-facebook/actions
     :alt: Build Status
 
+.. image:: https://codecov.io/gh/sns-sdks/python-twitter/branch/master/graph/badge.svg
+    :target: https://codecov.io/gh/sns-sdks/python-facebook
+    :alt: Codecov
 
 ============
 Introduction
