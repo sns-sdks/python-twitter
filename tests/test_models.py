@@ -62,6 +62,10 @@ def test_place(helpers):
 
 
 def test_includes(helpers):
+
+    includes_none = models.Includes.new_from_json_dict(None)
+    assert includes_none is None
+
     includes_data = helpers.load_json_data("testdata/models/expansions.json")
     includes = models.Includes.new_from_json_dict(includes_data)
 
