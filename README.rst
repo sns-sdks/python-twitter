@@ -2,6 +2,10 @@ python-twitter
 
 A simple Python wrapper around for Twitter API v2 :sparkles: :cake: :sparkles:.
 
+.. image:: https://img.shields.io/endpoint?url=https%3A%2F%2Ftwbadges.glitch.me%2Fbadges%2Fv2
+   :target: https://developer.twitter.com/en/docs/twitter-api
+   :alt: v2
+
 .. image:: https://github.com/sns-sdks/python-twitter/workflows/Test/badge.svg
     :target: https://github.com/sns-sdks/python-facebook/actions
     :alt: Build Status
