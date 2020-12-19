@@ -102,8 +102,8 @@ class Api:
         ids: Optional[Union[str, List, Tuple]] = None,
         usernames: Optional[Union[str, List, Tuple]] = None,
         user_fields: Optional[Union[str, List, Tuple]] = None,
-        tweet_fields: Optional[Union[str, List, Tuple]] = None,
         expansions: Optional[Union[str, List, Tuple]] = None,
+        tweet_fields: Optional[Union[str, List, Tuple]] = None,
         return_json: bool = False,
     ):
         """
@@ -113,8 +113,8 @@ class Api:
         :param usernames: The username for target users, Up to 100 are allowed in a single request.
             Either ids or username is required for this method.
         :param user_fields: Fields for the user object.
-        :param tweet_fields: Fields for the tweet object.
         :param expansions: Fields for expansions.
+        :param tweet_fields: Fields for the tweet object.
         :param return_json: Type for returned data. If you set True JSON data will be returned.
         :returns:
             - data: data for the users
@@ -144,12 +144,12 @@ class Api:
         )
         data = self._parse_response(resp)
 
-        data, includes = data["data"], data.get("includes")
+        users, includes = data["data"], data.get("includes")
         if return_json:
-            return data, includes
+            return users, includes
         else:
             return (
-                [md.User.new_from_json_dict(d) for d in data],
+                [md.User.new_from_json_dict(u) for u in users],
                 md.Includes.new_from_json_dict(includes),
             )
 
@@ -159,8 +159,8 @@ class Api:
         user_id: Optional[str] = None,
         username: Optional[str] = None,
         user_fields: Optional[Union[str, List, Tuple]] = None,
-        tweet_fields: Optional[Union[str, List, Tuple]] = None,
         expansions: Optional[Union[str, List, Tuple]] = None,
+        tweet_fields: Optional[Union[str, List, Tuple]] = None,
         return_json: bool = False,
     ):
         """
@@ -169,8 +169,8 @@ class Api:
         :param user_id: The ID of target user.
         :param username: The username of target user.
         :param user_fields: Fields for the user object.
-        :param tweet_fields: Fields for the tweet object.
         :param expansions: Fields for expansions.
+        :param tweet_fields: Fields for the tweet object.
         :param return_json: Type for returned data. If you set True JSON data will be returned.
         :returns:
             - data: data for the user
@@ -198,12 +198,12 @@ class Api:
         )
         data = self._parse_response(resp)
 
-        data, includes = data["data"], data.get("includes")
+        user, includes = data["data"], data.get("includes")
         if return_json:
-            return data, includes
+            return user, includes
         else:
             return (
-                md.User.new_from_json_dict(data),
+                md.User.new_from_json_dict(user),
                 md.Includes.new_from_json_dict(includes),
             )
 
@@ -211,24 +211,24 @@ class Api:
         self,
         tweet_id: str,
         *,
+        expansions: Optional[Union[str, List, Tuple]] = None,
         tweet_fields: Optional[Union[str, List, Tuple]] = None,
         media_fields: Optional[Union[str, List, Tuple]] = None,
         place_fields: Optional[Union[str, List, Tuple]] = None,
         poll_fields: Optional[Union[str, List, Tuple]] = None,
         user_fields: Optional[Union[str, List, Tuple]] = None,
-        expansions: Optional[Union[str, List, Tuple]] = None,
         return_json: bool = False,
     ):
         """
         Returns a variety of information about a single Tweet specified by the requested ID.
 
         :param tweet_id: The ID of target tweet.
+        :param expansions: Fields for the expansions.
         :param tweet_fields: Fields for the tweet object.
         :param media_fields: Fields for the media object.
         :param place_fields: Fields for the place object.
         :param poll_fields: Fields for the poll object.
         :param user_fields: Fields for the user object.
-        :param expansions: Fields for the expansions.
         :param return_json: Type for returned data. If you set True JSON data will be returned.
         :returns:
             - data: data for the tweet self.
@@ -254,12 +254,12 @@ class Api:
             params=args,
         )
         data = self._parse_response(resp)
-        data, includes = data["data"], data.get("includes")
+        tweet, includes = data["data"], data.get("includes")
         if return_json:
-            return data, includes
+            return tweet, includes
         else:
             return (
-                md.Tweet.new_from_json_dict(data),
+                md.Tweet.new_from_json_dict(tweet),
                 md.Includes.new_from_json_dict(includes),
             )
 
@@ -267,24 +267,24 @@ class Api:
         self,
         tweet_ids: Optional[Union[str, List, Tuple]],
         *,
+        expansions: Optional[Union[str, List, Tuple]] = None,
         tweet_fields: Optional[Union[str, List, Tuple]] = None,
         media_fields: Optional[Union[str, List, Tuple]] = None,
         place_fields: Optional[Union[str, List, Tuple]] = None,
         poll_fields: Optional[Union[str, List, Tuple]] = None,
         user_fields: Optional[Union[str, List, Tuple]] = None,
-        expansions: Optional[Union[str, List, Tuple]] = None,
         return_json: bool = False,
     ):
         """
         Returns a variety of information about the Tweet specified by the requested ID or list of IDs.
 
         :param tweet_ids: The IDs for target users, Up to 100 are allowed in a single request.
+        :param expansions: Fields for the expansions.
         :param tweet_fields: Fields for the tweet object.
         :param media_fields: Fields for the media object.
         :param place_fields: Fields for the place object.
         :param poll_fields: Fields for the poll object.
         :param user_fields: Fields for the user object.
-        :param expansions: Fields for the expansions.
         :param return_json: Type for returned data. If you set True JSON data will be returned.
         :returns:
             - data: data for the tweets
@@ -312,11 +312,11 @@ class Api:
             params=args,
         )
         data = self._parse_response(resp)
-        data, includes = data["data"], data.get("includes")
+        tweets, includes = data["data"], data.get("includes")
         if return_json:
-            return data, includes
+            return tweets, includes
         else:
             return (
-                [md.Tweet.new_from_json_dict(item) for item in data],
+                [md.Tweet.new_from_json_dict(tweet) for tweet in tweets],
                 md.Includes.new_from_json_dict(includes),
             )
