@@ -30,7 +30,7 @@ def test_get_tweet(api, helpers):
         tweet_id=tweet_id,
         expansions="attachments.media_keys",
         media_fields=("type", "duration_ms"),
-        return_json=True
+        return_json=True,
     )
     tweet_json, includes = resp_json
     assert tweet_json["id"] == tweet_id
@@ -65,7 +65,7 @@ def test_get_tweets(api, helpers):
         expansions="author_id",
         tweet_fields=["created_at"],
         user_fields="username,verified",
-        return_json=True
+        return_json=True,
     )
     tweets, includes = resp_json
     assert tweets[0]["id"] in tweet_ids
