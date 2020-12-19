@@ -1,0 +1,32 @@
+{
+  "data": [
+    {
+      "id": "1261326399320715264",
+      "text": "Tune in to the @MongoDB @Twitch stream featuring our very own @suhemparack to learn about Twitter Developer Labs - starting now! https://t.co/fAWpYi3o5O",
+      "author_id": "2244994945",
+      "created_at": "2020-05-15T16:03:42.000Z"
+    },
+    {
+      "id": "1278347468690915330",
+      "text": "Good news and bad news: \n\n2020 is half over",
+      "author_id": "783214",
+      "created_at": "2020-07-01T15:19:21.000Z"
+    }
+  ],
+  "includes": {
+    "users": [
+      {
+        "verified": true,
+        "name": "Twitter Dev",
+        "id": "2244994945",
+        "username": "TwitterDev"
+      },
+      {
+        "verified": true,
+        "name": "Twitter",
+        "id": "783214",
+        "username": "Twitter"
+      }
+    ]
+  }
+}

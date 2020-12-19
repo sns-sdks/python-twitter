@@ -33,7 +33,29 @@ You can get all api description and update at `Twitter API v2: Early Access <htt
 Installing
 ==========
 
-TODO not published.
+Code is hosted at `https://github.com/sns-sdks/python-twitter <https://github.com/sns-sdks/python-twitter>`_.
+
+Checkout latest development version with::
+
+    $ git clone https://github.com/sns-sdks/python-twitter.git
+    $ cd python-twitter
+
+Install dependencies with::
+
+    $ make env
+
+
+Run tests with::
+
+    $ make test
+
+Run tests with coverage::
+
+    $ make cov-term
+    $ make cov-html
+
+
+TODO pypi not published will come soon.
 
 =====
 Using
@@ -83,6 +105,29 @@ Get single user::
     # By username
     In[6]: api.get_user(username="Twitter")
     Out[6]: (User(id='783214', name='Twitter', username='Twitter'), None)
+
+
+-------------
+Tweets-lookup
+-------------
+
+You can get information about a tweet or group of tweets by tweet id(s).
+
+Get single tweet::
+
+    In[7]: api.get_tweet("1067094924124872705", expansions=["attachments.media_keys"], media_fields=["type","duration_ms"])
+    Out[7]:
+    (Tweet(id=1067094924124872705, text=Just getting started with Twitter APIs? Find...),
+     Includes(media=[Media(media_key='13_1064638969197977600', type='video')], places=None, polls=None, tweets=None, users=None))
+
+Get group of tweets::
+
+    In[8]: api.get_tweets(["1261326399320715264","1278347468690915330"],expansions="author_id",tweet_fields=["created_at"], user_fields=["username","verified"])
+    Out[8]:
+    ([Tweet(id=1261326399320715264, text=Tune in to the @MongoDB @Twitch stream...),
+      Tweet(id=1278347468690915330, text=Good news and bad news: 2020 is half over)],
+     Includes(media=None, places=None, polls=None, tweets=None, users=[User(id='2244994945', name='Twitter Dev', username='TwitterDev'), User(id='783214', name='Twitter', username='Twitter')]))
+
 
 ====
 TODO
