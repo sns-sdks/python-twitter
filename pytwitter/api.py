@@ -247,7 +247,7 @@ class Api:
             ),
             "poll.fields": enf_comma_separated(name="poll_fields", value=poll_fields),
             "user.fields": enf_comma_separated(name="user_fields", value=user_fields),
-            "expansions": enf_comma_separated(name="expansions", value=expansions)
+            "expansions": enf_comma_separated(name="expansions", value=expansions),
         }
         resp = self._request(
             url=f"{self.BASE_URL_V2}/tweets/{tweet_id}",
@@ -260,5 +260,63 @@ class Api:
         else:
             return (
                 md.Tweet.new_from_json_dict(data),
+                md.Includes.new_from_json_dict(includes),
+            )
+
+    def get_tweets(
+        self,
+        tweet_ids: Optional[Union[str, List, Tuple]],
+        *,
+        tweet_fields: Optional[Union[str, List, Tuple]] = None,
+        media_fields: Optional[Union[str, List, Tuple]] = None,
+        place_fields: Optional[Union[str, List, Tuple]] = None,
+        poll_fields: Optional[Union[str, List, Tuple]] = None,
+        user_fields: Optional[Union[str, List, Tuple]] = None,
+        expansions: Optional[Union[str, List, Tuple]] = None,
+        return_json: bool = False,
+    ):
+        """
+        Returns a variety of information about the Tweet specified by the requested ID or list of IDs.
+
+        :param tweet_ids: The IDs for target users, Up to 100 are allowed in a single request.
+        :param tweet_fields: Fields for the tweet object.
+        :param media_fields: Fields for the media object.
+        :param place_fields: Fields for the place object.
+        :param poll_fields: Fields for the poll object.
+        :param user_fields: Fields for the user object.
+        :param expansions: Fields for the expansions.
+        :param return_json: Type for returned data. If you set True JSON data will be returned.
+        :returns:
+            - data: data for the tweets
+            - includes: expansions data.
+        """
+
+        args = {
+            "ids": enf_comma_separated(name="tweet_ids", value=tweet_ids),
+            "tweet.fields": enf_comma_separated(
+                name="tweet_fields", value=tweet_fields
+            ),
+            "media.fields": enf_comma_separated(
+                name="media_fields", value=media_fields
+            ),
+            "place.fields": enf_comma_separated(
+                name="place_fields", value=place_fields
+            ),
+            "poll.fields": enf_comma_separated(name="poll_fields", value=poll_fields),
+            "user.fields": enf_comma_separated(name="user_fields", value=user_fields),
+            "expansions": enf_comma_separated(name="expansions", value=expansions),
+        }
+
+        resp = self._request(
+            url=f"{self.BASE_URL_V2}/tweets",
+            params=args,
+        )
+        data = self._parse_response(resp)
+        data, includes = data["data"], data.get("includes")
+        if return_json:
+            return data, includes
+        else:
+            return (
+                [md.Tweet.new_from_json_dict(item) for item in data],
                 md.Includes.new_from_json_dict(includes),
             )
