@@ -33,7 +33,29 @@ You can get all api description and update at `Twitter API v2: Early Access <htt
 Installing
 ==========
 
-TODO not published.
+Code is hosted at `https://github.com/sns-sdks/python-twitter <https://github.com/sns-sdks/python-twitter>`_.
+
+Checkout latest development version with::
+
+    $ git clone https://github.com/sns-sdks/python-twitter.git
+    $ cd python-twitter
+
+Install dependencies with::
+
+    $ make env
+
+
+Run tests with::
+
+    $ make test
+
+Run tests with coverage::
+
+    $ make cov-term
+    $ make cov-html
+
+
+TODO pypi not published will come soon.
 
 =====
 Using
