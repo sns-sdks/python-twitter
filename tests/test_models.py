@@ -63,7 +63,6 @@ def test_place(helpers):
 
 
 def test_includes(helpers):
-
     includes_none = models.Includes.new_from_json_dict(None)
     assert includes_none is None
 
@@ -75,3 +74,4 @@ def test_includes(helpers):
     assert includes.tweets[0].author_id == "2244994945"
     assert len(includes.polls[0].options) == 2
     assert includes.places[0].id == "01a9a39529b27f36"
+    assert includes.meta.result_count == 10
