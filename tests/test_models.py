@@ -74,4 +74,11 @@ def test_includes(helpers):
     assert includes.tweets[0].author_id == "2244994945"
     assert len(includes.polls[0].options) == 2
     assert includes.places[0].id == "01a9a39529b27f36"
-    assert includes.meta.result_count == 10
+
+
+def test_meta(helpers):
+    meta_data = helpers.load_json_data("testdata/models/meta.json")
+    meta = models.Meta.new_from_json_dict(meta_data)
+
+    assert meta.result_count == 5
+    assert meta.previous_token == "MEOAT4U0J64UGZZZ"

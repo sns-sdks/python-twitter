@@ -31,4 +31,3 @@ class Includes(BaseModel):
     polls: Optional[List[Poll]] = field(default=None, compare=False)
     tweets: Optional[List[Tweet]] = field(default=None, compare=False)
     users: Optional[List[User]] = field(default=None, compare=False)
-    meta: Optional[Meta] = field(default=None, compare=False)

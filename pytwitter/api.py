@@ -103,7 +103,9 @@ class Api:
 
         return data
 
-    def _get(self, url, params, cls, multi=False, return_json: bool = False):
+    def _get(
+        self, url, params, cls, multi=False, with_meta=False, return_json: bool = False
+    ):
         """
         :param url: Url for twitter api
         :param params: Parameters for api
@@ -117,14 +119,24 @@ class Api:
         resp = self._request(url=url, params=params)
         resp_json = self._parse_response(resp)
 
-        data, includes = resp_json["data"], resp_json.get("includes")
+        data, includes, meta = (
+            resp_json["data"],
+            resp_json.get("includes"),
+            resp_json.get("meta"),
+        )
         if return_json:
-            return data, includes
+            if with_meta:
+                return data, includes, meta
+            else:
+                return data, includes
         else:
             if multi:
-                data = [cls.new_from_json_dict(data)]
+                data = [cls.new_from_json_dict(item) for item in data]
             else:
                 data = cls.new_from_json_dict(data)
+            if with_meta:
+                meta = md.Meta.new_from_json_dict(meta)
+                return data, md.Includes.new_from_json_dict(includes), meta
             return data, md.Includes.new_from_json_dict(includes)
 
     def get_users(
@@ -223,55 +235,6 @@ class Api:
             return_json=return_json,
         )
 
-    def get_tweet(
-        self,
-        tweet_id: str,
-        *,
-        expansions: Optional[Union[str, List, Tuple]] = None,
-        tweet_fields: Optional[Union[str, List, Tuple]] = None,
-        media_fields: Optional[Union[str, List, Tuple]] = None,
-        place_fields: Optional[Union[str, List, Tuple]] = None,
-        poll_fields: Optional[Union[str, List, Tuple]] = None,
-        user_fields: Optional[Union[str, List, Tuple]] = None,
-        return_json: bool = False,
-    ):
-        """
-        Returns a variety of information about a single Tweet specified by the requested ID.
-
-        :param tweet_id: The ID of target tweet.
-        :param expansions: Fields for the expansions.
-        :param tweet_fields: Fields for the tweet object.
-        :param media_fields: Fields for the media object.
-        :param place_fields: Fields for the place object.
-        :param poll_fields: Fields for the poll object.
-        :param user_fields: Fields for the user object.
-        :param return_json: Type for returned data. If you set True JSON data will be returned.
-        :returns:
-            - data: data for the tweet self.
-            - includes: expansions data.
-        """
-
-        args = {
-            "tweet.fields": enf_comma_separated(
-                name="tweet_fields", value=tweet_fields
-            ),
-            "media.fields": enf_comma_separated(
-                name="media_fields", value=media_fields
-            ),
-            "place.fields": enf_comma_separated(
-                name="place_fields", value=place_fields
-            ),
-            "poll.fields": enf_comma_separated(name="poll_fields", value=poll_fields),
-            "user.fields": enf_comma_separated(name="user_fields", value=user_fields),
-            "expansions": enf_comma_separated(name="expansions", value=expansions),
-        }
-        return self._get(
-            url=f"{self.BASE_URL_V2}/tweets/{tweet_id}",
-            params=args,
-            cls=md.Tweet,
-            return_json=return_json,
-        )
-
     def get_tweets(
         self,
         tweet_ids: Optional[Union[str, List, Tuple]],
@@ -324,6 +287,55 @@ class Api:
             return_json=return_json,
         )
 
+    def get_tweet(
+        self,
+        tweet_id: str,
+        *,
+        expansions: Optional[Union[str, List, Tuple]] = None,
+        tweet_fields: Optional[Union[str, List, Tuple]] = None,
+        media_fields: Optional[Union[str, List, Tuple]] = None,
+        place_fields: Optional[Union[str, List, Tuple]] = None,
+        poll_fields: Optional[Union[str, List, Tuple]] = None,
+        user_fields: Optional[Union[str, List, Tuple]] = None,
+        return_json: bool = False,
+    ):
+        """
+        Returns a variety of information about a single Tweet specified by the requested ID.
+
+        :param tweet_id: The ID of target tweet.
+        :param expansions: Fields for the expansions.
+        :param tweet_fields: Fields for the tweet object.
+        :param media_fields: Fields for the media object.
+        :param place_fields: Fields for the place object.
+        :param poll_fields: Fields for the poll object.
+        :param user_fields: Fields for the user object.
+        :param return_json: Type for returned data. If you set True JSON data will be returned.
+        :returns:
+            - data: data for the tweet self.
+            - includes: expansions data.
+        """
+
+        args = {
+            "tweet.fields": enf_comma_separated(
+                name="tweet_fields", value=tweet_fields
+            ),
+            "media.fields": enf_comma_separated(
+                name="media_fields", value=media_fields
+            ),
+            "place.fields": enf_comma_separated(
+                name="place_fields", value=place_fields
+            ),
+            "poll.fields": enf_comma_separated(name="poll_fields", value=poll_fields),
+            "user.fields": enf_comma_separated(name="user_fields", value=user_fields),
+            "expansions": enf_comma_separated(name="expansions", value=expansions),
+        }
+        return self._get(
+            url=f"{self.BASE_URL_V2}/tweets/{tweet_id}",
+            params=args,
+            cls=md.Tweet,
+            return_json=return_json,
+        )
+
     def get_following(
         self,
         user_id: Optional[str] = None,
@@ -349,6 +361,7 @@ class Api:
         :return:
             - data: data for the following.
             - includes: expansions data.
+            - meta: pagination details
         """
 
         args = {
@@ -366,6 +379,7 @@ class Api:
             params=args,
             cls=md.User,
             multi=True,
+            with_meta=True,
             return_json=return_json,
         )
 
@@ -394,6 +408,7 @@ class Api:
         :return:
             - data: data for the following.
             - includes: expansions data.
+            - meta: pagination details
         """
         args = {
             "expansions": enf_comma_separated(name="expansions", value=expansions),
@@ -410,5 +425,6 @@ class Api:
             params=args,
             cls=md.User,
             multi=True,
+            with_meta=True,
             return_json=return_json,
         )
