@@ -91,6 +91,9 @@ class Api:
         except ValueError:
             raise PyTwitterError(f"Unknown error: {resp.content}")
 
+        if resp.status_code != 200:
+            raise PyTwitterError(data)
+
         if "errors" in data:
             raise PyTwitterError(data["errors"])
 
@@ -99,6 +102,30 @@ class Api:
             raise PyTwitterError(data)
 
         return data
+
+    def _get(self, url, params, cls, multi=False, return_json: bool = False):
+        """
+        :param url: Url for twitter api
+        :param params: Parameters for api
+        :param cls: Class for the entity
+        :param multi: Whether multiple result
+        :param return_json: Type for returned data. If you set True JSON data will be returned.
+        :returns:
+            - data: data for the entity like user,tweet...
+            - includes: If have expansions, will return
+        """
+        resp = self._request(url=url, params=params)
+        resp_json = self._parse_response(resp)
+
+        data, includes = resp_json["data"], resp_json.get("includes")
+        if return_json:
+            return data, includes
+        else:
+            if multi:
+                data = [cls.new_from_json_dict(data)]
+            else:
+                data = cls.new_from_json_dict(data)
+            return data, md.Includes.new_from_json_dict(includes)
 
     def get_users(
         self,
@@ -142,20 +169,13 @@ class Api:
         else:
             raise PyTwitterError("Specify at least one of ids or usernames")
 
-        resp = self._request(
+        return self._get(
             url=f"{self.BASE_URL_V2}/{path}",
             params=args,
+            cls=md.User,
+            multi=True,
+            return_json=return_json,
         )
-        data = self._parse_response(resp)
-
-        users, includes = data["data"], data.get("includes")
-        if return_json:
-            return users, includes
-        else:
-            return (
-                [md.User.new_from_json_dict(u) for u in users],
-                md.Includes.new_from_json_dict(includes),
-            )
 
     def get_user(
         self,
@@ -196,20 +216,12 @@ class Api:
         else:
             raise PyTwitterError("Specify at least one of user_id or username")
 
-        resp = self._request(
+        return self._get(
             url=f"{self.BASE_URL_V2}/{path}",
             params=args,
+            cls=md.User,
+            return_json=return_json,
         )
-        data = self._parse_response(resp)
-
-        user, includes = data["data"], data.get("includes")
-        if return_json:
-            return user, includes
-        else:
-            return (
-                md.User.new_from_json_dict(user),
-                md.Includes.new_from_json_dict(includes),
-            )
 
     def get_tweet(
         self,
@@ -253,19 +265,12 @@ class Api:
             "user.fields": enf_comma_separated(name="user_fields", value=user_fields),
             "expansions": enf_comma_separated(name="expansions", value=expansions),
         }
-        resp = self._request(
+        return self._get(
             url=f"{self.BASE_URL_V2}/tweets/{tweet_id}",
             params=args,
+            cls=md.Tweet,
+            return_json=return_json,
         )
-        data = self._parse_response(resp)
-        tweet, includes = data["data"], data.get("includes")
-        if return_json:
-            return tweet, includes
-        else:
-            return (
-                md.Tweet.new_from_json_dict(tweet),
-                md.Includes.new_from_json_dict(includes),
-            )
 
     def get_tweets(
         self,
@@ -311,19 +316,13 @@ class Api:
             "expansions": enf_comma_separated(name="expansions", value=expansions),
         }
 
-        resp = self._request(
+        return self._get(
             url=f"{self.BASE_URL_V2}/tweets",
             params=args,
+            cls=md.Tweet,
+            multi=True,
+            return_json=return_json,
         )
-        data = self._parse_response(resp)
-        tweets, includes = data["data"], data.get("includes")
-        if return_json:
-            return tweets, includes
-        else:
-            return (
-                [md.Tweet.new_from_json_dict(tweet) for tweet in tweets],
-                md.Includes.new_from_json_dict(includes),
-            )
 
     def get_following(
         self,
@@ -362,21 +361,13 @@ class Api:
             "pagination_token": pagination_token,
         }
 
-        resp = self._request(
+        return self._get(
             url=f"{self.BASE_URL_V2}/users/{user_id}/following",
             params=args,
+            cls=md.User,
+            multi=True,
+            return_json=return_json,
         )
-        data = self._parse_response(resp)
-        print(data)
-
-        user, includes = data["data"], data.get("includes")
-        if return_json:
-            return user, includes
-        else:
-            return (
-                md.User.new_from_json_dict(user),
-                md.Includes.new_from_json_dict(includes),
-            )
 
     def get_followers(
         self,
@@ -414,17 +405,10 @@ class Api:
             "pagination_token": pagination_token,
         }
 
-        resp = self._request(
+        return self._get(
             url=f"{self.BASE_URL_V2}/users/{user_id}/followers",
             params=args,
+            cls=md.User,
+            multi=True,
+            return_json=return_json,
         )
-        data = self._parse_response(resp)
-
-        user, includes = data["data"], data.get("includes")
-        if return_json:
-            return user, includes
-        else:
-            return (
-                md.User.new_from_json_dict(user),
-                md.Includes.new_from_json_dict(includes),
-            )
