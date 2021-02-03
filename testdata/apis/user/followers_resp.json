@@ -1,0 +1,42 @@
+{
+  "data": [
+    {
+      "id": "1356836061637468161",
+      "username": "Aman64539368",
+      "name": "Aman"
+    },
+    {
+      "id": "1288755170738728961",
+      "username": "ziauddi45395796",
+      "name": "ziauddin"
+    },
+    {
+      "id": "1326483734145720320",
+      "username": "destekportali",
+      "name": "Destek Portalı"
+    },
+    {
+      "id": "2375888137",
+      "pinned_tweet_id": "1273689600490430464",
+      "username": "kaizhu717",
+      "name": "Kai Zhu"
+    },
+    {
+      "id": "1345482756545982467",
+      "username": "Akpop81",
+      "name": "Akpop8"
+    }
+  ],
+  "includes": {
+    "tweets": [
+      {
+        "id": "1273689600490430464",
+        "text": "Thrilled to see my first research project finally being published! It's a pleasure to work on an issue that I truly care about. https://t.co/UDq2yEvaj9"
+      }
+    ]
+  },
+  "meta": {
+    "result_count": 5,
+    "next_token": "H1411NSKD9R1EZZZ"
+  }
+}
