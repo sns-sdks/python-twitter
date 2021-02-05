@@ -91,10 +91,64 @@ class Api:
         except ValueError:
             raise PyTwitterError(f"Unknown error: {resp.content}")
 
-        if "errors" in data:
+        if resp.status_code != 200:
+            raise PyTwitterError(data)
+
+        # note:
+        # If only errors will raise
+        if "errors" in data and len(data.keys()) == 1:
             raise PyTwitterError(data["errors"])
 
+        # v1 token not
+        if "reason" in data:
+            raise PyTwitterError(data)
+
         return data
+
+    def _get(
+        self,
+        url: str,
+        params: dict,
+        cls,
+        multi: bool = False,
+        return_json: bool = False,
+    ):
+        """
+        :param url: Url for twitter api
+        :param params: Parameters for api
+        :param cls: Class for the entity
+        :param multi: Whether multiple result
+        :param return_json: Type for returned data. If you set True JSON data will be returned.
+        :returns:
+            - data: data for the entity like user,tweet...
+            - includes: If have expansions, will return
+        """
+        resp = self._request(url=url, params=params)
+        resp_json = self._parse_response(resp)
+
+        if return_json:
+            return resp_json
+        else:
+            data, includes, meta, errors = (
+                resp_json["data"],
+                resp_json.get("includes"),
+                resp_json.get("meta"),
+                resp_json.get("errors"),
+            )
+            if multi:
+                data = [cls.new_from_json_dict(item) for item in data]
+            else:
+                data = cls.new_from_json_dict(data)
+
+            res = md.Response(
+                data=data,
+                includes=md.Includes.new_from_json_dict(includes),
+                meta=md.Meta.new_from_json_dict(meta),
+                errors=[md.Error.new_from_json_dict(err) for err in errors]
+                if errors is not None
+                else None,
+            )
+            return res
 
     def get_users(
         self,
@@ -138,20 +192,13 @@ class Api:
         else:
             raise PyTwitterError("Specify at least one of ids or usernames")
 
-        resp = self._request(
+        return self._get(
             url=f"{self.BASE_URL_V2}/{path}",
             params=args,
+            cls=md.User,
+            multi=True,
+            return_json=return_json,
         )
-        data = self._parse_response(resp)
-
-        users, includes = data["data"], data.get("includes")
-        if return_json:
-            return users, includes
-        else:
-            return (
-                [md.User.new_from_json_dict(u) for u in users],
-                md.Includes.new_from_json_dict(includes),
-            )
 
     def get_user(
         self,
@@ -192,76 +239,12 @@ class Api:
         else:
             raise PyTwitterError("Specify at least one of user_id or username")
 
-        resp = self._request(
+        return self._get(
             url=f"{self.BASE_URL_V2}/{path}",
             params=args,
+            cls=md.User,
+            return_json=return_json,
         )
-        data = self._parse_response(resp)
-
-        user, includes = data["data"], data.get("includes")
-        if return_json:
-            return user, includes
-        else:
-            return (
-                md.User.new_from_json_dict(user),
-                md.Includes.new_from_json_dict(includes),
-            )
-
-    def get_tweet(
-        self,
-        tweet_id: str,
-        *,
-        expansions: Optional[Union[str, List, Tuple]] = None,
-        tweet_fields: Optional[Union[str, List, Tuple]] = None,
-        media_fields: Optional[Union[str, List, Tuple]] = None,
-        place_fields: Optional[Union[str, List, Tuple]] = None,
-        poll_fields: Optional[Union[str, List, Tuple]] = None,
-        user_fields: Optional[Union[str, List, Tuple]] = None,
-        return_json: bool = False,
-    ):
-        """
-        Returns a variety of information about a single Tweet specified by the requested ID.
-
-        :param tweet_id: The ID of target tweet.
-        :param expansions: Fields for the expansions.
-        :param tweet_fields: Fields for the tweet object.
-        :param media_fields: Fields for the media object.
-        :param place_fields: Fields for the place object.
-        :param poll_fields: Fields for the poll object.
-        :param user_fields: Fields for the user object.
-        :param return_json: Type for returned data. If you set True JSON data will be returned.
-        :returns:
-            - data: data for the tweet self.
-            - includes: expansions data.
-        """
-
-        args = {
-            "tweet.fields": enf_comma_separated(
-                name="tweet_fields", value=tweet_fields
-            ),
-            "media.fields": enf_comma_separated(
-                name="media_fields", value=media_fields
-            ),
-            "place.fields": enf_comma_separated(
-                name="place_fields", value=place_fields
-            ),
-            "poll.fields": enf_comma_separated(name="poll_fields", value=poll_fields),
-            "user.fields": enf_comma_separated(name="user_fields", value=user_fields),
-            "expansions": enf_comma_separated(name="expansions", value=expansions),
-        }
-        resp = self._request(
-            url=f"{self.BASE_URL_V2}/tweets/{tweet_id}",
-            params=args,
-        )
-        data = self._parse_response(resp)
-        tweet, includes = data["data"], data.get("includes")
-        if return_json:
-            return tweet, includes
-        else:
-            return (
-                md.Tweet.new_from_json_dict(tweet),
-                md.Includes.new_from_json_dict(includes),
-            )
 
     def get_tweets(
         self,
@@ -307,16 +290,150 @@ class Api:
             "expansions": enf_comma_separated(name="expansions", value=expansions),
         }
 
-        resp = self._request(
+        return self._get(
             url=f"{self.BASE_URL_V2}/tweets",
             params=args,
+            cls=md.Tweet,
+            multi=True,
+            return_json=return_json,
         )
-        data = self._parse_response(resp)
-        tweets, includes = data["data"], data.get("includes")
-        if return_json:
-            return tweets, includes
-        else:
-            return (
-                [md.Tweet.new_from_json_dict(tweet) for tweet in tweets],
-                md.Includes.new_from_json_dict(includes),
-            )
+
+    def get_tweet(
+        self,
+        tweet_id: str,
+        *,
+        expansions: Optional[Union[str, List, Tuple]] = None,
+        tweet_fields: Optional[Union[str, List, Tuple]] = None,
+        media_fields: Optional[Union[str, List, Tuple]] = None,
+        place_fields: Optional[Union[str, List, Tuple]] = None,
+        poll_fields: Optional[Union[str, List, Tuple]] = None,
+        user_fields: Optional[Union[str, List, Tuple]] = None,
+        return_json: bool = False,
+    ):
+        """
+        Returns a variety of information about a single Tweet specified by the requested ID.
+
+        :param tweet_id: The ID of target tweet.
+        :param expansions: Fields for the expansions.
+        :param tweet_fields: Fields for the tweet object.
+        :param media_fields: Fields for the media object.
+        :param place_fields: Fields for the place object.
+        :param poll_fields: Fields for the poll object.
+        :param user_fields: Fields for the user object.
+        :param return_json: Type for returned data. If you set True JSON data will be returned.
+        :returns:
+            - data: data for the tweet self.
+            - includes: expansions data.
+        """
+
+        args = {
+            "tweet.fields": enf_comma_separated(
+                name="tweet_fields", value=tweet_fields
+            ),
+            "media.fields": enf_comma_separated(
+                name="media_fields", value=media_fields
+            ),
+            "place.fields": enf_comma_separated(
+                name="place_fields", value=place_fields
+            ),
+            "poll.fields": enf_comma_separated(name="poll_fields", value=poll_fields),
+            "user.fields": enf_comma_separated(name="user_fields", value=user_fields),
+            "expansions": enf_comma_separated(name="expansions", value=expansions),
+        }
+        return self._get(
+            url=f"{self.BASE_URL_V2}/tweets/{tweet_id}",
+            params=args,
+            cls=md.Tweet,
+            return_json=return_json,
+        )
+
+    def get_following(
+        self,
+        user_id: Optional[str] = None,
+        *,
+        expansions: Optional[Union[str, List, Tuple]] = None,
+        user_fields: Optional[Union[str, List, Tuple]] = None,
+        tweet_fields: Optional[Union[str, List, Tuple]] = None,
+        max_results: Optional[int] = None,
+        pagination_token: Optional[str] = None,
+        return_json: bool = False,
+    ):
+        """
+        Returns a list of users the specified user ID is following.
+
+        :param user_id: The user ID whose following you would like to retrieve.
+        :param expansions: Fields for the expansions.
+        :param user_fields: Fields for the user object.
+        :param tweet_fields: Fields for the tweet object.
+        :param max_results: The maximum number of results to be returned per page. Number between 1 and the 1000.
+        By default, each page will return 100 results.
+        :param pagination_token: Token for the pagination.
+        :param return_json: Type for returned data. If you set True JSON data will be returned.
+        :return:
+            - data: data for the following.
+            - includes: expansions data.
+            - meta: pagination details
+        """
+
+        args = {
+            "expansions": enf_comma_separated(name="expansions", value=expansions),
+            "user.fields": enf_comma_separated(name="user_fields", value=user_fields),
+            "tweet.fields": enf_comma_separated(
+                name="tweet_fields", value=tweet_fields
+            ),
+            "max_results": max_results,
+            "pagination_token": pagination_token,
+        }
+
+        return self._get(
+            url=f"{self.BASE_URL_V2}/users/{user_id}/following",
+            params=args,
+            cls=md.User,
+            multi=True,
+            return_json=return_json,
+        )
+
+    def get_followers(
+        self,
+        user_id: Optional[str] = None,
+        *,
+        expansions: Optional[Union[str, List, Tuple]] = None,
+        user_fields: Optional[Union[str, List, Tuple]] = None,
+        tweet_fields: Optional[Union[str, List, Tuple]] = None,
+        max_results: Optional[int] = None,
+        pagination_token: Optional[str] = None,
+        return_json: bool = False,
+    ):
+        """
+        Returns a list of users who are followers of the specified user ID.
+
+        :param user_id: The user ID whose following you would like to retrieve.
+        :param expansions: Fields for the expansions.
+        :param user_fields: Fields for the user object.
+        :param tweet_fields: Fields for the tweet object.
+        :param max_results: The maximum number of results to be returned per page. Number between 1 and the 1000.
+        By default, each page will return 100 results.
+        :param pagination_token: Token for the pagination.
+        :param return_json: Type for returned data. If you set True JSON data will be returned.
+        :return:
+            - data: data for the following.
+            - includes: expansions data.
+            - meta: pagination details
+        """
+        args = {
+            "expansions": enf_comma_separated(name="expansions", value=expansions),
+            "user.fields": enf_comma_separated(name="user_fields", value=user_fields),
+            "tweet.fields": enf_comma_separated(
+                name="tweet_fields", value=tweet_fields
+            ),
+            "max_results": max_results,
+            "pagination_token": pagination_token,
+        }
+
+        return self._get(
+            url=f"{self.BASE_URL_V2}/users/{user_id}/followers",
+            params=args,
+            cls=md.User,
+            multi=True,
+            return_json=return_json,
+        )

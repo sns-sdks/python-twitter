@@ -21,10 +21,9 @@ def test_get_tweet(api, helpers):
         expansions="attachments.media_keys",
         media_fields=["type", "duration_ms"],
     )
-    tweet, includes = resp
-    assert tweet.id == tweet_id
-    assert tweet.attachments.media_keys[0] == "13_1064638969197977600"
-    assert includes.media[0].type == "video"
+    assert resp.data.id == tweet_id
+    assert resp.data.attachments.media_keys[0] == "13_1064638969197977600"
+    assert resp.includes.media[0].type == "video"
 
     resp_json = api.get_tweet(
         tweet_id=tweet_id,
@@ -32,10 +31,9 @@ def test_get_tweet(api, helpers):
         media_fields=("type", "duration_ms"),
         return_json=True,
     )
-    tweet_json, includes = resp_json
-    assert tweet_json["id"] == tweet_id
-    assert tweet_json["attachments"]["media_keys"][0] == "13_1064638969197977600"
-    assert includes["media"][0]["duration_ms"] == 136637
+    assert resp_json["data"]["id"] == tweet_id
+    assert resp_json["data"]["attachments"]["media_keys"][0] == "13_1064638969197977600"
+    assert resp_json["includes"]["media"][0]["duration_ms"] == 136637
 
 
 @responses.activate
@@ -55,10 +53,9 @@ def test_get_tweets(api, helpers):
         tweet_fields="created_at",
         user_fields=["username", "verified"],
     )
-    tweets, includes = resp
-    assert len(tweets) == 2
-    assert tweets[0].id in tweet_ids
-    assert includes.users[0].verified
+    assert len(resp.data) == 2
+    assert resp.data[0].id in tweet_ids
+    assert resp.includes.users[0].verified
 
     resp_json = api.get_tweets(
         tweet_ids="1261326399320715264,1278347468690915330",
@@ -67,6 +64,5 @@ def test_get_tweets(api, helpers):
         user_fields="username,verified",
         return_json=True,
     )
-    tweets, includes = resp_json
-    assert tweets[0]["id"] in tweet_ids
-    assert includes["users"][0]["id"] == "2244994945"
+    assert resp_json["data"][0]["id"] in tweet_ids
+    assert resp_json["includes"]["users"][0]["id"] == "2244994945"
