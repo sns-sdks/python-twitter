@@ -22,10 +22,9 @@ def test_get_followings(api, helpers):
         max_results=5,
     )
 
-    users, includes, meta = resp
-    assert len(users) == 5
-    assert len(includes.tweets) == 3
-    assert meta.result_count == 5
+    assert len(resp.data) == 5
+    assert len(resp.includes.tweets) == 3
+    assert resp.meta.result_count == 5
 
 
 @responses.activate
@@ -46,7 +45,6 @@ def test_get_followers(api, helpers):
         return_json=True,
     )
 
-    users, includes, meta = resp_json
-    assert len(users) == 5
-    assert len(includes["tweets"]) == 1
-    assert meta["result_count"] == 5
+    assert len(resp_json["data"]) == 5
+    assert len(resp_json["includes"]["tweets"]) == 1
+    assert resp_json["meta"]["result_count"] == 5

@@ -94,7 +94,9 @@ class Api:
         if resp.status_code != 200:
             raise PyTwitterError(data)
 
-        if "errors" in data:
+        # note:
+        # If only errors will raise
+        if "errors" in data and len(data.keys()) == 1:
             raise PyTwitterError(data["errors"])
 
         # v1 token not
@@ -104,7 +106,12 @@ class Api:
         return data
 
     def _get(
-        self, url, params, cls, multi=False, with_meta=False, return_json: bool = False
+        self,
+        url: str,
+        params: dict,
+        cls,
+        multi: bool = False,
+        return_json: bool = False,
     ):
         """
         :param url: Url for twitter api
@@ -119,25 +126,29 @@ class Api:
         resp = self._request(url=url, params=params)
         resp_json = self._parse_response(resp)
 
-        data, includes, meta = (
-            resp_json["data"],
-            resp_json.get("includes"),
-            resp_json.get("meta"),
-        )
         if return_json:
-            if with_meta:
-                return data, includes, meta
-            else:
-                return data, includes
+            return resp_json
         else:
+            data, includes, meta, errors = (
+                resp_json["data"],
+                resp_json.get("includes"),
+                resp_json.get("meta"),
+                resp_json.get("errors"),
+            )
             if multi:
                 data = [cls.new_from_json_dict(item) for item in data]
             else:
                 data = cls.new_from_json_dict(data)
-            if with_meta:
-                meta = md.Meta.new_from_json_dict(meta)
-                return data, md.Includes.new_from_json_dict(includes), meta
-            return data, md.Includes.new_from_json_dict(includes)
+
+            res = md.Response(
+                data=data,
+                includes=md.Includes.new_from_json_dict(includes),
+                meta=md.Meta.new_from_json_dict(meta),
+                errors=[md.Error.new_from_json_dict(err) for err in errors]
+                if errors is not None
+                else None,
+            )
+            return res
 
     def get_users(
         self,
@@ -379,7 +390,6 @@ class Api:
             params=args,
             cls=md.User,
             multi=True,
-            with_meta=True,
             return_json=return_json,
         )
 
@@ -425,6 +435,5 @@ class Api:
             params=args,
             cls=md.User,
             multi=True,
-            with_meta=True,
             return_json=return_json,
         )

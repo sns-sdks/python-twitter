@@ -43,10 +43,9 @@ def test_get_users(api, helpers):
         ),
         expansions=["pinned_tweet_id"],
     )
-    users, includes = ids_resp
-    assert len(users) == 2
-    assert users[0].verified is True
-    assert len(includes.tweets) == 1
+    assert len(ids_resp.data) == 2
+    assert ids_resp.data[0].verified is True
+    assert len(ids_resp.includes.tweets) == 1
 
     usernames_resp = api.get_users(
         usernames="Twitter,TwitterDev",
@@ -57,10 +56,9 @@ def test_get_users(api, helpers):
         expansions="pinned_tweet_id",
         return_json=True,
     )
-    users, includes = usernames_resp
-    assert len(users) == 2
-    assert users[0]["verified"] is True
-    assert len(includes["tweets"]) == 1
+    assert len(usernames_resp["data"]) == 2
+    assert usernames_resp["data"][0]["verified"] is True
+    assert len(usernames_resp["includes"]["tweets"]) == 1
 
 
 @responses.activate
@@ -87,17 +85,14 @@ def test_get_user(api, helpers):
         user_id=user_id,
         user_fields=["public_metrics", "created_at", "description", "verified"],
     )
-    user, includes = id_resp
-
-    assert user.id == user_id
-    assert user.public_metrics.followers_count == 514020
-    assert includes is None
+    assert id_resp.data.id == user_id
+    assert id_resp.data.public_metrics.followers_count == 514020
+    assert id_resp.includes is None
 
     username_resp = api.get_user(
         username=username,
         user_fields="public_metrics,created_at,description,verified",
         return_json=True,
     )
-    user, _ = username_resp
-    assert user["id"] == user_id
-    assert user["verified"] is True
+    assert username_resp["data"]["id"] == user_id
+    assert username_resp["data"]["verified"] is True
