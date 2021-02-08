@@ -5,6 +5,7 @@ import pytest
 
 from pytwitter.error import PyTwitterError
 from pytwitter.utils.validators import enf_comma_separated
+from pytwitter.utils.convertors import conv_type
 
 
 def test_comma_separated():
@@ -22,4 +23,11 @@ def test_comma_separated():
 
     with pytest.raises(PyTwitterError) as ex:
         enf_comma_separated(name="other", value={1, 2, 3})  # noqa
-        assert "comma-separated" in ex.message  # noqa
+    assert "comma-separated" in ex.value.message  # noqa
+
+
+def test_conv_type():
+    with pytest.raises(PyTwitterError) as e:
+        conv_type("limit", int, None)
+
+    assert "limit" in e.value.message
