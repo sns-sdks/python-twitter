@@ -81,9 +81,9 @@ class RateLimit:
         """
         endpoint = self.url_to_resource(url=url)
         data = {
-            "limit": conv_type('limit', int, headers["x-rate-limit-limit"]),
-            "remaining": conv_type('remaining', int, headers["x-rate-limit-remaining"]),
-            "reset": conv_type('reset', int, headers["x-rate-limit-reset"]),
+            "limit": conv_type('limit', int, headers.get("x-rate-limit-limit", 0)),
+            "remaining": conv_type('remaining', int, headers.get("x-rate-limit-remaining", 0)),
+            "reset": conv_type('reset', int, headers.get("x-rate-limit-reset", 0)),
         }
         self.mapping[endpoint] = RateLimitData(**data)
 
