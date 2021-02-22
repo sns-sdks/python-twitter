@@ -81,7 +81,9 @@ class Api:
                 limit = self.rate_limit.get_limit(url=url)
                 if limit.remaining == 0:
                     s_time = max(limit.reset - time.time()) + 10.0
-                    logger.debug('Rate limited requesting [%s], sleeping for [%s]', url, s_time)
+                    logger.debug(
+                        f"Rate limited requesting [{url}], sleeping for [{s_time}]"
+                    )
                     time.sleep(s_time)
 
         resp = self.session.request(

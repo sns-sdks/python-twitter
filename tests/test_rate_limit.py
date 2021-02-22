@@ -4,9 +4,9 @@
 import pytwitter
 
 HEADERS = {
-    'x-rate-limit-limit': '300',
-    'x-rate-limit-remaining': '299',
-    'x-rate-limit-reset': '1612522029'
+    "x-rate-limit-limit": "300",
+    "x-rate-limit-remaining": "299",
+    "x-rate-limit-reset": "1612522029",
 }
 
 USER_URL = "https://api.twitter.com/2/users/2244994945"

@@ -23,9 +23,15 @@ class ResourceEndpoint:
 
 
 USER_ID_SHOW = ResourceEndpoint(re.compile(r"/users/\d+"), "/users/:id")
-USER_USERNAME_SHOW = ResourceEndpoint(re.compile(r"/users/by/\w+"), "/users/by/:username")
-USER_ID_FOLLOWING = ResourceEndpoint(re.compile(r"/users/\d+/following"), "/users/:id/following")
-USER_ID_FOLLOWER = ResourceEndpoint(re.compile(r"/users/\d+/followers"), "/users/:id/followers")
+USER_USERNAME_SHOW = ResourceEndpoint(
+    re.compile(r"/users/by/\w+"), "/users/by/:username"
+)
+USER_ID_FOLLOWING = ResourceEndpoint(
+    re.compile(r"/users/\d+/following"), "/users/:id/following"
+)
+USER_ID_FOLLOWER = ResourceEndpoint(
+    re.compile(r"/users/\d+/followers"), "/users/:id/followers"
+)
 TWEETS_ID_SHOW = ResourceEndpoint(re.compile(r"/tweets/\d+"), "/tweets/:id")
 
 PATH_VAR_ENDPOINTS = [
@@ -81,9 +87,11 @@ class RateLimit:
         """
         endpoint = self.url_to_resource(url=url)
         data = {
-            "limit": conv_type('limit', int, headers.get("x-rate-limit-limit", 0)),
-            "remaining": conv_type('remaining', int, headers.get("x-rate-limit-remaining", 0)),
-            "reset": conv_type('reset', int, headers.get("x-rate-limit-reset", 0)),
+            "limit": conv_type("limit", int, headers.get("x-rate-limit-limit", 0)),
+            "remaining": conv_type(
+                "remaining", int, headers.get("x-rate-limit-remaining", 0)
+            ),
+            "reset": conv_type("reset", int, headers.get("x-rate-limit-reset", 0)),
         }
         self.mapping[endpoint] = RateLimitData(**data)
 
