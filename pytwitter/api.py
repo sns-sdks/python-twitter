@@ -80,7 +80,7 @@ class Api:
             if url and self.sleep_on_rate_limit:
                 limit = self.rate_limit.get_limit(url=url)
                 if limit.remaining == 0:
-                    s_time = max(limit.reset - time.time()) + 10.0
+                    s_time = max((limit.reset - time.time()), 0) + 10.0
                     logger.debug(
                         f"Rate limited requesting [{url}], sleeping for [{s_time}]"
                     )
