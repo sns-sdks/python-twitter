@@ -1,6 +1,8 @@
 """
     Api Impl
 """
+import logging
+import time
 from typing import List, Optional, Tuple, Union
 
 import requests
@@ -9,7 +11,10 @@ from requests_oauthlib import OAuth2
 
 import pytwitter.models as md
 from pytwitter.error import PyTwitterError
+from pytwitter.rate_limit import RateLimit
 from pytwitter.utils.validators import enf_comma_separated
+
+logger = logging.getLogger(__name__)
 
 
 class Api:
@@ -24,6 +29,7 @@ class Api:
         access_secret=None,
         application_only_auth=False,
         oauth_flow=False,  # provide access with authorize
+        sleep_on_rate_limit=False,
         timeout=None,
         proxies=None,
     ):
@@ -31,6 +37,8 @@ class Api:
         self._auth = None
         self.timeout = timeout
         self.proxies = proxies
+        self.rate_limit = RateLimit()
+        self.sleep_on_rate_limit = sleep_on_rate_limit
 
         # just use bearer token
         if bearer_token:
@@ -47,7 +55,7 @@ class Api:
         elif consumer_key and consumer_secret and oauth_flow:
             pass
         else:
-            raise Exception("Need oauth")
+            raise PyTwitterError("Need oauth")
 
     def set_credentials(self):
         pass
@@ -65,9 +73,18 @@ class Api:
         auth = None
         if enforce_auth:
             if not self._auth:
-                raise Exception("The twitter.Api instance must be authenticated.")
+                raise PyTwitterError("The twitter.Api instance must be authenticated.")
 
             auth = self._auth
+
+            if url and self.sleep_on_rate_limit:
+                limit = self.rate_limit.get_limit(url=url)
+                if limit.remaining == 0:
+                    s_time = max((limit.reset - time.time()), 0) + 10.0
+                    logger.debug(
+                        f"Rate limited requesting [{url}], sleeping for [{s_time}]"
+                    )
+                    time.sleep(s_time)
 
         resp = self.session.request(
             url=url,
@@ -78,6 +95,10 @@ class Api:
             timeout=self.timeout,
             proxies=self.proxies,
         )
+
+        if url and self.rate_limit:
+            self.rate_limit.set_limit(url=url, headers=resp.headers)
+
         return resp
 
     @staticmethod
