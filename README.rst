@@ -145,6 +145,25 @@ Get mention tweets::
     >>> api.get_mentions(user_id="2244994945")
     >>> Response(data=[Tweet(id=1364407587207213056, text=@scottmathson @TwitterDev What would you want...), Tweet(id=1364398068313903104, text=@Twitter should consider supporting...), Tweet(id=1364377794327633925, text=@sugan2424 @TwitterDev @threadreaderapp You...), Tweet(id=1364377404156772352, text=@TwitterDev What kind of tweet / attachment is...), Tweet(id=1364373969852366849, text=• Thirdly, that @Twitter, @Twittersafety,...), Tweet(id=1364367885582352386, text=@Twitter @TwitterSafety @TwitterDev @jack...), Tweet(id=1364366114998870016, text=I have mixed feelings about @Twitter /...), Tweet(id=1364364744916951040, text=@Casanovacane @jack @TwitterDev can we get a...), Tweet(id=1364359199795240961, text=@TwitterDev @suhemparack A Blue app going to...), Tweet(id=1364338409494503425, text=@FairyMaitre @TwitterDev tkt)])
 
+-------------
+Search Tweets
+-------------
+
+Search tweets has two type. For standard project, you can use recent api to search tweets from the last seven days.
+If you have `Academic Research Project <https://developer.twitter.com/en/docs/projects/overview>`_, you can use full-archive
+api with query type all.
+
+Search by recent tweets::
+
+    >>> api.search_tweets(query="python")
+    >>> Response(data=[Tweet(id=1364512148865564675, text=RT @jesss_codes: Your resume: Git SSL Vue CSS...), Tweet(id=1364512106385702914, text=RT @theweeflea: Sturgeon goes on TV to declare...), Tweet(id=1364512102606467074, text=RT @tkEzaki:...), Tweet(id=1364512092343070721, text=RT @ore57436902: #Python #pyxel #ドルアーガの塔...), Tweet(id=1364512076601856007, text=RT @shosen_bt_pc:...), Tweet(id=1364512071866605568, text=RT @CatherineAdenle: 6 ways learning coding can...), Tweet(id=1364512071614889987, text=RT @giswqs: #geemap v0.8.11 has been released....), Tweet(id=1364512066770509824, text=RT @Akpanannang: Today when coming out from the...), Tweet(id=1364512053252284419, text=RT @HarbRimah: New Off-the-Shelf (OTS) Datasets...), Tweet(id=1364512030800171011, text=RT @gzadkowski: Day 5 - #100DaysOfCode...)])
+
+
+Search by full-archive tweets::
+
+    >>> api.search_tweets(query="python", query_type="all")
+    >>> Response(data=[Tweet(id=1364512148865564675, text=RT @jesss_codes: Your resume: Git SSL Vue CSS...), Tweet(id=1364512106385702914, text=RT @theweeflea: Sturgeon goes on TV to declare...), Tweet(id=1364512102606467074, text=RT @tkEzaki:...), Tweet(id=1364512092343070721, text=RT @ore57436902: #Python #pyxel #ドルアーガの塔...), Tweet(id=1364512076601856007, text=RT @shosen_bt_pc:...), Tweet(id=1364512071866605568, text=RT @CatherineAdenle: 6 ways learning coding can...), Tweet(id=1364512071614889987, text=RT @giswqs: #geemap v0.8.11 has been released....), Tweet(id=1364512066770509824, text=RT @Akpanannang: Today when coming out from the...), Tweet(id=1364512053252284419, text=RT @HarbRimah: New Off-the-Shelf (OTS) Datasets...), Tweet(id=1364512030800171011, text=RT @gzadkowski: Day 5 - #100DaysOfCode...)])
+
 
 ====
 TODO
