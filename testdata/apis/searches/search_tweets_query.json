@@ -1,0 +1,232 @@
+{
+  "data": [
+    {
+      "attachments": {
+        "media_keys": [
+          "16_1276035971193044992"
+        ]
+      },
+      "author_id": "63046977",
+      "created_at": "2020-06-25T06:14:19.000Z",
+      "entities": {
+        "mentions": [
+          {
+            "start": 0,
+            "end": 8,
+            "username": "snowman"
+          }
+        ],
+        "urls": [
+          {
+            "start": 90,
+            "end": 113,
+            "url": "https://t.co/14TzLYBBXi",
+            "expanded_url": "https://twitter.com/happycamper/status/1276035977375477760/photo/1",
+            "display_url": "pic.twitter.com/14TzLYBBXi"
+          }
+        ]
+      },
+      "geo": {
+        "place_id": "f7eb2fa2fea288b1"
+      },
+      "id": "1276035977375477760",
+      "in_reply_to_user_id": "17200003",
+      "lang": "en",
+      "possibly_sensitive": false,
+      "referenced_tweets": [
+        {
+          "type": "replied_to",
+          "id": "1275653067283759104"
+        }
+      ],
+      "source": "Twitter for iPhone",
+      "text": "@snowman Ooo, thanks error message, public_metircs are not the metrics you’re looking for https://t.co/14TzLYBBXi"
+    },
+    {
+      "author_id": "17200003",
+      "created_at": "2020-06-24T20:04:54.000Z",
+      "id": "1275882613572583424",
+      "in_reply_to_user_id": "17200003",
+      "lang": "en",
+      "possibly_sensitive": false,
+      "referenced_tweets": [
+        {
+          "type": "replied_to",
+          "id": "1273733248749690880"
+        }
+      ],
+      "source": "Twitter for Android",
+      "text": "Using Labs Recent search for polling use cases has been 🔥👍. A simple alternative to streaming in many cases..."
+    },
+    {
+      "attachments": {
+        "media_keys": [
+          "16_1275763720522625029"
+        ]
+      },
+      "author_id": "196883832",
+      "created_at": "2020-06-24T12:12:29.000Z",
+      "entities": {
+        "mentions": [
+          {
+            "start": 0,
+            "end": 8,
+            "username": "snowman"
+          },
+          {
+            "start": 9,
+            "end": 21,
+            "username": "happycamper"
+          }
+        ],
+        "urls": [
+          {
+            "start": 22,
+            "end": 45,
+            "url": "https://t.co/qvk5BCBtqh",
+            "expanded_url": "https://twitter.com/jellybeanjones/status/1275763727908798470/photo/1",
+            "display_url": "pic.twitter.com/qvk5BCBtqh"
+          }
+        ]
+      },
+      "geo": {
+        "place_id": "f7eb2fa2fea288b1"
+      },
+      "id": "1275763727908798470",
+      "in_reply_to_user_id": "17200003",
+      "lang": "und",
+      "possibly_sensitive": false,
+      "referenced_tweets": [
+        {
+          "type": "replied_to",
+          "id": "1275653067283759104"
+        }
+      ],
+      "source": "Twitter for  iPhone",
+      "text": "@snowman @happycamper https://t.co/qvk5BCBtqh"
+    },
+    {
+      "author_id": "17200003",
+      "created_at": "2020-06-24T04:52:46.000Z",
+      "entities": {
+        "mentions": [
+          {
+            "start": 0,
+            "end": 12,
+            "username": "happycamper"
+          }
+        ]
+      },
+      "id": "1275653067283759104",
+      "in_reply_to_user_id": "63046977",
+      "lang": "en",
+      "possibly_sensitive": false,
+      "referenced_tweets": [
+        {
+          "type": "replied_to",
+          "id": "1274086728471461889"
+        }
+      ],
+      "source": "Twitter Web App",
+      "text": "@happycamper Wait, when I try that, I get an error: {\n    \"errors\": [\n        { \"message\": \"[public_metircs] is not one of [attachments,author_id,context_annotations,created_at,entities,geo,id,in_reply_to_user_id,lang,non_public_metrics,organic_metrics,promoted_metrics,public_metrics]\""
+    }
+  ],
+  "includes": {
+    "users": [
+      {
+        "created_at": "2009-08-05T05:46:48.000Z",
+        "description": "Part-time fiddler, wanderer, yogi, scubadiver #savegamehenge Full time explorer, festvarian, music lover, nerd, @TwitterBoulder - Opinions are my own. she/her",
+        "id": "63046977",
+        "name": "Emily Waligoske 🏕",
+        "username": "happycamper"
+      },
+      {
+        "created_at": "2008-11-05T23:06:37.000Z",
+        "description": "family, travel, music, farming, photography, coding, weather, rain, snow, snowmelt, hydrology, flood early-warning systems. From MN, live in CO. @TwitterDev",
+        "id": "17200003",
+        "name": "Jim Moffitt",
+        "username": "snowman"
+      },
+      {
+        "created_at": "2010-09-30T03:36:40.000Z",
+        "description": "IT wizard @ Twitter Boulder 🧙\u200d♂️🗻💻 🎧🌞✌🏽Turn my headphones up! #BlackLivesMatter",
+        "id": "196883832",
+        "name": "zachariah jones",
+        "username": "jellybeanjones"
+      }
+    ],
+    "tweets": [
+      {
+        "author_id": "17200003",
+        "created_at": "2020-06-24T04:52:46.000Z",
+        "entities": {
+          "mentions": [
+            {
+              "start": 0,
+              "end": 12,
+              "username": "happycamper"
+            }
+          ]
+        },
+        "id": "1275653067283759104",
+        "in_reply_to_user_id": "63046977",
+        "lang": "en",
+        "possibly_sensitive": false,
+        "referenced_tweets": [
+          {
+            "type": "replied_to",
+            "id": "1274086728471461889"
+          }
+        ],
+        "source": "Twitter Web App",
+        "text": "@happycamper Wait, when I try that, I get an error: {\n    \"errors\": [\n        { \"message\": \"[public_metircs] is not one of [attachments,author_id,context_annotations,created_at,entities,geo,id,in_reply_to_user_id,lang,non_public_metrics,organic_metrics,promoted_metrics,public_metrics]\""
+      },
+      {
+        "author_id": "17200003",
+        "created_at": "2020-06-18T21:44:05.000Z",
+        "id": "1273733248749690880",
+        "lang": "en",
+        "possibly_sensitive": false,
+        "source": "Twitter Web App",
+        "text": "So, what's your favorite thing about Twitter Developer Labs? \n\nI find it hard to pick one and am loving the ability to select the Tweet object fields of interest. \n\ntweet.fields=created_at,author_id,context_annotations"
+      },
+      {
+        "author_id": "63046977",
+        "created_at": "2020-06-19T21:08:42.000Z",
+        "entities": {
+          "hashtags": [
+            {
+              "start": 209,
+              "end": 215,
+              "tag": "fresh"
+            }
+          ],
+          "mentions": [
+            {
+              "start": 0,
+              "end": 8,
+              "username": "snowman"
+            }
+          ]
+        },
+        "id": "1274086728471461889",
+        "in_reply_to_user_id": "17200003",
+        "lang": "en",
+        "possibly_sensitive": false,
+        "referenced_tweets": [
+          {
+            "type": "replied_to",
+            "id": "1273733248749690880"
+          }
+        ],
+        "source": "Twitter Web App",
+        "text": "@snowman My fave is the new the metrics, especially for building apps to help Twitter users track the metrics for their Tweets.\ntweet.fields=public_metircs,non_public_metrics,organic_metrics,promoted_metrics  #fresh"
+      }
+    ]
+  },
+  "meta": {
+    "newest_id": "1276035977375477760",
+    "oldest_id": "1275653067283759104",
+    "result_count": 4
+  }
+}
