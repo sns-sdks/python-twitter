@@ -1,0 +1,65 @@
+{
+  "data": [
+    {
+      "public_metrics": {
+        "retweet_count": 0,
+        "reply_count": 0,
+        "like_count": 0,
+        "quote_count": 0
+      },
+      "created_at": "2021-02-24T02:13:43.000Z",
+      "id": "1364398068313903104",
+      "text": "@Twitter should consider supporting #VoiceMessaging support for @TweetDeck too\n\n@TwitterSupport \n@TwitterDev"
+    },
+    {
+      "public_metrics": {
+        "retweet_count": 0,
+        "reply_count": 0,
+        "like_count": 0,
+        "quote_count": 0
+      },
+      "created_at": "2021-02-24T00:53:09.000Z",
+      "id": "1364377794327633925",
+      "text": "@sugan2424 @TwitterDev @threadreaderapp You have TweetDeck for that, you can load up your twitter lists in different columns and keep track of live updates."
+    },
+    {
+      "public_metrics": {
+        "retweet_count": 0,
+        "reply_count": 1,
+        "like_count": 0,
+        "quote_count": 0
+      },
+      "created_at": "2021-02-24T00:51:36.000Z",
+      "id": "1364377404156772352",
+      "text": "@TwitterDev What kind of tweet / attachment is this?\nIt looks like a poll with an image but the buttons allow you to create a new, slightly different tweet based on what you choose. The API returns no attachments - but the tweet has pre-populated tweet buttons. https://t.co/PCaEj7KRWi"
+    },
+    {
+      "public_metrics": {
+        "retweet_count": 0,
+        "reply_count": 1,
+        "like_count": 0,
+        "quote_count": 0
+      },
+      "created_at": "2021-02-24T00:37:57.000Z",
+      "id": "1364373969852366849",
+      "text": "• Thirdly, that @Twitter, @Twittersafety, @Twitterdev, and @jack, et. al. have done a pretty good thing by showing the restraint to simply *inform* the userbase of the presence of hacking \"down the line\", rather than squash it AS a spectre."
+    },
+    {
+      "public_metrics": {
+        "retweet_count": 0,
+        "reply_count": 1,
+        "like_count": 0,
+        "quote_count": 0
+      },
+      "created_at": "2021-02-24T00:13:47.000Z",
+      "id": "1364367885582352386",
+      "text": "@Twitter @TwitterSafety @TwitterDev @jack Furthermore to that classic reversal,\n\n•• Labeling the forbidden serves to root the forbidden IN lexicon, making it a foolhardy pursuit to dispel spectres of doubt by bringing them up in broachful respite.\n\n•• You stand on the shoulders of \"hackers\", all the way down."
+    }
+  ],
+  "meta": {
+    "oldest_id": "1364367885582352386",
+    "newest_id": "1364398068313903104",
+    "result_count": 5,
+    "next_token": "7140dibdnow9c7btw3w3ixl43r8knib48jsfyzko1h5py"
+  }
+}
