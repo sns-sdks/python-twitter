@@ -1,0 +1,65 @@
+{
+  "data": [
+    {
+      "text": "If you're newly approved for the Academic Research product track, our next stream is for you.\n\nThis Thursday, February 25th at 10AM PST @suhemparack will demo how academics can use this track to get started with the new #TwitterAPI\n\nJoin us on Twitch! 👀\nhttps://t.co/SQziibOD9P",
+      "id": "1364275610764201984",
+      "created_at": "2021-02-23T18:07:07.000Z",
+      "public_metrics": {
+        "retweet_count": 10,
+        "reply_count": 2,
+        "like_count": 37,
+        "quote_count": 1
+      }
+    },
+    {
+      "text": "From our living rooms to yours 🐱‍💻🛋️Our developer advocates have some exciting Twitch streams and virtual events planned to help you get started with the new #TwitterAPI. Check out the schedule for details, and let us know if you want to see more!\n👇\nhttps://t.co/cixDY9qkvH",
+      "id": "1362876655061073928",
+      "created_at": "2021-02-19T21:28:10.000Z",
+      "public_metrics": {
+        "retweet_count": 21,
+        "reply_count": 7,
+        "like_count": 58,
+        "quote_count": 1
+      }
+    },
+    {
+      "text": "“To quote my creator Jerome Gangneux, I always struggled to read Twitter threads on the original service; I think it would have been better to put Tweets one after another in a separate page. And that’s how I was born”.",
+      "id": "1362439338978467841",
+      "created_at": "2021-02-18T16:30:25.000Z",
+      "public_metrics": {
+        "retweet_count": 0,
+        "reply_count": 2,
+        "like_count": 9,
+        "quote_count": 0
+      }
+    },
+    {
+      "text": "“In the 20th century, managers managed humans, but in the 21st century, humans will manage robots. It is my aim to make this as painless a transition as possible,” says the bot. “I have observed that humans do things very slowly, but I can do things faster – and I am tireless!”",
+      "id": "1362439338169016324",
+      "created_at": "2021-02-18T16:30:25.000Z",
+      "public_metrics": {
+        "retweet_count": 1,
+        "reply_count": 2,
+        "like_count": 8,
+        "quote_count": 0
+      }
+    },
+    {
+      "text": "Meet one of the useful Twitter bots out there: @ThreadReaderApp, unroll! It makes threads like this easier to read and share. Today, we’ll hear from the bot itself! https://t.co/tBFlJB3m3o",
+      "id": "1362439336910675970",
+      "created_at": "2021-02-18T16:30:25.000Z",
+      "public_metrics": {
+        "retweet_count": 16,
+        "reply_count": 9,
+        "like_count": 74,
+        "quote_count": 3
+      }
+    }
+  ],
+  "meta": {
+    "oldest_id": "1362439336910675970",
+    "newest_id": "1364275610764201984",
+    "result_count": 5,
+    "next_token": "7140dibdnow9c7btw3w3itbygz8uu5pbs45oy6erjc2ls"
+  }
+}
