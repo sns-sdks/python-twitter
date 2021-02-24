@@ -3,7 +3,7 @@
 """
 import re
 from dataclasses import dataclass
-from typing import Pattern
+from typing import Optional, Pattern
 from urllib.parse import urlparse
 
 from pytwitter.utils.convertors import conv_type
@@ -17,28 +17,62 @@ class RateLimitData:
 
 
 @dataclass
-class ResourceEndpoint:
-    regex: Pattern[str]
+class Endpoint:
     resource: str
+    regex: Optional[Pattern[str]] = None
+    app_limit: int = 15
+    user_limit: int = 15
+
+    def get_limit(self, auth_type):
+        if auth_type == "user":
+            return self.user_limit
+        return self.app_limit
 
 
-USER_ID_SHOW = ResourceEndpoint(re.compile(r"/users/\d+"), "/users/:id")
-USER_USERNAME_SHOW = ResourceEndpoint(
-    re.compile(r"/users/by/\w+"), "/users/by/:username"
+USER_ID_SHOW = Endpoint(
+    resource="/users/:id",
+    regex=re.compile(r"/users/\d+"),
+    app_limit=300,
+    user_limit=900,
 )
-USER_ID_FOLLOWING = ResourceEndpoint(
-    re.compile(r"/users/\d+/following"), "/users/:id/following"
+USER_USERNAME_SHOW = Endpoint(
+    resource="/users/by/:username",
+    regex=re.compile(r"/users/by/\w+"),
+    app_limit=300,
+    user_limit=900,
 )
-USER_ID_FOLLOWER = ResourceEndpoint(
-    re.compile(r"/users/\d+/followers"), "/users/:id/followers"
+USER_ID_FOLLOWING = Endpoint(
+    resource="/users/:id/following", regex=re.compile(r"/users/\d+/following")
 )
-TWEETS_ID_SHOW = ResourceEndpoint(re.compile(r"/tweets/\d+"), "/tweets/:id")
+USER_ID_FOLLOWER = Endpoint(
+    resource="/users/:id/followers", regex=re.compile(r"/users/\d+/followers")
+)
+USER_ID_TIMELINE = Endpoint(
+    resource="/users/:id/tweets",
+    regex=re.compile(r"/users/\d+/tweets"),
+    app_limit=1500,
+    user_limit=900,
+)
+USER_ID_MENTIONS = Endpoint(
+    resource="/users/:id/mentions",
+    regex=re.compile(r"/users/\d+/mentions"),
+    app_limit=450,
+    user_limit=180,
+)
+TWEETS_ID_SHOW = Endpoint(
+    resource="/tweets/:id",
+    regex=re.compile(r"/tweets/\d+"),
+    app_limit=300,
+    user_limit=900,
+)
 
 PATH_VAR_ENDPOINTS = [
     USER_ID_SHOW,
     USER_USERNAME_SHOW,
     USER_ID_FOLLOWING,
     USER_ID_FOLLOWER,
+    USER_ID_TIMELINE,
+    USER_ID_MENTIONS,
     TWEETS_ID_SHOW,
 ]
 
@@ -49,7 +83,7 @@ class RateLimit:
     Refer: https://developer.twitter.com/en/docs/twitter-api/rate-limits
     """
 
-    def __init__(self):
+    def __init__(self, auth_type="app"):
         """
         Stored rate limit data. like:
         ``` json
@@ -58,18 +92,20 @@ class RateLimit:
             "/users/by/:username": RateLimitData(limit=300, remaining=289, reset=1612522029),
         }
         ```
+        :param auth_type: app auth or user auth
         """
+        self.auth_type = auth_type
         self.mapping = {}
 
     @staticmethod
-    def url_to_resource(url):
+    def url_to_endpoint(url) -> Endpoint:
         resource = urlparse(url).path.replace("/2", "", 1)  # only replace api version
         for endpoint in PATH_VAR_ENDPOINTS:
             if re.fullmatch(endpoint.regex, resource):
-                return endpoint.resource
-        return resource
+                return endpoint
+        return Endpoint(resource=resource)
 
-    def set_limit(self, url, headers):
+    def set_limit(self, url, headers) -> RateLimitData:
         """
         Twitter API rate limit data stored at requests headers. Like:
 
@@ -85,7 +121,7 @@ class RateLimit:
         :param headers: api response headers.
         :return:
         """
-        endpoint = self.url_to_resource(url=url)
+        endpoint = self.url_to_endpoint(url=url)
         data = {
             "limit": conv_type("limit", int, headers.get("x-rate-limit-limit", 0)),
             "remaining": conv_type(
@@ -93,13 +129,14 @@ class RateLimit:
             ),
             "reset": conv_type("reset", int, headers.get("x-rate-limit-reset", 0)),
         }
-        self.mapping[endpoint] = RateLimitData(**data)
+        self.mapping[endpoint.resource] = RateLimitData(**data)
 
         return self.get_limit(url=url)
 
-    def get_limit(self, url):
-        endpoint = self.url_to_resource(url=url)
-        if endpoint not in self.mapping:
-            return RateLimitData()
+    def get_limit(self, url) -> RateLimitData:
+        endpoint = self.url_to_endpoint(url=url)
+        if endpoint.resource not in self.mapping:
+            limit = endpoint.get_limit(auth_type=self.auth_type)
+            return RateLimitData(limit=limit, remaining=limit)
 
-        return self.mapping[endpoint]
+        return self.mapping[endpoint.resource]

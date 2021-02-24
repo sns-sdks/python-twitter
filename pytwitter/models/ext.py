@@ -32,6 +32,8 @@ class Meta(BaseModel):
     result_count: Optional[int] = field(default=None)
     previous_token: Optional[str] = field(default=None, repr=False)
     next_token: Optional[str] = field(default=None, repr=False)
+    oldest_id: Optional[str] = field(default=None, repr=False)
+    newest_id: Optional[str] = field(default=None, repr=False)
 
 
 @dataclass

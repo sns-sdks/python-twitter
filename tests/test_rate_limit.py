@@ -31,16 +31,17 @@ class TestRateLimit:
         assert d.remaining == 299
 
     def test_getter(self):
-        rate_limit = pytwitter.RateLimit()
-        d = rate_limit.get_limit(url=USER_URL)
+        app_rate_limit = pytwitter.RateLimit()
+        assert app_rate_limit.get_limit(url=USER_URL).limit == 300
 
-        assert d.limit == 15
+        user_rate_limit = pytwitter.RateLimit(auth_type="user")
+        assert user_rate_limit.get_limit(url=USER_URL).limit == 900
 
     def test_url_to_resource(self):
-        assert pytwitter.RateLimit.url_to_resource(USER_URL) == "/users/:id"
+        assert pytwitter.RateLimit.url_to_endpoint(USER_URL).resource == "/users/:id"
 
         other_url = "https://api.twitter.com/2/tests/url"
-        assert pytwitter.RateLimit.url_to_resource(other_url) == "/tests/url"
+        assert pytwitter.RateLimit.url_to_endpoint(other_url).resource == "/tests/url"
 
     @patch("time.sleep")
     @responses.activate
