@@ -594,3 +594,85 @@ class Api:
             multi=True,
             return_json=return_json,
         )
+
+    def search_tweets(
+        self,
+        query: str,
+        query_type: str = "recent",
+        *,
+        start_time: Optional[str] = None,
+        end_time: Optional[str] = None,
+        since_id: Optional[str] = None,
+        until_id: Optional[str] = None,
+        max_results: Optional[int] = None,
+        next_token: Optional[str] = None,
+        tweet_fields: Optional[Union[str, List, Tuple]] = None,
+        expansions: Optional[Union[str, List, Tuple]] = None,
+        user_fields: Optional[Union[str, List, Tuple]] = None,
+        media_fields: Optional[Union[str, List, Tuple]] = None,
+        place_fields: Optional[Union[str, List, Tuple]] = None,
+        poll_fields: Optional[Union[str, List, Tuple]] = None,
+        return_json: bool = False,
+    ):
+        """
+        Search tweets endpoint has two type:
+            - recent (default): Returns Tweets from the last seven days that match a search query.
+            - all: Returns the complete history of public Tweets matching a search query;
+            since the first Tweet was created March 26, 2006.
+            But this type only for who have been approved for the `Academic Research product track`.
+
+        :param query: One rule for matching Tweets.
+        :param query_type: Accepted values: recent or all
+        :param start_time: Oldest or earliest UTC timestamp for tweets, format YYYY-MM-DDTHH:mm:ssZ.
+        :param end_time: Newest or most recent UTC timestamp for tweets, format YYYY-MM-DDTHH:mm:ssZ.
+        :param since_id: Greater than (that is, more recent than) tweet id for response. Exclude this since_id.
+        :param until_id: Less than (that is, older than) tweet id for response. Exclude this until_id.
+        :param max_results: The maximum number of results to be returned per page. Number between 10 and up to 500.
+        By default, each page will return 10 results.
+        :param next_token: Token for the pagination.
+        :param tweet_fields: Fields for the tweet object.
+        :param expansions: Fields for the expansions.
+        :param user_fields: Fields for the user object, Expansion required.
+        :param media_fields: Fields for the media object, Expansion required.
+        :param place_fields: Fields for the place object, Expansion required.
+        :param poll_fields: Fields for the poll object, Expansion required.
+        :param return_json: Type for returned data. If you set True JSON data will be returned.
+        :return: Response instance or json.
+        """
+
+        args = {
+            "query": query,
+            "start_time": start_time,
+            "end_time": end_time,
+            "since_id": since_id,
+            "until_id": until_id,
+            "tweet.fields": enf_comma_separated(
+                name="tweet_fields", value=tweet_fields
+            ),
+            "expansions": enf_comma_separated(name="expansions", value=expansions),
+            "user.fields": enf_comma_separated(name="user_fields", value=user_fields),
+            "media.fields": enf_comma_separated(
+                name="media_fields", value=media_fields
+            ),
+            "place.fields": enf_comma_separated(
+                name="place_fields", value=place_fields
+            ),
+            "poll.fields": enf_comma_separated(name="poll_fields", value=poll_fields),
+            "max_results": max_results,
+            "next_token": next_token,
+        }
+
+        if query_type == "recent":
+            url = f"{self.BASE_URL_V2}/tweets/search/recent"
+        elif query_type == "all":
+            url = f"{self.BASE_URL_V2}/tweets/search/all"
+        else:
+            raise PyTwitterError(f"Not support for query type: {query_type}")
+
+        return self._get(
+            url=url,
+            params=args,
+            cls=md.Tweet,
+            multi=True,
+            return_json=return_json,
+        )

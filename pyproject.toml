@@ -6,7 +6,7 @@ authors = ["ikaroskun <merle.liukun@gmail.com>"]
 license = "MIT"
 readme = "README.rst"
 repository = "https://github.com/sns-sdks/python-twitter"
-keywords = ["twitter", "twitter sdk", "twitter api"]
+keywords = ["twitter", "twitter sdk", "twitter api", "Twitter API V2"]
 classifiers = [
     "Programming Language :: Python :: Implementation :: CPython",
     "Programming Language :: Python :: 3.6",

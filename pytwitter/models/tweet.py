@@ -185,6 +185,7 @@ class Tweet(BaseModel):
     referenced_tweets: Optional[List[TweetReferencedTweet]] = field(
         default=None, repr=False, compare=False
     )
+    reply_settings: Optional[str] = field(default=None, repr=False, compare=False)
     source: Optional[str] = field(default=None, repr=False, compare=False)
     withheld: Optional[TweetWithheld] = field(default=None, repr=False, compare=False)
 

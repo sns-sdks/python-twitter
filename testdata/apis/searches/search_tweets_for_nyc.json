@@ -1,0 +1,299 @@
+{
+  "data": [
+    {
+      "author_id": "1176828691365736451",
+      "created_at": "2020-06-24T17:19:07.000Z",
+      "entities": {
+        "mentions": [
+          {
+            "start": 3,
+            "end": 14,
+            "username": "skipbolden"
+          }
+        ]
+      },
+      "id": "1275840892285399041",
+      "lang": "en",
+      "possibly_sensitive": false,
+      "referenced_tweets": [
+        {
+          "type": "retweeted",
+          "id": "1275809336988557314"
+        }
+      ],
+      "source": "Twitter Web App",
+      "text": "RT @skipbolden: It's 1963 in The Bronx, NYC. The magic, the music, the mystery of growing up.\nKen Wahl, Karen Allen and John Friedrich in,…"
+    },
+    {
+      "author_id": "13524182",
+      "created_at": "2020-06-24T17:19:07.000Z",
+      "entities": {
+        "hashtags": [
+          {
+            "start": 25,
+            "end": 30,
+            "tag": "NY12"
+          }
+        ]
+      },
+      "id": "1275840892281249793",
+      "in_reply_to_user_id": "13524182",
+      "lang": "en",
+      "possibly_sensitive": false,
+      "referenced_tweets": [
+        {
+          "type": "replied_to",
+          "id": "1275781448855891968"
+        }
+      ],
+      "source": "Twitter Web App",
+      "text": "If Suraj Patel wins when #NY12 absentees get counted, Jerry Nadler and Max Rose will be the only white guys representing any part of NYC in Congress."
+    },
+    {
+      "author_id": "15004848",
+      "created_at": "2020-06-24T17:19:07.000Z",
+      "id": "1275840891014561796",
+      "lang": "en",
+      "possibly_sensitive": false,
+      "source": "Twitter for iPhone",
+      "text": "Started offering online camps this week and initially devastated by the swap. Now find out we have kids with allergies (not a worry in this setting) &amp; kids from MD, NYC, and Zambia! Very cool to see the positives &amp; the kids cooking their hearts out!"
+    },
+    {
+      "author_id": "956719622232924160",
+      "created_at": "2020-06-24T17:19:06.000Z",
+      "entities": {
+        "mentions": [
+          {
+            "start": 3,
+            "end": 18,
+            "username": "SoniaChanel617"
+          },
+          {
+            "start": 20,
+            "end": 28,
+            "username": "cvpayne"
+          }
+        ]
+      },
+      "id": "1275840886774075396",
+      "lang": "en",
+      "possibly_sensitive": false,
+      "referenced_tweets": [
+        {
+          "type": "retweeted",
+          "id": "1275840174296125440"
+        }
+      ],
+      "source": "Twitter Web App",
+      "text": "RT @SoniaChanel617: @cvpayne So many people are moving out of NYC. It’s crazy."
+    },
+    {
+      "author_id": "1235426387957370880",
+      "created_at": "2020-06-24T17:19:05.000Z",
+      "entities": {
+        "mentions": [
+          {
+            "start": 3,
+            "end": 18,
+            "username": "DavidYankovich"
+          }
+        ]
+      },
+      "id": "1275840884769259523",
+      "lang": "en",
+      "possibly_sensitive": false,
+      "referenced_tweets": [
+        {
+          "type": "retweeted",
+          "id": "1275834637437276165"
+        }
+      ],
+      "source": "Twitter for iPhone",
+      "text": "RT @DavidYankovich: A man who admitted his own guilt twice is getting freed from prison while black folks who jump a turnstile in NYC subwa…"
+    },
+    {
+      "author_id": "3031898016",
+      "created_at": "2020-06-24T17:19:04.000Z",
+      "entities": {
+        "hashtags": [
+          {
+            "start": 0,
+            "end": 4,
+            "tag": "NYC"
+          },
+          {
+            "start": 20,
+            "end": 35,
+            "tag": "OccupyCityHall"
+          },
+          {
+            "start": 209,
+            "end": 217,
+            "tag": "protest"
+          },
+          {
+            "start": 218,
+            "end": 229,
+            "tag": "NycProtest"
+          },
+          {
+            "start": 230,
+            "end": 247,
+            "tag": "NoJusticeNoPeace"
+          },
+          {
+            "start": 248,
+            "end": 259,
+            "tag": "BLMprotest"
+          },
+          {
+            "start": 260,
+            "end": 277,
+            "tag": "blacklivesmatter"
+          }
+        ]
+      },
+      "id": "1275840878238552064",
+      "lang": "de",
+      "possibly_sensitive": false,
+      "source": "Twitter Web App",
+      "text": "#NYC protests 6/24\n\n#OccupyCityHall \n(City Hall)\nWash Sq (kids) 1\nCarl Schurz (vigil) 7\nJackie Robinson Pk (vigil) 730\n\nMcCarren vigil &amp; march 7\nGAP 730\nNicholas Hayward Jr Park vigil 8\n\n277 W 231st St 1\n\n#protest #NycProtest #NoJusticeNoPeace #BLMprotest #blacklivesmatter"
+    },
+    {
+      "author_id": "939165988435607552",
+      "created_at": "2020-06-24T17:19:03.000Z",
+      "entities": {
+        "mentions": [
+          {
+            "start": 3,
+            "end": 16,
+            "username": "jonrappoport"
+          }
+        ]
+      },
+      "id": "1275840877651546113",
+      "lang": "en",
+      "possibly_sensitive": false,
+      "referenced_tweets": [
+        {
+          "type": "retweeted",
+          "id": "1275794225309921285"
+        }
+      ],
+      "source": "Twitter for Android",
+      "text": "RT @jonrappoport: Forget about coffee and doughnuts, Welcome back to the office! \n\nThat 'socially distant' elevator ride. Gives new meaning…"
+    },
+    {
+      "author_id": "110578919",
+      "created_at": "2020-06-24T17:19:03.000Z",
+      "entities": {
+        "mentions": [
+          {
+            "start": 3,
+            "end": 13,
+            "username": "zerohedge"
+          }
+        ],
+        "urls": [
+          {
+            "start": 68,
+            "end": 91,
+            "url": "https://t.co/wqV97PbtF9",
+            "expanded_url": "https://www.zerohedge.com/political/de-blasio-considers-laying-22000-nyc-employees",
+            "display_url": "zerohedge.com/political/de-b…",
+            "images": [
+              {
+                "url": "https://pbs.twimg.com/news_img/1275839982771539968/xZNipbjm?format=jpg&name=orig",
+                "width": 650,
+                "height": 447
+              },
+              {
+                "url": "https://pbs.twimg.com/news_img/1275839982771539968/xZNipbjm?format=jpg&name=150x150",
+                "width": 150,
+                "height": 150
+              }
+            ],
+            "status": 200,
+            "title": "De Blasio Considers Laying Off 22,000 NYC Employees ",
+            "description": "\"The city may have to lay off workers...\"",
+            "unwound_url": "https://www.zerohedge.com/political/de-blasio-considers-laying-22000-nyc-employees"
+          }
+        ]
+      },
+      "id": "1275840876997050369",
+      "lang": "en",
+      "possibly_sensitive": false,
+      "referenced_tweets": [
+        {
+          "type": "retweeted",
+          "id": "1275839979772665861"
+        }
+      ],
+      "source": "Twitter for iPhone",
+      "text": "RT @zerohedge: De Blasio Considers Laying Off 22,000 NYC Employees  https://t.co/wqV97PbtF9"
+    },
+    {
+      "author_id": "186075913",
+      "created_at": "2020-06-24T17:19:03.000Z",
+      "entities": {
+        "mentions": [
+          {
+            "start": 3,
+            "end": 15,
+            "username": "AmyJacobson"
+          },
+          {
+            "start": 67,
+            "end": 81,
+            "username": "LoriLightfoot"
+          }
+        ]
+      },
+      "id": "1275840876074369025",
+      "lang": "en",
+      "possibly_sensitive": false,
+      "referenced_tweets": [
+        {
+          "type": "retweeted",
+          "id": "1275760016402849792"
+        }
+      ],
+      "source": "Twitter for Android",
+      "text": "RT @AmyJacobson: I called it! NYC reopens beaches BEFORE Chicago. \u2066@LoriLightfoot\u2069 sunbathing allowed since Memorial Day and now they can S…"
+    },
+    {
+      "author_id": "4421576056",
+      "created_at": "2020-06-24T17:19:03.000Z",
+      "entities": {
+        "mentions": [
+          {
+            "start": 3,
+            "end": 19,
+            "username": "hirosemaryhello"
+          }
+        ]
+      },
+      "id": "1275840875466305542",
+      "lang": "en",
+      "possibly_sensitive": false,
+      "referenced_tweets": [
+        {
+          "type": "quoted",
+          "id": "1275622383555133440"
+        },
+        {
+          "type": "retweeted",
+          "id": "1275837188715020290"
+        }
+      ],
+      "source": "Twitter for Android",
+      "text": "RT @hirosemaryhello: NYC! can you help the protestors currently occupying City Hall to demand the defunding of the NYPD? they need supplies…"
+    }
+  ],
+  "meta": {
+    "newest_id": "1275840892285399041",
+    "oldest_id": "1275840875466305542",
+    "result_count": 10,
+    "next_token": "b26v89c19zqg8o3fo7gesq314zlbjb2xlwutmy72r47lp"
+  }
+}
