@@ -50,17 +50,12 @@ jobs:
       - uses: actions/setup-python@v2
         with:
           python-version: 3.8
-      - name: Cache venv
+      - name: Cache pip
         uses: actions/cache@v2
         with:
-          path: venv
+          path: ~/.cache/pip
           key: lintenv-v2
       - name: Install dependencies
-        run: |
-          python -m venv venv
-          . venv/bin/activate
-          python -m pip install --upgrade pip black
+        run: python -m pip install --upgrade pip black
       - name: Black test
-        run: |
-          . venv/bin/activate
-          black --check .
+        run: black --check .
