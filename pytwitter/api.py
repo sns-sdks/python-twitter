@@ -1,13 +1,14 @@
 """
     Api Impl
 """
+import base64
 import logging
 import time
 from typing import List, Optional, Tuple, Union
 
 import requests
 from requests.models import Response
-from requests_oauthlib import OAuth2
+from requests_oauthlib import OAuth1, OAuth2, OAuth1Session
 
 import pytwitter.models as md
 from pytwitter.error import PyTwitterError
@@ -19,6 +20,10 @@ logger = logging.getLogger(__name__)
 
 class Api:
     BASE_URL_V2 = "https://api.twitter.com/2"
+    BASE_REQUEST_TOKEN_URL = "https://api.twitter.com/oauth/request_token"
+    BASE_AUTHORIZE_URL = "https://api.twitter.com/oauth/authorize"
+    BASE_ACCESS_TOKEN_URL = "https://api.twitter.com/oauth/access_token"
+    DEFAULT_CALLBACK_URI = "https://localhost/"
 
     def __init__(
         self,
@@ -35,6 +40,9 @@ class Api:
     ):
         self.session = requests.Session()
         self._auth = None
+        self._oauth_session = None
+        self.consumer_key = consumer_key
+        self.consumer_secret = consumer_secret
         self.timeout = timeout
         self.proxies = proxies
         self.rate_limit = RateLimit()
@@ -47,18 +55,25 @@ class Api:
             )
         # use app auth
         elif consumer_key and consumer_secret and application_only_auth:
-            pass
+            resp = self.generate_bearer_token(
+                consumer_key=consumer_key, consumer_secret=consumer_secret
+            )
+            self._auth = OAuth2(
+                token={"access_token": resp["access_token"], "token_type": "Bearer"}
+            )
         # use user auth
         elif all([consumer_key, consumer_secret, access_token, access_secret]):
-            pass
+            self._auth = OAuth1(
+                client_key=consumer_key,
+                client_secret=consumer_secret,
+                resource_owner_key=access_token,
+                resource_owner_secret=access_secret,
+            )
         # use oauth flow by hand
         elif consumer_key and consumer_secret and oauth_flow:
             pass
         else:
             raise PyTwitterError("Need oauth")
-
-    def set_credentials(self):
-        pass
 
     def _request(self, url, verb="GET", params=None, data=None, enforce_auth=True):
         """
@@ -100,6 +115,107 @@ class Api:
             self.rate_limit.set_limit(url=url, headers=resp.headers)
 
         return resp
+
+    def get_authorize_url(self, callback_uri=None, **kwargs):
+        """
+        Get url which to do authorize.
+        :param callback_uri: The URL you wish your user to be redirected to.
+        :param kwargs: Optional parameter, like force_login,screen_name and so on.
+        :return: link to authorize
+        """
+        if callback_uri is None:
+            callback_uri = self.DEFAULT_CALLBACK_URI
+        self._oauth_session = OAuth1Session(
+            client_key=self.consumer_key,
+            client_secret=self.consumer_secret,
+            callback_uri=callback_uri,
+        )
+        self._oauth_session.fetch_request_token(
+            self.BASE_REQUEST_TOKEN_URL, proxies=self.proxies
+        )
+        return self._oauth_session.authorization_url(self.BASE_AUTHORIZE_URL, **kwargs)
+
+    def generate_access_token(self, response):
+        """
+        :param response:
+        :return:
+        """
+        if not self._oauth_session:
+            raise PyTwitterError("Need get_authorize_url first")
+
+        self._oauth_session.parse_authorization_response(response)
+
+        data = self._oauth_session.fetch_access_token(
+            self.BASE_ACCESS_TOKEN_URL, proxies=self.proxies
+        )
+        self._auth = OAuth1(
+            client_key=self.consumer_key,
+            client_secret=self.consumer_secret,
+            resource_owner_key=data["oauth_token"],
+            resource_owner_secret=data["oauth_token_secret"],
+        )
+        return data
+
+    def invalidate_access_token(self) -> dict:
+        """
+        Revoke an issued OAuth access_token by presenting its client credentials
+
+        :return:
+        """
+        if not self._auth:
+            raise PyTwitterError("Must have authorized credentials")
+
+        if not isinstance(self._auth, OAuth1):
+            raise PyTwitterError("Can only revoke oauth1 token")
+
+        resp = requests.post(
+            url="https://api.twitter.com/1.1/oauth/invalidate_token",
+        )
+        data = self._parse_response(resp=resp)
+        return data
+
+    def generate_bearer_token(self, consumer_key: str, consumer_secret: str) -> dict:
+        """
+        :param consumer_key: Your app consumer key
+        :param consumer_secret: Your app consumer secret
+        :return: token data
+        """
+        bearer_token = base64.b64encode(f"{consumer_key}:{consumer_secret}".encode())
+        headers = {
+            "Authorization": f"Basic {bearer_token.decode()}",
+            "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+        }
+        resp = requests.post(
+            url="https://api.twitter.com/oauth2/token",
+            data={"grant_type": "client_credentials"},
+            headers=headers,
+        )
+        data = self._parse_response(resp=resp)
+        return data
+
+    def invalidate_bearer_token(
+        self, consumer_key: str, consumer_secret: str, access_token: str
+    ) -> dict:
+        """
+        Invalidating a Bearer Token
+
+        :param consumer_key: Your app consumer key
+        :param consumer_secret: Your app consumer secret
+        :param access_token: Token to be invalidated
+        :return: token data
+        """
+        bearer_token = base64.b64encode(f"{consumer_key}:{consumer_secret}".encode())
+        headers = {
+            "Authorization": f"Basic {bearer_token.decode()}",
+            "Content-Type": "application/x-www-form-urlencoded",
+        }
+        resp = requests.post(
+            url="https://api.twitter.com/oauth2/invalidate_token",
+            data={"access_token": access_token},
+            headers=headers,
+        )
+        data = self._parse_response(resp=resp)
+        return data
 
     @staticmethod
     def _parse_response(resp: Response) -> dict:
