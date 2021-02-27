@@ -1,6 +1,7 @@
 """
     Api Impl
 """
+import base64
 import logging
 import time
 from typing import List, Optional, Tuple, Union
@@ -47,7 +48,12 @@ class Api:
             )
         # use app auth
         elif consumer_key and consumer_secret and application_only_auth:
-            pass
+            resp = self.generate_bearer_token(
+                consumer_key=consumer_key, consumer_secret=consumer_secret
+            )
+            self._auth = OAuth2(
+                token={"access_token": resp["access_token"], "token_type": "Bearer"}
+            )
         # use user auth
         elif all([consumer_key, consumer_secret, access_token, access_secret]):
             pass
@@ -100,6 +106,49 @@ class Api:
             self.rate_limit.set_limit(url=url, headers=resp.headers)
 
         return resp
+
+    def generate_bearer_token(self, consumer_key: str, consumer_secret: str) -> dict:
+        """
+        :param consumer_key: Your app consumer key
+        :param consumer_secret: Your app consumer secret
+        :return: token data
+        """
+        bearer_token = base64.b64encode(f"{consumer_key}:{consumer_secret}".encode())
+        headers = {
+            "Authorization": f"Basic {bearer_token.decode()}",
+            "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+        }
+        resp = requests.post(
+            url="https://api.twitter.com/oauth2/token",
+            data={"grant_type": "client_credentials"},
+            headers=headers,
+        )
+        data = self._parse_response(resp=resp)
+        return data
+
+    def invalidate_bearer_token(
+        self, consumer_key: str, consumer_secret: str, access_token: str
+    ) -> dict:
+        """
+        Invalidating a Bearer Token
+
+        :param consumer_key: Your app consumer key
+        :param consumer_secret: Your app consumer secret
+        :param access_token: Token to be invalidated
+        :return: token data
+        """
+        bearer_token = base64.b64encode(f"{consumer_key}:{consumer_secret}".encode())
+        headers = {
+            "Authorization": f"Basic {bearer_token.decode()}",
+            "Content-Type": "application/x-www-form-urlencoded",
+        }
+        resp = requests.post(
+            url="https://api.twitter.com//oauth2/invalidate_token",
+            data={"access_token": access_token},
+            headers=headers,
+        )
+        data = self._parse_response(resp=resp)
+        return data
 
     @staticmethod
     def _parse_response(resp: Response) -> dict:
