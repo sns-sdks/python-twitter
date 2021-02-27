@@ -148,6 +148,12 @@ class Api:
         data = self._oauth_session.fetch_access_token(
             self.BASE_ACCESS_TOKEN_URL, proxies=self.proxies
         )
+        self._auth = OAuth1(
+            client_key=self.consumer_key,
+            client_secret=self.consumer_secret,
+            resource_owner_key=data["oauth_token"],
+            resource_owner_secret=data["oauth_token_secret"],
+        )
         return data
 
     def invalidate_access_token(self) -> dict:

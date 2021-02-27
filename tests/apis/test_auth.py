@@ -99,7 +99,6 @@ def test_oauth_flow():
         json={
             "oauth_token": "oauth token",
             "oauth_token_secret": "oauth token secret",
-            "user_id": "123456",
         },
     )
 

@@ -73,6 +73,22 @@ You can initialize with an bearer token::
     In[1]: from pytwitter import Api
     In[2]: api = Api(bearer_token="You bearer token")
 
+With user context token::
+
+    >>> api = Api(
+            consumer_key="consumer key",
+            consumer_secret="consumer secret",
+            access_token="access token",
+            access_secret="access secret"
+        )
+
+Or with authorize by user::
+
+    >>> api = Api(consumer_key="consumer key",consumer_secret="consumer secret",oauth_flow=True)
+    # get url for user to authorize
+    >>> api.get_authorize_url()
+    # copy the response url
+    >>> token = api.generate_access_token(response=resp_url)
 
 ------------
 Users-lookup
@@ -169,5 +185,5 @@ Search by full-archive tweets::
 TODO
 ====
 
-- Search
+- Stream Api
 - Pypi
