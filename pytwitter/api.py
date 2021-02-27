@@ -150,6 +150,24 @@ class Api:
         )
         return data
 
+    def invalidate_access_token(self) -> dict:
+        """
+        Revoke an issued OAuth access_token by presenting its client credentials
+
+        :return:
+        """
+        if not self._auth:
+            raise PyTwitterError("Must have authorized credentials")
+
+        if not isinstance(self._auth, OAuth1):
+            raise PyTwitterError("Can only revoke oauth1 token")
+
+        resp = requests.post(
+            url="https://api.twitter.com/1.1/oauth/invalidate_token",
+        )
+        data = self._parse_response(resp=resp)
+        return data
+
     def generate_bearer_token(self, consumer_key: str, consumer_secret: str) -> dict:
         """
         :param consumer_key: Your app consumer key

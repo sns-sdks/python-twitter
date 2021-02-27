@@ -114,3 +114,31 @@ def test_oauth_flow():
             oauth_flow=True,
         )
         api.generate_access_token(resp_url)
+
+
+@responses.activate
+def test_invalidate_access_token():
+    # test revoke bearer token
+    api_bearer = Api(bearer_token="token")
+    with pytest.raises(PyTwitterError):
+        api_bearer.invalidate_access_token()
+
+    api = Api(
+        consumer_key="consumer key",
+        consumer_secret="consumer secret",
+        access_token="access token",
+        access_secret="access secret",
+    )
+    responses.add(
+        responses.POST,
+        url="https://api.twitter.com/1.1/oauth/invalidate_token",
+        json={"access_token": "ACCESS_TOKEN"},
+    )
+
+    resp = api.invalidate_access_token()
+    assert resp["access_token"] == "ACCESS_TOKEN"
+
+    # test no auth
+    api._auth = None
+    with pytest.raises(PyTwitterError):
+        api.invalidate_access_token()
