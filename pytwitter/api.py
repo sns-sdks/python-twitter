@@ -63,9 +63,6 @@ class Api:
         else:
             raise PyTwitterError("Need oauth")
 
-    def set_credentials(self):
-        pass
-
     def _request(self, url, verb="GET", params=None, data=None, enforce_auth=True):
         """
         Request for twitter api url
@@ -143,7 +140,7 @@ class Api:
             "Content-Type": "application/x-www-form-urlencoded",
         }
         resp = requests.post(
-            url="https://api.twitter.com//oauth2/invalidate_token",
+            url="https://api.twitter.com/oauth2/invalidate_token",
             data={"access_token": access_token},
             headers=headers,
         )
