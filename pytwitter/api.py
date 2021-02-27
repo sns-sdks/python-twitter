@@ -8,7 +8,7 @@ from typing import List, Optional, Tuple, Union
 
 import requests
 from requests.models import Response
-from requests_oauthlib import OAuth2
+from requests_oauthlib import OAuth1, OAuth2, OAuth1Session
 
 import pytwitter.models as md
 from pytwitter.error import PyTwitterError
@@ -20,6 +20,10 @@ logger = logging.getLogger(__name__)
 
 class Api:
     BASE_URL_V2 = "https://api.twitter.com/2"
+    BASE_REQUEST_TOKEN_URL = "https://api.twitter.com/oauth/request_token"
+    BASE_AUTHORIZE_URL = "https://api.twitter.com/oauth/authorize"
+    BASE_ACCESS_TOKEN_URL = "https://api.twitter.com/oauth/access_token"
+    DEFAULT_CALLBACK_URI = "https://localhost/"
 
     def __init__(
         self,
@@ -36,6 +40,9 @@ class Api:
     ):
         self.session = requests.Session()
         self._auth = None
+        self._oauth_session = None
+        self.consumer_key = consumer_key
+        self.consumer_secret = consumer_secret
         self.timeout = timeout
         self.proxies = proxies
         self.rate_limit = RateLimit()
@@ -56,7 +63,12 @@ class Api:
             )
         # use user auth
         elif all([consumer_key, consumer_secret, access_token, access_secret]):
-            pass
+            self._auth = OAuth1(
+                client_key=consumer_key,
+                client_secret=consumer_secret,
+                resource_owner_key=access_token,
+                resource_owner_secret=access_secret,
+            )
         # use oauth flow by hand
         elif consumer_key and consumer_secret and oauth_flow:
             pass
@@ -103,6 +115,40 @@ class Api:
             self.rate_limit.set_limit(url=url, headers=resp.headers)
 
         return resp
+
+    def get_authorize_url(self, callback_uri=None, **kwargs):
+        """
+        Get url which to do authorize.
+        :param callback_uri: The URL you wish your user to be redirected to.
+        :param kwargs: Optional parameter, like force_login,screen_name and so on.
+        :return: link to authorize
+        """
+        if callback_uri is None:
+            callback_uri = self.DEFAULT_CALLBACK_URI
+        self._oauth_session = OAuth1Session(
+            client_key=self.consumer_key,
+            client_secret=self.consumer_secret,
+            callback_uri=callback_uri,
+        )
+        self._oauth_session.fetch_request_token(
+            self.BASE_REQUEST_TOKEN_URL, proxies=self.proxies
+        )
+        return self._oauth_session.authorization_url(self.BASE_AUTHORIZE_URL, **kwargs)
+
+    def generate_access_token(self, response):
+        """
+        :param response:
+        :return:
+        """
+        if not self._oauth_session:
+            raise PyTwitterError("Need get_authorize_url first")
+
+        self._oauth_session.parse_authorization_response(response)
+
+        data = self._oauth_session.fetch_access_token(
+            self.BASE_ACCESS_TOKEN_URL, proxies=self.proxies
+        )
+        return data
 
     def generate_bearer_token(self, consumer_key: str, consumer_secret: str) -> dict:
         """
