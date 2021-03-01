@@ -69,19 +69,23 @@ class Api:
                 resource_owner_key=access_token,
                 resource_owner_secret=access_secret,
             )
+            self.rate_limit = RateLimit("user")
         # use oauth flow by hand
         elif consumer_key and consumer_secret and oauth_flow:
             pass
         else:
             raise PyTwitterError("Need oauth")
 
-    def _request(self, url, verb="GET", params=None, data=None, enforce_auth=True):
+    def _request(
+        self, url, verb="GET", params=None, data=None, json=None, enforce_auth=True
+    ):
         """
         Request for twitter api url
         :param url: The api location for twitter
-        :param verb: HTTP Method, either GET or POST
-        :param params: The url params for GET
-        :param data: The query data for POST
+        :param verb: HTTP Method, like GET,POST,PUT.
+        :param params: The url params to send in the body of the request.
+        :param data: The form data to send in the body of the request.
+        :param json: The json data to send in the body of the request.
         :param enforce_auth: Whether need auth
         :return: A json object
         """
@@ -107,6 +111,7 @@ class Api:
             params=params,
             data=data,
             auth=auth,
+            json=json,
             timeout=self.timeout,
             proxies=self.proxies,
         )
@@ -792,3 +797,22 @@ class Api:
             multi=True,
             return_json=return_json,
         )
+
+    def hidden_reply(self, tweet_id: str, hidden: Optional[bool] = True) -> dict:
+        """
+        Hides or unhides a reply to a Tweet.
+
+        Note: This api must with OAuth 1.0a User context.
+
+        :param tweet_id: ID of the tweet to hide or unhide,
+        :param hidden: If set True, will hide reply, If set False, will unhide reply. Default is True.
+        :return: status for hide or unhide.
+        """
+
+        resp = self._request(
+            url=f"{self.BASE_URL_V2}/tweets/{tweet_id}/hidden",
+            verb="PUT",
+            json={"hidden": hidden},
+        )
+        data = self._parse_response(resp=resp)
+        return data
