@@ -65,6 +65,12 @@ TWEETS_ID_SHOW = Endpoint(
     app_limit=300,
     user_limit=900,
 )
+TWEETS_ID_HIDDEN = Endpoint(
+    resource="/tweets/:id/hidden",
+    regex=re.compile(r"/tweets/\d+/hidden"),
+    app_limit=0,
+    user_limit=50,
+)
 
 PATH_VAR_ENDPOINTS = [
     USER_ID_SHOW,
