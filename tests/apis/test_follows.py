@@ -4,6 +4,8 @@
 
 import responses
 
+from pytwitter import Api
+
 
 @responses.activate
 def test_get_followings(api, helpers):
@@ -48,3 +50,47 @@ def test_get_followers(api, helpers):
     assert len(resp_json["data"]) == 5
     assert len(resp_json["includes"]["tweets"]) == 1
     assert resp_json["meta"]["result_count"] == 5
+
+
+@responses.activate
+def test_follow_user():
+    user_id, target_user_id = "123456", "78910"
+
+    api = Api(
+        consumer_key="consumer key",
+        consumer_secret="consumer secret",
+        access_token="access token",
+        access_secret="access secret",
+    )
+
+    responses.add(
+        responses.POST,
+        url=f"https://api.twitter.com/2/users/{user_id}/following",
+        json={"data": {"following": True, "pending_follow": False}},
+    )
+
+    resp = api.follow_user(user_id=user_id, target_user_id=target_user_id)
+
+    assert resp["data"]["following"] == True
+
+
+@responses.activate
+def test_unfollow_user():
+    user_id, target_user_id = "123456", "78910"
+
+    api = Api(
+        consumer_key="consumer key",
+        consumer_secret="consumer secret",
+        access_token="access token",
+        access_secret="access secret",
+    )
+
+    responses.add(
+        responses.DELETE,
+        url=f"https://api.twitter.com/2/users/{user_id}/following/{target_user_id}",
+        json={"data": {"following": False}},
+    )
+
+    resp = api.unfollow_user(user_id=user_id, target_user_id=target_user_id)
+
+    assert resp["data"]["following"] == False
