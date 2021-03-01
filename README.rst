@@ -152,6 +152,23 @@ Get user followers:
     >>> Response(data=[User(id='715131097332518912', name='Daniel', username='RGIDaniel'), User(id='1176323137757048832', name='Joyce Wang', username='joycew67')...])
 
 
+You can follow or unfollow user if you have OAuth 1.0a User context.
+
+follow user:
+
+.. code-block:: python
+
+    >>> api.follow_user(user_id="123456", target_user_id="654321")
+    {'data': {'following': True, 'pending_follow': False}}
+
+
+unfollow user:
+
+.. code-block:: python
+
+    >>> api.unfollow_user(user_id="123456", target_user_id="654321")
+    {'data': {'following': False}}
+
 -------------
 Tweets-lookup
 -------------

@@ -59,6 +59,13 @@ USER_ID_MENTIONS = Endpoint(
     app_limit=450,
     user_limit=180,
 )
+USER_ID_UNFOLLOW = Endpoint(
+    resource="/users/:id/following",
+    regex=re.compile(r"/users/:\d+/following/\d+"),
+    app_limit=0,
+    user_limit=50,
+)
+
 TWEETS_ID_SHOW = Endpoint(
     resource="/tweets/:id",
     regex=re.compile(r"/tweets/\d+"),
@@ -79,6 +86,7 @@ PATH_VAR_ENDPOINTS = [
     USER_ID_FOLLOWER,
     USER_ID_TIMELINE,
     USER_ID_MENTIONS,
+    USER_ID_UNFOLLOW,
     TWEETS_ID_SHOW,
     TWEETS_ID_HIDDEN,
 ]
