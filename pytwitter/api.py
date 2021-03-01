@@ -69,6 +69,7 @@ class Api:
                 resource_owner_key=access_token,
                 resource_owner_secret=access_secret,
             )
+            self.rate_limit = RateLimit("user")
         # use oauth flow by hand
         elif consumer_key and consumer_secret and oauth_flow:
             pass
