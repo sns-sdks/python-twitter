@@ -535,6 +535,41 @@ class Api:
             return_json=return_json,
         )
 
+    def follow_user(self, user_id: str, target_user_id: str) -> dict:
+        """
+        Allows a user ID to follow another user.
+        If the target user does not have public Tweets, this endpoint will send a follow request.
+
+        :param user_id: The user ID who you would like to initiate the follow on behalf of.
+                        It must match the username of the authenticating user.
+        :param target_user_id: The target user ID of user to follow
+        :return: follow status data
+        """
+
+        resp = self._request(
+            url=f"{self.BASE_URL_V2}/users/{user_id}/following",
+            verb="POST",
+            json={"target_user_id": target_user_id},
+        )
+        data = self._parse_response(resp)
+        return data
+
+    def unfollow_user(self, user_id: str, target_user_id: str) -> dict:
+        """
+        Allows a user ID to unfollow another user.
+
+        :param user_id: The user ID who you would like to initiate the unfollow on behalf of.
+                        It must match the username of the authenticating user.
+        :param target_user_id: The user ID of user to unfollow.
+        :return: follow status data
+        """
+        resp = self._request(
+            url=f"{self.BASE_URL_V2}/users/{user_id}/following/{target_user_id}",
+            verb="DELETE",
+        )
+        data = self._parse_response(resp)
+        return data
+
     def get_followers(
         self,
         user_id: str,
