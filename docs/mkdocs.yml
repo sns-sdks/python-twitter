@@ -1,0 +1,19 @@
+site_name: Python Twitter V2 Docs
+site_description: Docs for python-twitetr-v2 library
+
+theme:
+  name: material
+  feature:
+    tabs: true
+
+nav:
+  - Introduction: index.md
+  - Installation: installation.md
+  - Basic Usage: basic-usage.md
+  - Authorization: authorization.md
+
+markdown_extensions:
+  - codehilite
+  - admonition
+  - pymdownx.superfences
+  - pymdownx.emoji
