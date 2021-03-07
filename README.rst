@@ -7,12 +7,18 @@ A simple Python wrapper around for Twitter API v2 :sparkles: :cake: :sparkles:.
    :alt: v2
 
 .. image:: https://github.com/sns-sdks/python-twitter/workflows/Test/badge.svg
-    :target: https://github.com/sns-sdks/python-facebook/actions
+    :target: https://github.com/sns-sdks/python-twitter/actions
     :alt: Build Status
 
 .. image:: https://codecov.io/gh/sns-sdks/python-twitter/branch/master/graph/badge.svg
-    :target: https://codecov.io/gh/sns-sdks/python-facebook
+    :target: https://codecov.io/gh/sns-sdks/python-twitter
     :alt: Codecov
+
+.. image:: https://img.shields.io/pypi/v/python-twitter-v2.svg
+    :target: https://pypi.org/project/python-twitter-v2/
+    :alt: PyPI
+
+
 
 ============
 Introduction
@@ -32,6 +38,12 @@ You can get all api description and update at `Twitter API v2: Early Access <htt
 ==========
 Installing
 ==========
+
+You can install this library easily by `pypi`:
+
+.. code-block:: shell
+
+    $ pip install python-twitter-v2
 
 Code is hosted at `https://github.com/sns-sdks/python-twitter <https://github.com/sns-sdks/python-twitter>`_.
 
@@ -61,9 +73,6 @@ Run tests with coverage:
 
     $ make cov-term
     $ make cov-html
-
-
-TODO pypi not published will come soon.
 
 =====
 Using
@@ -257,4 +266,3 @@ TODO
 ====
 
 - Stream Api
-- Pypi
