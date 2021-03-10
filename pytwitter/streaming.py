@@ -11,6 +11,7 @@ import requests
 import pytwitter.models as md
 from pytwitter.error import PyTwitterError
 from pytwitter.utils.validators import enf_comma_separated
+from requests.models import Response
 from requests_oauthlib.oauth2_auth import OAuth2
 
 logger = logging.getLogger(__name__)
@@ -261,3 +262,107 @@ class StreamApi:
             params=args,
             return_json=return_json,
         )
+
+    def _request(self, url, verb="GET", params=None, json_data=None):
+        """
+        :param url: Url for twitter api
+        :param verb: HTTP Method, like GET,POST.
+        :param params: The url params to send in the body of the request.
+        :param json_data: The json data to send in the body of the request.
+        :return: A json object
+        """
+
+        resp = self.session.request(
+            url=url,
+            method=verb,
+            params=params,
+            auth=self._auth,
+            json=json_data,
+            timeout=self.timeout,
+            proxies=self.proxies,
+        )
+
+        return resp
+
+    @staticmethod
+    def _parse_response(resp: Response) -> dict:
+        """
+        :param resp: Response
+        :return: json data
+        """
+        try:
+            data = resp.json()
+        except ValueError:
+            raise PyTwitterError(f"Unknown error: {resp.content}")
+
+        if not resp.ok:
+            raise PyTwitterError(data)
+
+        return data
+
+    def get_rules(
+        self, ids: Optional[Union[str, List, Tuple]] = None, return_json=False
+    ):
+        """
+        Return a list of rules currently active on the streaming endpoint, either as a list or individually.
+
+        :param ids: IDs for rule. If omitted, all rules are returned.
+        :param return_json: Type for returned data. If you set True JSON data will be returned.
+        :return: Response object or json data
+        """
+
+        args = {"ids": enf_comma_separated(name="ids", value=ids)}
+
+        resp = self._request(
+            url=f"{self.BASE_URL}/tweets/search/stream/rules",
+            params=args,
+        )
+        resp_json = self._parse_response(resp=resp)
+
+        if return_json:
+            return resp_json
+        else:
+            return md.Response(
+                data=[
+                    md.StreamRule.new_from_json_dict(item)
+                    for item in resp_json.get("data", [])
+                ],
+                meta=md.Meta.new_from_json_dict(resp_json.get("meta")),
+            )
+
+    def manage_rules(
+        self, rules: Optional[Union[List, Tuple]], dry_run=False, return_json=False
+    ):
+        """
+        Add or delete rules to your stream.
+
+        :param rules: Json body for your rules.
+            See more detail: https://developer.twitter.com/en/docs/twitter-api/tweets/filtered-stream/api-reference/post-tweets-search-stream-rules
+        :param dry_run: Set to true can test the syntax of your rules without submitting it.
+        :param return_json: Type for returned data. If you set True JSON data will be returned.
+        :return: Response object or json data
+        """
+
+        resp = self._request(
+            url=f"{self.BASE_URL}/tweets/search/stream/rules",
+            verb="POST",
+            params={"dry_run": dry_run},
+            json_data=rules,
+        )
+
+        resp_json = self._parse_response(resp=resp)
+
+        if return_json:
+            return resp_json
+        else:
+            errors = resp_json.get("errors")
+            return md.Response(
+                data=[
+                    md.StreamRule.new_from_json_dict(item)
+                    for item in resp_json.get("data", [])
+                ],
+                meta=md.Meta.new_from_json_dict(resp_json.get("meta")),
+                errors=[md.Error.new_from_json_dict(err) for err in errors]
+                if errors
+                else None,
+            )
