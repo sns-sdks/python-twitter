@@ -84,8 +84,6 @@ class StreamApi:
         :param return_json:
         :return:
         """
-        if not self._auth:
-            raise PyTwitterError("Need auth")
         # make sure only one running connect
         self.running = True
         retries = 0

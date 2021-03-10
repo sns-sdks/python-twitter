@@ -1,0 +1,16 @@
+{
+  "data": [
+    {
+      "id": "1165037377523306497",
+      "value": "dog has:images",
+      "tag": "dog pictures"
+    },
+    {
+      "id": "1165037377523306498",
+      "value": "cat has:images -grumpy"
+    }
+  ],
+  "meta": {
+    "sent": "2019-08-29T01:12:10.729Z"
+  }
+}
