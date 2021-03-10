@@ -101,8 +101,8 @@ class StreamApi:
                     timeout=self.timeout,
                     stream=True,
                 ) as resp:
+                    logger.debug(resp.headers)
                     if resp.status_code == 200:
-                        print(resp.headers)
                         for line in resp.iter_lines(chunk_size=self.chunk_size):
                             if line:
                                 self.on_data(raw_data=line, return_json=return_json)
@@ -110,8 +110,11 @@ class StreamApi:
                                 self.on_keep_alive()
                             if not self.running:
                                 break
+
+                        if resp.raw.closed:
+                            self.on_closed(resp)
                     else:
-                        self.on_request_error(resp.status_code)
+                        self.on_request_error(resp)
                         retries += 1
                         time.sleep(http_error_wait)
 
@@ -147,7 +150,7 @@ class StreamApi:
         :param tweet: Tweet obj or json data.
         :return:
         """
-        print(f"Received tweet: {tweet}")
+        logger.debug(f"Received tweet: {tweet}")
 
     def on_keep_alive(self):
         """
@@ -156,8 +159,11 @@ class StreamApi:
         """
         logger.debug("Received keep alive signal")
 
-    def on_request_error(self, status_code):
-        logger.debug(f"Received error status code: {status_code}")
+    def on_request_error(self, resp):
+        logger.debug(f"Received error status code: {resp.status_code}")
+
+    def on_closed(self, resp):
+        logger.debug("Received closed response")
 
     def sample(
         self,
