@@ -165,7 +165,7 @@ class StreamApi:
     def on_closed(self, resp):
         logger.debug("Received closed response")
 
-    def sample(
+    def sample_stream(
         self,
         *,
         tweet_fields: Optional[Union[str, List, Tuple]] = None,
@@ -209,6 +209,55 @@ class StreamApi:
         # connect the stream
         self._connect(
             url=f"{self.BASE_URL}/tweets/sample/stream",
+            params=args,
+            return_json=return_json,
+        )
+
+    def search_stream(
+        self,
+        *,
+        tweet_fields: Optional[Union[str, List, Tuple]] = None,
+        expansions: Optional[Union[str, List, Tuple]] = None,
+        user_fields: Optional[Union[str, List, Tuple]] = None,
+        media_fields: Optional[Union[str, List, Tuple]] = None,
+        place_fields: Optional[Union[str, List, Tuple]] = None,
+        poll_fields: Optional[Union[str, List, Tuple]] = None,
+        return_json: bool = False,
+    ):
+
+        """
+        Streams Tweets in real-time based on a specific set of filter rules.
+
+        :param tweet_fields: Fields for the tweet object.
+        :param expansions: Fields for the expansions.
+        :param user_fields: Fields for the user object.
+        :param media_fields: Fields for the media object.
+        :param place_fields: Fields for the place object.
+        :param poll_fields: Fields for the poll object.
+        :param return_json: Type for returned data. If you set True JSON data will be returned.
+        """
+
+        if self.running:
+            raise PyTwitterError("Stream is running")
+
+        args = {
+            "tweet.fields": enf_comma_separated(
+                name="tweet_fields", value=tweet_fields
+            ),
+            "expansions": enf_comma_separated(name="expansions", value=expansions),
+            "user.fields": enf_comma_separated(name="user_fields", value=user_fields),
+            "media.fields": enf_comma_separated(
+                name="media_fields", value=media_fields
+            ),
+            "place.fields": enf_comma_separated(
+                name="place_fields", value=place_fields
+            ),
+            "poll.fields": enf_comma_separated(name="poll_fields", value=poll_fields),
+        }
+
+        # connect the stream
+        self._connect(
+            url=f"{self.BASE_URL}/tweets/search/stream",
             params=args,
             return_json=return_json,
         )
