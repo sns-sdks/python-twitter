@@ -261,6 +261,56 @@ You can unhide a reply tweet by api:
 
     >>> api.hidden_reply(tweet_id="tweet id", hidden=False)
 
+-------------
+Streaming API
+-------------
+
+For Streaming, this provide `StreamApi` independent. Same as main `Api`, You need initial it first.
+
+.. code-block:: python
+
+    >>> from pytwitter import StreamApi
+    >>> stream_api = StreamApi(bearer_token="bearer token")
+    # or use consumer key and secret
+    >>> stream_api = StreamApi(consumer_key="consumer key", consumer_secret="consumer secret")
+
+
+For Sample Stream tweets, You can use `sample_stream` function to build a connection.
+
+.. code-block:: python
+
+    >>> stream_api.sample_stream()
+
+For Search Stream, You can point your rules.
+
+Get your current rules.
+
+.. code-block:: python
+
+    >>> stream_api.get_rules()
+    Response(data=[StreamRule(id='1369580714056843266', value='twitter api ')])
+
+Delete You rules.
+
+.. code-block:: python
+
+    >>> stream_api.manage_rules(rules={"delete": {"ids": ["1369580714056843266"]}})
+    Response(data=[])
+
+Add new rules. If you set `dry_run` to True, will only validate rules, and not create them.
+
+.. code-block:: python
+
+    >>> stream_api.manage_rules(rules=np, dry_run=True)
+    Response(data=[StreamRule(id='1370406958721732610', value='cat has:media -grumpy'), StreamRule(id='1370406958721732609', value='cat has:media')])
+
+Then you can use `search_stream` to get tweets match your rules.
+
+.. code-block:: python
+
+    >>> stream_api.sample_stream()
+
+
 ====
 TODO
 ====
