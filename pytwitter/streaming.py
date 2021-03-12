@@ -136,10 +136,7 @@ class StreamApi:
         :return:
         """
         data = json.loads(raw_data)
-        if "errors" in data:
-            raise PyTwitterError(data["errors"])
-
-        if return_json:
+        if not return_json:
             data = md.Tweet.new_from_json_dict(data=data["data"])
 
         return self.on_tweet(tweet=data)
