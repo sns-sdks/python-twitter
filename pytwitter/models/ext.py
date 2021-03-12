@@ -6,7 +6,7 @@
 from dataclasses import dataclass, field
 from typing import List, Optional, Union
 
-from . import BaseModel, Media, Place, Poll, Tweet, User
+from . import BaseModel, Media, Place, Poll, Tweet, User, StreamRule
 
 
 @dataclass
@@ -24,6 +24,21 @@ class Error(BaseModel):
 
 
 @dataclass
+class MetaSummary(BaseModel):
+    """
+    A class representing the meta summary object for request.
+    Now works for stream rules api.
+    """
+
+    created: Optional[int] = field(default=None)
+    not_created: Optional[int] = field(default=None, repr=False)
+    valid: Optional[int] = field(default=None)
+    invalid: Optional[int] = field(default=None, repr=False)
+    deleted: Optional[int] = field(default=None)
+    not_deleted: Optional[int] = field(default=None, repr=False)
+
+
+@dataclass
 class Meta(BaseModel):
     """
     A class representing the meta object for request.
@@ -34,6 +49,8 @@ class Meta(BaseModel):
     next_token: Optional[str] = field(default=None, repr=False)
     oldest_id: Optional[str] = field(default=None, repr=False)
     newest_id: Optional[str] = field(default=None, repr=False)
+    sent: Optional[str] = field(default=None, repr=False)
+    summary: Optional[MetaSummary] = field(default=None, repr=False)
 
 
 @dataclass
@@ -67,6 +84,7 @@ class Response:
             List[Media],
             List[Poll],
             List[Place],
+            List[StreamRule],
         ]
     ]
     includes: Optional[Includes] = field(default=None, repr=False)

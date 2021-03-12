@@ -62,6 +62,13 @@ def test_place(helpers):
     assert place.geo.properties.name == "Dinagat Islands"
 
 
+def test_rule(helpers):
+    rule_data = helpers.load_json_data("testdata/models/rule.json")
+    rule = models.StreamRule.new_from_json_dict(rule_data)
+
+    assert rule.id == "1273636687768285187"
+
+
 def test_includes(helpers):
     includes_none = models.Includes.new_from_json_dict(None)
     assert includes_none is None
@@ -82,3 +89,9 @@ def test_meta(helpers):
 
     assert meta.result_count == 5
     assert meta.previous_token == "MEOAT4U0J64UGZZZ"
+
+    stream_meta_data = helpers.load_json_data("testdata/models/meta_stream.json")
+    stream_meta = models.Meta.new_from_json_dict(stream_meta_data)
+
+    assert stream_meta.sent == "2020-06-18T15:20:24.063Z"
+    assert stream_meta.summary.valid == 2
