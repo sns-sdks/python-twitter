@@ -317,6 +317,8 @@ Then you can use `search_stream` to get tweets match your rules.
     >>> stream_api.sample_stream()
 
 
+You can go to the `Example folder <examples>`_ for streaming examples.
+
 ====
 TODO
 ====
