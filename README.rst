@@ -301,6 +301,12 @@ Add new rules. If you set `dry_run` to True, will only validate rules, and not c
 
 .. code-block:: python
 
+    >>> np = {
+            "add": [
+                {"value": "cat has:media", "tag": "cats with media"},
+                {"value": "cat has:media -grumpy", "tag": "happy cats with media"}
+            ]
+         }
     >>> stream_api.manage_rules(rules=np, dry_run=True)
     Response(data=[StreamRule(id='1370406958721732610', value='cat has:media -grumpy'), StreamRule(id='1370406958721732609', value='cat has:media')])
 
@@ -310,6 +316,8 @@ Then you can use `search_stream` to get tweets match your rules.
 
     >>> stream_api.sample_stream()
 
+
+You can go to the `Example folder <examples>`_ for streaming examples.
 
 ====
 TODO
