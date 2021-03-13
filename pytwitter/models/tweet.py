@@ -191,7 +191,9 @@ class Tweet(BaseModel):
     withheld: Optional[TweetWithheld] = field(default=None, repr=False, compare=False)
 
     # Note: this field only for stream tweet
-    matching_rules: Optional[List[StreamRule]] = field(default=None, repr=False, compare=False)
+    matching_rules: Optional[List[StreamRule]] = field(
+        default=None, repr=False, compare=False
+    )
 
     def __repr__(self):
         text = self.text
