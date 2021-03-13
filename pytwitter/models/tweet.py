@@ -8,6 +8,7 @@ from dataclasses import dataclass, field
 from typing import Optional, List
 
 from .base import BaseModel
+from .stream import StreamRule
 
 
 @dataclass
@@ -188,6 +189,11 @@ class Tweet(BaseModel):
     reply_settings: Optional[str] = field(default=None, repr=False, compare=False)
     source: Optional[str] = field(default=None, repr=False, compare=False)
     withheld: Optional[TweetWithheld] = field(default=None, repr=False, compare=False)
+
+    # Note: this field only for stream tweet
+    matching_rules: Optional[List[StreamRule]] = field(
+        default=None, repr=False, compare=False
+    )
 
     def __repr__(self):
         text = self.text
