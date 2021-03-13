@@ -4,7 +4,7 @@
 
 from pytwitter import StreamApi
 
-bearer_token = ""
+bearer_token = "your bearer token"
 
 
 class MyStream(StreamApi):
