@@ -6,6 +6,8 @@ help:
 	@echo "  lint        check style with black"
 	@echo "  test        run tests"
 	@echo "  cov-term    run coverage output term"
+	@echo "  bump-minor  update version 0.1.0 to 0.2.0"
+	@echo "  bump-patch  update version 0.1.0 to 0.1.1"
 
 env:
 	pip install --upgrade pip
@@ -46,3 +48,9 @@ lint-check:
 
 test:
 	pytest -s
+
+bump-minor:
+	bump2version minor
+
+bump-patch:
+	bump2version patch
