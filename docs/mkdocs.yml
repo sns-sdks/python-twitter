@@ -9,8 +9,8 @@ theme:
 nav:
   - Introduction: index.md
   - Installation: installation.md
-  - Basic Usage: basic-usage.md
   - Authorization: authorization.md
+  - Basic Usage: basic-usage.md
 
 markdown_extensions:
   - codehilite
