@@ -835,13 +835,13 @@ class Api:
 
     def hidden_reply(self, tweet_id: str, hidden: Optional[bool] = True) -> dict:
         """
-        Hides or unhides a reply to a Tweet.
+        Hide or un-hide a reply to a Tweet.
 
         Note: This api must with OAuth 1.0a User context.
 
-        :param tweet_id: ID of the tweet to hide or unhide,
-        :param hidden: If set True, will hide reply, If set False, will unhide reply. Default is True.
-        :return: status for hide or unhide.
+        :param tweet_id: ID of the tweet to hide or un-hide,
+        :param hidden: If set True, will hide reply, If set False, will un-hide reply. Default is True.
+        :return: status for hide or un-hide.
         """
 
         resp = self._request(
