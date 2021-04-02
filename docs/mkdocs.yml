@@ -3,14 +3,16 @@ site_description: Docs for python-twitetr-v2 library
 
 theme:
   name: material
-  feature:
-    tabs: true
+  features:
+    - navigation.tabs
 
 nav:
   - Introduction: index.md
   - Installation: installation.md
   - Authorization: authorization.md
-  - Basic Usage: basic-usage.md
+  - Usage:
+      - Preparation: usage/preparation.md
+      - Users Lookup: usage/users-lookup.md
 
 markdown_extensions:
   - codehilite
