@@ -13,8 +13,13 @@ nav:
   - Usage:
       - Preparation: usage/preparation.md
       - Users:
-        - Users Lookup: usage/users/user-lookup.md
-        - Follows: usage/users/follows.md
+          - Users Lookup: usage/users/user-lookup.md
+          - Follows: usage/users/follows.md
+      - Tweets:
+          - Tweet Lookup: usage/tweets/tweet-lookup.md
+          - Timelines: usage/tweets/timelines.md
+          - Search Tweets: usage/tweets/search_tweets.md
+          - Hide replies: usage/tweets/hide_reply.md
 
 markdown_extensions:
   - codehilite
