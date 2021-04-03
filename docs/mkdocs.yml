@@ -12,7 +12,9 @@ nav:
   - Authorization: authorization.md
   - Usage:
       - Preparation: usage/preparation.md
-      - Users Lookup: usage/users-lookup.md
+      - Users:
+        - Users Lookup: usage/users/user-lookup.md
+        - Follows: usage/users/follows.md
 
 markdown_extensions:
   - codehilite
