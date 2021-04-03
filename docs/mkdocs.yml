@@ -20,6 +20,7 @@ nav:
           - Timelines: usage/tweets/timelines.md
           - Search Tweets: usage/tweets/search_tweets.md
           - Hide replies: usage/tweets/hide_reply.md
+      - Steaming: usage/streaming.md
 
 markdown_extensions:
   - codehilite
