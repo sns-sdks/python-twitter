@@ -314,7 +314,7 @@ Then you can use `search_stream` to get tweets match your rules.
 
 .. code-block:: python
 
-    >>> stream_api.sample_stream()
+    >>> stream_api.search_stream()
 
 
 You can go to the `Example folder <examples>`_ for streaming examples.
