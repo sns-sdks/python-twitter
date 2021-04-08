@@ -71,7 +71,7 @@ def test_follow_user():
 
     resp = api.follow_user(user_id=user_id, target_user_id=target_user_id)
 
-    assert resp["data"]["following"] == True
+    assert resp["data"]["following"]
 
 
 @responses.activate
@@ -93,4 +93,4 @@ def test_unfollow_user():
 
     resp = api.unfollow_user(user_id=user_id, target_user_id=target_user_id)
 
-    assert resp["data"]["following"] == False
+    assert not resp["data"]["following"]

@@ -5,6 +5,7 @@
 import pytest
 import responses
 
+from pytwitter import Api
 from pytwitter.error import PyTwitterError
 
 
@@ -44,7 +45,7 @@ def test_get_users(api, helpers):
         expansions=["pinned_tweet_id"],
     )
     assert len(ids_resp.data) == 2
-    assert ids_resp.data[0].verified is True
+    assert ids_resp.data[0].verified
     assert len(ids_resp.includes.tweets) == 1
 
     usernames_resp = api.get_users(
@@ -95,4 +96,34 @@ def test_get_user(api, helpers):
         return_json=True,
     )
     assert username_resp["data"]["id"] == user_id
-    assert username_resp["data"]["verified"] is True
+    assert username_resp["data"]["verified"]
+
+
+@responses.activate
+def test_block_and_unblock_user(helpers):
+    user_id, target_user_id = "123456", "78910"
+
+    api = Api(
+        consumer_key="consumer key",
+        consumer_secret="consumer secret",
+        access_token="access token",
+        access_secret="access secret",
+    )
+
+    responses.add(
+        responses.POST,
+        url=f"https://api.twitter.com/2/users/{user_id}/blocking",
+        json={"data": {"blocking": True}},
+    )
+
+    resp = api.block_user(user_id=user_id, target_user_id=target_user_id)
+    assert resp["data"]["blocking"]
+
+    responses.add(
+        responses.DELETE,
+        url=f"https://api.twitter.com/2/users/{user_id}/blocking/{target_user_id}",
+        json={"data": {"blocking": False}},
+    )
+
+    resp = api.unblock_user(user_id=user_id, target_user_id=target_user_id)
+    assert not resp["data"]["blocking"]
