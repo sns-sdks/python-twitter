@@ -541,7 +541,7 @@ class Api:
         If the target user does not have public Tweets, this endpoint will send a follow request.
 
         :param user_id: The user ID who you would like to initiate the follow on behalf of.
-                        It must match the username of the authenticating user.
+                        It must match the authenticating user.
         :param target_user_id: The target user ID of user to follow
         :return: follow status data
         """
@@ -850,4 +850,39 @@ class Api:
             json={"hidden": hidden},
         )
         data = self._parse_response(resp=resp)
+        return data
+
+    def block_user(self, user_id: str, target_user_id: str) -> dict:
+        """
+        Allows user to block target user.
+
+        :param user_id: The user ID who you would like to initiate the block on behalf of.
+                It must match your user ID which authorize with the access token.
+        :param target_user_id: The target user ID of user to block
+        :return: block status data
+        """
+
+        resp = self._request(
+            url=f"{self.BASE_URL_V2}/users/{user_id}/blocking",
+            verb="POST",
+            json={"target_user_id": target_user_id},
+        )
+        data = self._parse_response(resp)
+        return data
+
+    def unblock_user(self, user_id: str, target_user_id: str) -> dict:
+        """
+        Allows user to unblock another user.
+
+        :param user_id: The user ID who you would like to initiate an unblock on behalf of.
+                It must match your user ID which authorize with the access token.
+        :param target_user_id: The target user ID of user to block
+        :return: delete block status data
+        """
+
+        resp = self._request(
+            url=f"{self.BASE_URL_V2}/users/{user_id}/blocking/{target_user_id}",
+            verb="DELETE",
+        )
+        data = self._parse_response(resp)
         return data

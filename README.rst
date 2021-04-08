@@ -323,6 +323,5 @@ You can go to the `Example folder <examples>`_ for streaming examples.
 TODO
 ====
 
-- Docs for usage
 - More Api waiting twitter
 

@@ -15,6 +15,7 @@ nav:
       - Users:
           - Users Lookup: usage/users/user-lookup.md
           - Follows: usage/users/follows.md
+          - Blocks: usage/users/blocks.md
       - Tweets:
           - Tweet Lookup: usage/tweets/tweet-lookup.md
           - Timelines: usage/tweets/timelines.md
