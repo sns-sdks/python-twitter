@@ -26,11 +26,13 @@ jobs:
           key: ${{ matrix.python-version }}-poetry-${{ hashFiles('pyproject.toml') }}
       - name: Install dependencies
         run: |
-          python -m venv venv
+          python3 -m venv venv
           . venv/bin/activate
-          python -m pip install --upgrade pip
+          pip install --upgrade pip
           pip install poetry
           poetry install
+          python -c "import sys; print(sys.version)"
+          pip list
       - name: Test with pytest
         run: |
           . venv/bin/activate
