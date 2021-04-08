@@ -65,6 +65,18 @@ USER_ID_UNFOLLOW = Endpoint(
     app_limit=0,
     user_limit=50,
 )
+USER_ID_BLOCK = Endpoint(
+    resource="/users/:id/blocking",
+    regex=re.compile(r"/users/:\d+/blocking"),
+    app_limit=0,
+    user_limit=50,
+)
+USER_ID_UNBLOCK = Endpoint(
+    resource="/users/:id/blocking",
+    regex=re.compile(r"/users/:\d+/blocking/\d+"),
+    app_limit=0,
+    user_limit=50,
+)
 
 TWEETS_ID_SHOW = Endpoint(
     resource="/tweets/:id",
@@ -87,6 +99,8 @@ PATH_VAR_ENDPOINTS = [
     USER_ID_TIMELINE,
     USER_ID_MENTIONS,
     USER_ID_UNFOLLOW,
+    USER_ID_BLOCK,
+    USER_ID_UNBLOCK,
     TWEETS_ID_SHOW,
     TWEETS_ID_HIDDEN,
 ]
