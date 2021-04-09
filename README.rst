@@ -89,7 +89,7 @@ You can initialize with an bearer token:
 .. code-block:: python
 
     >>> from pytwitter import Api
-    >>> api = Api(bearer_token="You bearer token")
+    >>> api = Api(bearer_token="Your bearer token")
 
 With user context token:
 
