@@ -16,6 +16,6 @@ my_api.block_user(user_id="your id", target_user_id="target user id")
 Unblock a user
 
 ```python
-api.unblock_user(user_id="your id", target_user_id="target user id")
+my_api.unblock_user(user_id="your id", target_user_id="target user id")
 # {'data': {'blocking': False}}
 ```
