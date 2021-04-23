@@ -1,0 +1,21 @@
+The manage Likes endpoints enable you to like or unlike a specified Tweet on behalf of an authenticated account. 
+
+ For this endpoint group, there are two methods available POST and DELETE. The POST method allows you to like a Tweet, and the DELETE method will enable you to unlike a Tweet.
+
+You can get more information for this at [docs](https://developer.twitter.com/en/docs/twitter-api/tweets/likes/introduction)
+
+## likes
+
+You can like a tweet
+
+```python
+my_api.like_tweet(user_id="your id", tweet_id="target tweet id")
+# {'data': {'liked': True}}
+```
+
+Unlike a tweet
+
+```python
+my_api.unlike_tweet(user_id="your id", tweet_id="target tweet id")
+# {'data': {'liked': False}}
+```
