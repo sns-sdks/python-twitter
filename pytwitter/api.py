@@ -886,3 +886,37 @@ class Api:
         )
         data = self._parse_response(resp)
         return data
+
+    def like_tweet(self, user_id: str, tweet_id: str) -> dict:
+        """
+        Allows user to like tweet.
+
+        :param user_id: The user ID who you are liking a Tweet on behalf of.
+                It must match your user ID which authorize with the access token.
+        :param tweet_id: The ID of the Tweet that you would like.
+        :return: like status data
+        """
+
+        resp = self._request(
+            url=f"{self.BASE_URL_V2}/users/{user_id}/likes",
+            verb="POST",
+            json={"tweet_id": tweet_id},
+        )
+        data = self._parse_response(resp=resp)
+        return data
+
+    def unlike_tweet(self, user_id: str, tweet_id: str) -> dict:
+        """
+        Allows user to remove like status from a tweet.
+
+        :param user_id: The user ID who you are removing a Like of a Tweet on behalf of.
+                It must match your user ID which authorize with the access token.
+        :param tweet_id: The ID of the Tweet that you would remove like status.
+        :return: like status data
+        """
+
+        resp = self._request(
+            url=f"{self.BASE_URL_V2}/users/{user_id}/likes/{tweet_id}", verb="DELETE"
+        )
+        data = self._parse_response(resp=resp)
+        return data
