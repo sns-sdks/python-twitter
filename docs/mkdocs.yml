@@ -1,10 +1,31 @@
 site_name: Python Twitter V2 Docs
 site_description: Docs for python-twitetr-v2 library
+repo_url: https://github.com/sns-sdks/python-twitter
+copyright: Copyright &copy; 2021 - 2021 Ikaros kun
 
 theme:
   name: material
   features:
     - navigation.tabs
+
+palette:
+  # Light mode
+  - media: "(prefers-color-scheme: light)"
+    scheme: default
+    primary: indigo
+    accent: indigo
+    toggle:
+      icon: material/toggle-switch-off-outline
+      name: Switch to dark mode
+
+  # Dark mode
+  - media: "(prefers-color-scheme: dark)"
+    scheme: slate
+    primary: blue
+    accent: blue
+    toggle:
+      icon: material/toggle-switch
+      name: Switch to light mode
 
 nav:
   - Introduction: index.md
@@ -23,6 +44,14 @@ nav:
           - Hide replies: usage/tweets/hide_reply.md
           - Likes: usage/tweets/likes.md
       - Steaming: usage/streaming.md
+  - Changelog: CHANGELOG.md
+
+extra:
+  social:
+    - icon: fontawesome/brands/twitter
+      link: https://twitter.com/realllkk520
+    - icon: fontawesome/brands/github
+      link: https://github.com/sns-sdks/python-youtube
 
 markdown_extensions:
   - codehilite
