@@ -47,7 +47,7 @@ class Api:
         self.proxies = proxies
         self.rate_limit = RateLimit()
         self.sleep_on_rate_limit = sleep_on_rate_limit
-        self._auth_user_id = None  # Note: use this keep uid for auth user
+        self.auth_user_id = None  # Note: use this keep uid for auth user
 
         # just use bearer token
         if bearer_token:
@@ -71,7 +71,7 @@ class Api:
                 resource_owner_secret=access_secret,
             )
             self.rate_limit = RateLimit("user")
-            self._auth_user_id = self.get_uid_from_access_token_key(
+            self.auth_user_id = self.get_uid_from_access_token_key(
                 access_token=access_token
             )
         # use oauth flow by hand
@@ -83,6 +83,7 @@ class Api:
     @staticmethod
     def get_uid_from_access_token_key(access_token: str):
         """
+        get uid from access token, ex: 1323843269210460160-xxx
         :param access_token: Access token
         :return: uid
         """
@@ -173,9 +174,9 @@ class Api:
             resource_owner_secret=data["oauth_token_secret"],
         )
         if "user_id" in data:
-            self._auth_user_id = data["user_id"]
+            self.auth_user_id = data["user_id"]
         else:
-            self._auth_user_id = self.get_uid_from_access_token_key(
+            self.auth_user_id = self.get_uid_from_access_token_key(
                 access_token=data["oauth_token"]
             )
         return data

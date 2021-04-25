@@ -22,11 +22,10 @@ token = api.generate_access_token(response=resp)
 print(f"Get token: {token}")
 # Get token: {'oauth_token': 'token', 'oauth_token_secret': 'token_secret', 'user_id': 'user_id', 'screen_name': 'name'}
 
-user_id = input("Your user id: ")
 tweet_id = input("Tweet id you want to like:")
 
 resp = api.like_tweet(
-    user_id=user_id,
+    user_id=api.auth_user_id,
     tweet_id=tweet_id,
 )
 print(f"Resp: {resp}")

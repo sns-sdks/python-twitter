@@ -106,7 +106,7 @@ def test_block_and_unblock_user(helpers):
     api = Api(
         consumer_key="consumer key",
         consumer_secret="consumer secret",
-        access_token="access token",
+        access_token="uid-token",
         access_secret="access secret",
     )
 
