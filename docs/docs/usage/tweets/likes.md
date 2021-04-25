@@ -9,13 +9,13 @@ You can get more information for this at [docs](https://developer.twitter.com/en
 You can like a tweet
 
 ```python
-my_api.like_tweet(user_id="your id", tweet_id="target tweet id")
+my_api.like_tweet(user_id=my_api.auth_user_id, tweet_id="target tweet id")
 # {'data': {'liked': True}}
 ```
 
 Unlike a tweet
 
 ```python
-my_api.unlike_tweet(user_id="your id", tweet_id="target tweet id")
+my_api.unlike_tweet(user_id=my_api.auth_user_id, tweet_id="target tweet id")
 # {'data': {'liked': False}}
 ```

@@ -45,6 +45,8 @@ api.generate_access_token(response="You response url")
 # {'oauth_token': 'oauth-token','oauth_token_secret': 'oauth-token-secret', 'user_id': 'user id', 'screen_name': 'screen name'}
 ```
 
+For convenience, lib have keep the auth user id with property `auth_user_id`.
+
 Now the api instance will have the user authorization. You can use this to manage apis need user authorization like `hide reply`, `manage follow`... 
 
 !!! tip "Note"

@@ -27,13 +27,13 @@ Those api need user access token.
 Follow a user
 
 ```python
-my_api.follow_user(user_id="123456", target_user_id="654321")
+my_api.follow_user(user_id=my_api.auth_user_id, target_user_id="target user id")
 # {'data': {'following': True, 'pending_follow': False}}
 ```
 
 Unfollow a user
 
 ```python
-my_api.unfollow_user(user_id="123456", target_user_id="654321")
+my_api.unfollow_user(user_id=my_api.auth_user_id, target_user_id="target user id")
 # {'data': {'following': False}}
 ```

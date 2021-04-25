@@ -59,7 +59,7 @@ def test_follow_user():
     api = Api(
         consumer_key="consumer key",
         consumer_secret="consumer secret",
-        access_token="access token",
+        access_token="uid-token",
         access_secret="access secret",
     )
 
@@ -81,7 +81,7 @@ def test_unfollow_user():
     api = Api(
         consumer_key="consumer key",
         consumer_secret="consumer secret",
-        access_token="access token",
+        access_token="uid-token",
         access_secret="access secret",
     )
 

@@ -14,7 +14,7 @@ def test_hidden_reply():
     api = Api(
         consumer_key="consumer key",
         consumer_secret="consumer secret",
-        access_token="access token",
+        access_token="uid-token",
         access_secret="access secret",
     )
 
@@ -25,7 +25,7 @@ def test_hidden_reply():
     )
 
     hide_resp = api.hidden_reply(tweet_id=tweet_id)
-    assert hide_resp["data"]["hidden"] == True
+    assert hide_resp["data"]["hidden"]
 
 
 @responses.activate
@@ -35,7 +35,7 @@ def test_unhide_reply():
     api = Api(
         consumer_key="consumer key",
         consumer_secret="consumer secret",
-        access_token="access token",
+        access_token="uid-token",
         access_secret="access secret",
     )
 
@@ -45,4 +45,4 @@ def test_unhide_reply():
         json={"data": {"hidden": False}},
     )
     hide_resp = api.hidden_reply(tweet_id=tweet_id, hidden=False)
-    assert hide_resp["data"]["hidden"] == False
+    assert not hide_resp["data"]["hidden"]
