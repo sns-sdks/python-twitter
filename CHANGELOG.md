@@ -1,5 +1,12 @@
 # Changelog
 
+### [0.3.1](https://github.com/sns-sdks/python-twitter/v0.3.1) (2021-04-25)
+
+### Features
+
+- likes API
+- keep uid with [`auth_user_id`](https://github.com/sns-sdks/python-twitter/pull/44)
+
 ### [0.3.0](https://github.com/sns-sdks/python-twitter/v0.3.0) (2021-04-08)
 
 ### Features
