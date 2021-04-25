@@ -9,13 +9,13 @@ You can get more information for this at [docs](https://developer.twitter.com/en
 You can block a user
 
 ```python
-my_api.block_user(user_id="your id", target_user_id="target user id")
+my_api.block_user(user_id=my_api.auth_user_id, target_user_id="target user id")
 # {'data': {'blocking': True}}
 ```
 
 Unblock a user
 
 ```python
-my_api.unblock_user(user_id="your id", target_user_id="target user id")
+my_api.unblock_user(user_id=my_api.auth_user_id, target_user_id="target user id")
 # {'data': {'blocking': False}}
 ```
