@@ -47,6 +47,7 @@ class Api:
         self.proxies = proxies
         self.rate_limit = RateLimit()
         self.sleep_on_rate_limit = sleep_on_rate_limit
+        self._auth_user_id = None  # Note: use this keep uid for auth user
 
         # just use bearer token
         if bearer_token:
@@ -70,11 +71,23 @@ class Api:
                 resource_owner_secret=access_secret,
             )
             self.rate_limit = RateLimit("user")
+            self._auth_user_id = self.get_uid_from_access_token_key(
+                access_token=access_token
+            )
         # use oauth flow by hand
         elif consumer_key and consumer_secret and oauth_flow:
             pass
         else:
             raise PyTwitterError("Need oauth")
+
+    @staticmethod
+    def get_uid_from_access_token_key(access_token: str):
+        """
+        :param access_token: Access token
+        :return: uid
+        """
+        uid, _ = access_token.split("-")
+        return uid
 
     def _request(
         self, url, verb="GET", params=None, data=None, json=None, enforce_auth=True
@@ -159,6 +172,12 @@ class Api:
             resource_owner_key=data["oauth_token"],
             resource_owner_secret=data["oauth_token_secret"],
         )
+        if "user_id" in data:
+            self._auth_user_id = data["user_id"]
+        else:
+            self._auth_user_id = self.get_uid_from_access_token_key(
+                access_token=data["oauth_token"]
+            )
         return data
 
     def invalidate_access_token(self) -> dict:
