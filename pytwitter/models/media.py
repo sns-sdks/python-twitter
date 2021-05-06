@@ -42,6 +42,7 @@ class Media(BaseModel):
 
     media_key: Optional[str] = field(default=None)
     type: Optional[str] = field(default=None)
+    url: Optional[str] = field(default=None, repr=False)
     duration_ms: Optional[int] = field(default=None, repr=False)
     height: Optional[int] = field(default=None, repr=False)
     non_public_metrics: Optional[MediaNonPublicMetrics] = field(
