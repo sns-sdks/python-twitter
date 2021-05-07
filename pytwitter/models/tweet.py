@@ -66,8 +66,10 @@ class TweetEntitiesCashtag(TweetEntitiesHashtag):
 
 
 @dataclass
-class TweetEntitiesMention(TweetEntitiesHashtag):
-    ...
+class TweetEntitiesMention(BaseModel):
+    start: Optional[int] = field(default=None, repr=False)
+    end: Optional[int] = field(default=None, repr=False)
+    username: Optional[str] = field(default=None)
 
 
 @dataclass
