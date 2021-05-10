@@ -1,11 +1,19 @@
 # Changelog
 
+### [0.3.2](https://github.com/sns-sdks/python-twitter/v0.3.2) (2021-05-10)
+
+### Features
+
+- Model update for tweet and media
+
+
 ### [0.3.1](https://github.com/sns-sdks/python-twitter/v0.3.1) (2021-04-25)
 
 ### Features
 
 - likes API
 - keep uid with [`auth_user_id`](https://github.com/sns-sdks/python-twitter/pull/44)
+
 
 ### [0.3.0](https://github.com/sns-sdks/python-twitter/v0.3.0) (2021-04-08)
 
@@ -14,11 +22,13 @@
 - Blocks API
 - New Docs
 
+
 ### [0.2.0](https://github.com/sns-sdks/python-twitter/v0.2.0) (2021-03-13)
 
 ### Features
 
 - Stream API
+
 
 ### [0.1.0](https://github.com/sns-sdks/python-twitter/v0.1.0) (2021-03-07)
 
