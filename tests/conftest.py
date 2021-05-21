@@ -23,5 +23,15 @@ def api():
 
 
 @pytest.fixture
+def api_with_user():
+    return Api(
+        consumer_key="consumer key",
+        consumer_secret="consumer secret",
+        access_token="uid-token",
+        access_secret="access secret",
+    )
+
+
+@pytest.fixture
 def stream_api():
     return StreamApi(bearer_token="bearer token")
