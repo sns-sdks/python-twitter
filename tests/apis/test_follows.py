@@ -4,8 +4,6 @@
 
 import responses
 
-from pytwitter import Api
-
 
 @responses.activate
 def test_get_followings(api, helpers):
@@ -53,15 +51,8 @@ def test_get_followers(api, helpers):
 
 
 @responses.activate
-def test_follow_user():
+def test_follow_user(api_with_user):
     user_id, target_user_id = "123456", "78910"
-
-    api = Api(
-        consumer_key="consumer key",
-        consumer_secret="consumer secret",
-        access_token="uid-token",
-        access_secret="access secret",
-    )
 
     responses.add(
         responses.POST,
@@ -69,21 +60,14 @@ def test_follow_user():
         json={"data": {"following": True, "pending_follow": False}},
     )
 
-    resp = api.follow_user(user_id=user_id, target_user_id=target_user_id)
+    resp = api_with_user.follow_user(user_id=user_id, target_user_id=target_user_id)
 
     assert resp["data"]["following"]
 
 
 @responses.activate
-def test_unfollow_user():
+def test_unfollow_user(api_with_user):
     user_id, target_user_id = "123456", "78910"
-
-    api = Api(
-        consumer_key="consumer key",
-        consumer_secret="consumer secret",
-        access_token="uid-token",
-        access_secret="access secret",
-    )
 
     responses.add(
         responses.DELETE,
@@ -91,6 +75,6 @@ def test_unfollow_user():
         json={"data": {"following": False}},
     )
 
-    resp = api.unfollow_user(user_id=user_id, target_user_id=target_user_id)
+    resp = api_with_user.unfollow_user(user_id=user_id, target_user_id=target_user_id)
 
     assert not resp["data"]["following"]

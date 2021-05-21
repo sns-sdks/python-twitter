@@ -3,7 +3,6 @@
 """
 
 import responses
-from pytwitter import Api
 
 
 @responses.activate
@@ -70,15 +69,8 @@ def test_get_tweets(api, helpers):
 
 
 @responses.activate
-def test_like_and_unlike_tweet(helpers):
+def test_like_and_unlike_tweet(api_with_user, helpers):
     user_id, tweet_id = "123456", "10987654321"
-
-    api = Api(
-        consumer_key="consumer key",
-        consumer_secret="consumer secret",
-        access_token="uid-token",
-        access_secret="access secret",
-    )
 
     responses.add(
         responses.POST,
@@ -86,7 +78,7 @@ def test_like_and_unlike_tweet(helpers):
         json={"data": {"liked": True}},
     )
 
-    resp = api.like_tweet(user_id=user_id, tweet_id=tweet_id)
+    resp = api_with_user.like_tweet(user_id=user_id, tweet_id=tweet_id)
     assert resp["data"]["liked"]
 
     responses.add(
@@ -95,5 +87,5 @@ def test_like_and_unlike_tweet(helpers):
         json={"data": {"liked": False}},
     )
 
-    resp = api.unlike_tweet(user_id=user_id, tweet_id=tweet_id)
+    resp = api_with_user.unlike_tweet(user_id=user_id, tweet_id=tweet_id)
     assert not resp["data"]["liked"]

@@ -5,7 +5,6 @@
 import pytest
 import responses
 
-from pytwitter import Api
 from pytwitter.error import PyTwitterError
 
 
@@ -100,15 +99,8 @@ def test_get_user(api, helpers):
 
 
 @responses.activate
-def test_block_and_unblock_user(helpers):
+def test_block_and_unblock_user(api_with_user, helpers):
     user_id, target_user_id = "123456", "78910"
-
-    api = Api(
-        consumer_key="consumer key",
-        consumer_secret="consumer secret",
-        access_token="uid-token",
-        access_secret="access secret",
-    )
 
     responses.add(
         responses.POST,
@@ -116,7 +108,7 @@ def test_block_and_unblock_user(helpers):
         json={"data": {"blocking": True}},
     )
 
-    resp = api.block_user(user_id=user_id, target_user_id=target_user_id)
+    resp = api_with_user.block_user(user_id=user_id, target_user_id=target_user_id)
     assert resp["data"]["blocking"]
 
     responses.add(
@@ -125,7 +117,7 @@ def test_block_and_unblock_user(helpers):
         json={"data": {"blocking": False}},
     )
 
-    resp = api.unblock_user(user_id=user_id, target_user_id=target_user_id)
+    resp = api_with_user.unblock_user(user_id=user_id, target_user_id=target_user_id)
     assert not resp["data"]["blocking"]
 
 

@@ -27,7 +27,7 @@ def api_with_user():
     return Api(
         consumer_key="consumer key",
         consumer_secret="consumer secret",
-        access_token="uid-access_token",
+        access_token="uid-token",
         access_secret="access secret",
     )
 
