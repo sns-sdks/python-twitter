@@ -127,3 +127,35 @@ def test_block_and_unblock_user(helpers):
 
     resp = api.unblock_user(user_id=user_id, target_user_id=target_user_id)
     assert not resp["data"]["blocking"]
+
+
+@responses.activate
+def test_get_blocking_users(api_with_user, helpers):
+    users_data = helpers.load_json_data(
+        "testdata/apis/user/blocking_users_list_resp.json"
+    )
+
+    user_id = "2244994945"
+    responses.add(
+        responses.GET,
+        url=f"https://api.twitter.com/2/users/{user_id}/blocking",
+        json=users_data,
+    )
+
+    users_resp = api_with_user.get_blocking_users(
+        user_id=user_id,
+        expansions=["pinned_tweet_id"],
+        user_fields=["id", "created_at", "description"],
+    )
+    assert users_resp.data[0].id == "1065249714214457345"
+    assert users_resp.data[0].created_at == "2018-11-21T14:24:58.000Z"
+    assert users_resp.includes.tweets[0].id == "1389270063807598594"
+
+    users_json_resp = api_with_user.get_blocking_users(
+        user_id=user_id,
+        expansions="pinned_tweet_id",
+        user_fields="id,created_at,description",
+        return_json=True,
+    )
+    assert users_json_resp["data"][0]["id"] == "1065249714214457345"
+    assert users_json_resp["includes"]["tweets"][0]["id"] == "1389270063807598594"

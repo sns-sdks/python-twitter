@@ -890,7 +890,7 @@ class Api:
         data = self._parse_response(resp)
         return data
 
-    def get_user_blocking(
+    def get_blocking_users(
         self,
         user_id: str,
         *,
