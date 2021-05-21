@@ -890,6 +890,50 @@ class Api:
         data = self._parse_response(resp)
         return data
 
+    def get_user_blocking(
+        self,
+        user_id: str,
+        *,
+        expansions: Optional[Union[str, List, Tuple]] = None,
+        user_fields: Optional[Union[str, List, Tuple]] = None,
+        tweet_fields: Optional[Union[str, List, Tuple]] = None,
+        max_results: Optional[int] = None,
+        pagination_token: Optional[str] = None,
+        return_json: bool = False,
+    ):
+        """
+        Returns a list of users who are blocked by the specified user ID.
+
+        :param user_id: The user ID whose blocking you would like to retrieve.
+        :param expansions: Fields for the expansions.
+        :param user_fields: Fields for the user object.
+        :param tweet_fields: Fields for the tweet object.
+        :param max_results: The maximum number of results to be returned per page. Number between 1 and the 1000.
+        By default, each page will return 100 results.
+        :param pagination_token: Token for the pagination.
+        :param return_json: Type for returned data. If you set True JSON data will be returned.
+        :return:
+            - data: data for the blocking.
+            - includes: expansions data.
+            - meta: pagination details
+        """
+        args = {
+            "expansions": enf_comma_separated(name="expansions", value=expansions),
+            "user.fields": enf_comma_separated(name="user_fields", value=user_fields),
+            "tweet.fields": enf_comma_separated(
+                name="tweet_fields", value=tweet_fields
+            ),
+            "max_results": max_results,
+            "pagination_token": pagination_token,
+        }
+        return self._get(
+            url=f"{self.BASE_URL_V2}/users/{user_id}/blocking",
+            params=args,
+            cls=md.User,
+            multi=True,
+            return_json=return_json,
+        )
+
     def unblock_user(self, user_id: str, target_user_id: str) -> dict:
         """
         Allows user to unblock another user.
