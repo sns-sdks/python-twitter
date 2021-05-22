@@ -151,3 +151,35 @@ def test_get_blocking_users(api_with_user, helpers):
     )
     assert users_json_resp["data"][0]["id"] == "1065249714214457345"
     assert users_json_resp["includes"]["tweets"][0]["id"] == "1389270063807598594"
+
+
+@responses.activate
+def test_get_user_liked_tweets(api_with_user, helpers):
+    tweets_data = helpers.load_json_data(
+        "testdata/apis/user/user_liked_tweets_resp.json"
+    )
+    user_id = "1301152652357595137"
+    responses.add(
+        responses.GET,
+        url=f"https://api.twitter.com/2/users/{user_id}/liked_tweets",
+        json=tweets_data,
+    )
+
+    users_resp = api_with_user.get_user_liked_tweets(
+        user_id=user_id,
+        expansions=["pinned_tweet_id"],
+        user_fields=["id", "created_at"],
+        tweet_fields=["created_at"],
+    )
+    assert users_resp.data[0].id == "1395474683630399500"
+    assert users_resp.includes.users[0].id == "15772978"
+
+    users_json_resp = api_with_user.get_user_liked_tweets(
+        user_id=user_id,
+        expansions="pinned_tweet_id",
+        user_fields="id,created_at",
+        tweet_fields="created_at",
+        return_json=True,
+    )
+    assert users_json_resp["data"][0]["id"] == "1395474683630399500"
+    assert users_json_resp["includes"]["users"][0]["id"] == "15772978"
