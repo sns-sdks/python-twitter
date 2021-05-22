@@ -1,0 +1,41 @@
+{
+  "data": [
+    {
+      "id": "1000247636354461697",
+      "created_at": "2018-05-26T05:29:55.000Z",
+      "username": "Applech2C",
+      "name": "applech2-com"
+    },
+    {
+      "id": "277113913",
+      "created_at": "2011-04-04T18:36:24.000Z",
+      "username": "justin_ct_ho",
+      "name": "Justin Ho"
+    },
+    {
+      "pinned_tweet_id": "1383963809702846470",
+      "id": "830556510971424769",
+      "created_at": "2017-02-11T23:17:58.000Z",
+      "username": "l18cp",
+      "name": "L"
+    },
+    {
+      "id": "1245341371046584320",
+      "created_at": "2020-04-01T13:25:30.000Z",
+      "username": "Harpree00990380",
+      "name": "Harpreet Singh"
+    }
+  ],
+  "includes": {
+    "tweets": [
+      {
+        "created_at": "2021-04-19T02:00:59.000Z",
+        "id": "1383963809702846470",
+        "text": "I mass-unfollowed on April 18th because I was following way too many people. Now my twitter timeline seems way too empty. ᅠᅠᅠᅠᅠᅠᅠᅠᅠᅠᅠᅠᅠᅠᅠᅠᅠᅠ"
+      }
+    ]
+  },
+  "meta": {
+    "result_count": 4
+  }
+}

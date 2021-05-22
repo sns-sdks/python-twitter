@@ -89,3 +89,36 @@ def test_like_and_unlike_tweet(api_with_user, helpers):
 
     resp = api_with_user.unlike_tweet(user_id=user_id, tweet_id=tweet_id)
     assert not resp["data"]["liked"]
+
+
+@responses.activate
+def test_tweet_liking_users(api, helpers):
+    tweets_data = helpers.load_json_data(
+        "testdata/apis/tweet/tweet_liking_users_resp.json"
+    )
+    tweet_id = "1395447825366847488"
+    responses.add(
+        responses.GET,
+        url=f"https://api.twitter.com/2/tweets/{tweet_id}/liking_users",
+        json=tweets_data,
+    )
+
+    resp = api.get_tweet_liking_users(
+        tweet_id=tweet_id,
+        expansions=["author_id"],
+        tweet_fields=["created_at"],
+        user_fields=["created_at"],
+    )
+    assert len(resp.data) == 4
+    assert resp.data[0].id == "1000247636354461697"
+    assert resp.includes.tweets[0].id == "1383963809702846470"
+
+    resp_json = api.get_tweet_liking_users(
+        tweet_id=tweet_id,
+        expansions="author_id",
+        tweet_fields="created_at",
+        user_fields="created_at",
+        return_json=True,
+    )
+    assert resp_json["data"][0]["id"] == "1000247636354461697"
+    assert resp_json["includes"]["tweets"][0]["id"] == "1383963809702846470"
