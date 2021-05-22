@@ -1046,8 +1046,6 @@ class Api:
         self,
         tweet_id: str,
         *,
-        pagination_token: Optional[str] = None,
-        max_results: Optional[int] = None,
         user_fields: Optional[Union[str, List, Tuple]] = None,
         expansions: Optional[Union[str, List, Tuple]] = None,
         tweet_fields: Optional[Union[str, List, Tuple]] = None,
@@ -1058,8 +1056,6 @@ class Api:
 
         :param tweet_id: The tweet ID whose liking users you would like to retrieve.
         :param expansions: Fields for the expansions.
-        :param pagination_token: Token for the pagination.
-        :param max_results: The maximum number of results to be returned per page. Number between 1 and the 1000.
         By default, each page will return 100 results.
         :param tweet_fields: Fields for the tweet object.
         :param user_fields: Fields for the user object, Expansion required.
@@ -1075,8 +1071,6 @@ class Api:
             "tweet.fields": enf_comma_separated(
                 name="tweet_fields", value=tweet_fields
             ),
-            "max_results": max_results,
-            "pagination_token": pagination_token,
         }
         return self._get(
             url=f"{self.BASE_URL_V2}/tweets/{tweet_id}/liking_users",
