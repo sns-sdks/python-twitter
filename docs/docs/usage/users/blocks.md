@@ -19,3 +19,10 @@ Unblock a user
 my_api.unblock_user(user_id=my_api.auth_user_id, target_user_id="target user id")
 # {'data': {'blocking': False}}
 ```
+
+You can get users who are blocked by you.
+
+```python
+my_api.get_blocking_users(my_api.auth_user_id)
+# Response(data=[User(id='1065249714214457345', name='Spaces', username='TwitterSpaces'), User(id='783214', name='Twitter', username='Twitter')])
+```
