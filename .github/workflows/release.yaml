@@ -15,7 +15,7 @@ jobs:
     - name: Publish
       uses: softprops/action-gh-release@v1
       with:
-        body: [More see Changlog](https://github.com/sns-sdks/python-twitter/blob/master/CHANGELOG.md)
+        body: '[More see Changlog](https://github.com/sns-sdks/python-twitter/blob/master/CHANGELOG.md)'
         files: 'python-twitter-*'
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
