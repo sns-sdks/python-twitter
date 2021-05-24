@@ -12,3 +12,10 @@ jobs:
       uses: JRubics/poetry-publish@v1
       with:
         pypi_token: ${{ secrets.PYPI_TOKEN }}
+    - name: Publish
+      uses: softprops/action-gh-release@v1
+      with:
+        body: [More see Changlog](https://github.com/sns-sdks/python-twitter/blob/master/CHANGELOG.md)
+        files: 'python-twitter-*'
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
