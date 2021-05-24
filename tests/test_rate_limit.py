@@ -4,7 +4,10 @@
 import time
 from unittest.mock import patch
 
+import pytest
+
 import pytwitter
+from pytwitter.error import PyTwitterError
 import responses
 
 HEADERS = {
@@ -22,13 +25,38 @@ USER_URL = "https://api.twitter.com/2/users/2244994945"
 
 
 class TestRateLimit:
+    @staticmethod
+    def generate_headers(limit, remaining, reset):
+        return {
+            "x-rate-limit-limit": f"{limit}",
+            "x-rate-limit-remaining": f"{remaining}",
+            "x-rate-limit-reset": f"{reset}",
+        }
+
     def test_setter(self):
         rate_limit = pytwitter.RateLimit()
+        user_rate_limit = pytwitter.RateLimit(auth_type="user")
+
+        with pytest.raises(PyTwitterError):
+            pytwitter.RateLimit(auth_type="others")
 
         d = rate_limit.set_limit(url=USER_URL, headers=HEADERS)
 
         assert d.limit == 300
         assert d.remaining == 299
+
+        following_url = "https://api.twitter.com/2/users/123456/following"
+        d = user_rate_limit.get_limit(following_url, method="POST")
+        assert d.limit == 15
+
+        d = rate_limit.get_limit(following_url, method="POST")
+        assert d.limit == 0
+
+        d = rate_limit.set_limit(
+            url="https://api.twitter.com/2/users/123456/following",
+            headers=self.generate_headers(15, 10, 1612522029),
+        )
+        assert d.remaining == 10
 
     def test_getter(self):
         app_rate_limit = pytwitter.RateLimit()
@@ -52,5 +80,5 @@ class TestRateLimit:
         users_data = helpers.load_json_data("testdata/apis/user/user_resp.json")
         responses.add(responses.GET, url=url, json=users_data)
 
-        api.rate_limit.set_limit(url=url, headers=LIMIT_HEADERS)
+        api.rate_limit.set_limit(url=url, headers=LIMIT_HEADERS, method=responses.GET)
         api.get_user(user_id=user_id)

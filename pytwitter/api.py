@@ -111,7 +111,7 @@ class Api:
             auth = self._auth
 
             if url and self.sleep_on_rate_limit:
-                limit = self.rate_limit.get_limit(url=url)
+                limit = self.rate_limit.get_limit(url=url, method=verb)
                 if limit.remaining == 0:
                     s_time = max((limit.reset - time.time()), 0) + 10.0
                     logger.debug(
@@ -131,7 +131,7 @@ class Api:
         )
 
         if url and self.rate_limit:
-            self.rate_limit.set_limit(url=url, headers=resp.headers)
+            self.rate_limit.set_limit(url=url, headers=resp.headers, method=verb)
 
         return resp
 

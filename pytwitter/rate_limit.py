@@ -1,12 +1,17 @@
 """
     Twitter API Rate Limit
 """
+import logging
 import re
+from collections import defaultdict
 from dataclasses import dataclass
 from typing import Optional, Pattern
 from urllib.parse import urlparse
 
+from pytwitter.error import PyTwitterError
 from pytwitter.utils.convertors import conv_type
+
+logger = logging.getLogger(__name__)
 
 
 @dataclass
@@ -20,89 +25,156 @@ class RateLimitData:
 class Endpoint:
     resource: str
     regex: Optional[Pattern[str]] = None
-    app_limit: int = 15
-    user_limit: int = 15
 
-    def get_limit(self, auth_type):
-        if auth_type == "user":
-            return self.user_limit
-        return self.app_limit
+    # For different auth type and endpoint
+    LIMIT_APP_GET: int = 15
+    LIMIT_USER_GET: int = 15
+    LIMIT_USER_POST: int = 0
+    LIMIT_USER_PUT: int = 0
+    LIMIT_USER_DELETE: int = 0
+
+    def get_limit(self, auth_type, method="GET"):
+        return getattr(self, f"LIMIT_{auth_type.upper()}_{method}", 0)
 
 
-USER_ID_SHOW = Endpoint(
+USER_BY_ID = Endpoint(
     resource="/users/:id",
     regex=re.compile(r"/users/\d+"),
-    app_limit=300,
-    user_limit=900,
-)
-USER_USERNAME_SHOW = Endpoint(
-    resource="/users/by/:username",
-    regex=re.compile(r"/users/by/\w+"),
-    app_limit=300,
-    user_limit=900,
-)
-USER_ID_FOLLOWING = Endpoint(
-    resource="/users/:id/following", regex=re.compile(r"/users/\d+/following")
-)
-USER_ID_FOLLOWER = Endpoint(
-    resource="/users/:id/followers", regex=re.compile(r"/users/\d+/followers")
-)
-USER_ID_TIMELINE = Endpoint(
-    resource="/users/:id/tweets",
-    regex=re.compile(r"/users/\d+/tweets"),
-    app_limit=1500,
-    user_limit=900,
-)
-USER_ID_MENTIONS = Endpoint(
-    resource="/users/:id/mentions",
-    regex=re.compile(r"/users/\d+/mentions"),
-    app_limit=450,
-    user_limit=180,
-)
-USER_ID_UNFOLLOW = Endpoint(
-    resource="/users/:id/following",
-    regex=re.compile(r"/users/:\d+/following/\d+"),
-    app_limit=0,
-    user_limit=50,
-)
-USER_ID_BLOCK = Endpoint(
-    resource="/users/:id/blocking",
-    regex=re.compile(r"/users/:\d+/blocking"),
-    app_limit=0,
-    user_limit=50,
-)
-USER_ID_UNBLOCK = Endpoint(
-    resource="/users/:id/blocking",
-    regex=re.compile(r"/users/:\d+/blocking/\d+"),
-    app_limit=0,
-    user_limit=50,
+    LIMIT_APP_GET=300,
+    LIMIT_USER_GET=900,
 )
 
-TWEETS_ID_SHOW = Endpoint(
+USERS_BY_ID = Endpoint(
+    resource="/users",
+    regex=re.compile(r"/users"),
+    LIMIT_APP_GET=300,
+    LIMIT_USER_GET=900,
+)
+USER_BY_USERNAME = Endpoint(
+    resource="/users/by/:username",
+    regex=re.compile(r"/users/by/\w+"),
+    LIMIT_APP_GET=300,
+    LIMIT_USER_GET=900,
+)
+USERS_BY_USERNAME = Endpoint(
+    resource="/users/by",
+    regex=re.compile(r"/users/by"),
+    LIMIT_APP_GET=300,
+    LIMIT_USER_GET=900,
+)
+USER_FOLLOWING = Endpoint(
+    resource="/users/:id/following",
+    regex=re.compile(r"/users/\d+/following"),
+    LIMIT_APP_GET=15,
+    LIMIT_USER_GET=15,
+    LIMIT_USER_POST=15,
+)
+USER_REMOVE_FOLLOWING = Endpoint(
+    resource="/users/:id/following/:target_user_id",
+    regex=re.compile(r"/users/:\d+/following/\d+"),
+    LIMIT_USER_DELETE=50,
+)
+USER_FOLLOWER = Endpoint(
+    resource="/users/:id/followers",
+    regex=re.compile(r"/users/\d+/followers"),
+    LIMIT_APP_GET=15,
+    LIMIT_USER_GET=15,
+)
+USER_BLOCKING = Endpoint(
+    resource="/users/:id/blocking",
+    regex=re.compile(r"/users/:\d+/blocking"),
+    LIMIT_USER_GET=15,
+    LIMIT_USER_POST=50,
+)
+USER_REMOVE_BLOCKING = Endpoint(
+    resource="/users/:id/blocking/:target_user_id",
+    regex=re.compile(r"/users/:\d+/blocking/\d+"),
+    LIMIT_USER_DELETE=50,
+)
+TWEET_BY_ID = Endpoint(
     resource="/tweets/:id",
     regex=re.compile(r"/tweets/\d+"),
-    app_limit=300,
-    user_limit=900,
+    LIMIT_APP_GET=300,
+    LIMIT_USER_GET=900,
 )
-TWEETS_ID_HIDDEN = Endpoint(
+TWEETS_BY_ID = Endpoint(
+    resource="/tweets",
+    regex=re.compile(r"/tweets"),
+    LIMIT_APP_GET=300,
+    LIMIT_USER_GET=900,
+)
+TWEET_SEARCH_RECENT = Endpoint(
+    resource="/tweets/search/recent",
+    regex=re.compile(r"/tweets/search/recent"),
+    LIMIT_APP_GET=450,
+    LIMIT_USER_GET=180,
+)
+TWEET_SEARCH_ALL = Endpoint(
+    resource="/tweets/search/all",
+    regex=re.compile(r"/tweets/search/all"),
+    LIMIT_APP_GET=300,
+)
+USER_TIMELINE = Endpoint(
+    resource="/users/:id/tweets/",
+    regex=re.compile(r"/users/\d+/tweets"),
+    LIMIT_APP_GET=1500,
+    LIMIT_USER_GET=900,
+)
+USER_MENTIONS = Endpoint(
+    resource="/users/:id/mentions",
+    regex=re.compile(r"/users/\d+/mentions"),
+    LIMIT_APP_GET=450,
+    LIMIT_USER_GET=180,
+)
+TWEET_LIKING_USER = Endpoint(
+    resource="/tweets/:id/liking_users",
+    regex=re.compile(r"/tweets/\d+/liking_users"),
+    LIMIT_APP_GET=75,
+    LIMIT_USER_GET=75,
+)
+USER_LIKED_TWEET = Endpoint(
+    resource="/users/:id/liked_tweets",
+    regex=re.compile(r"/users/\d+/liked_tweets"),
+    LIMIT_APP_GET=75,
+    LIMIT_USER_GET=75,
+)
+USER_TWEET_LIKE = Endpoint(
+    resource="/users/:id/likes",
+    regex=re.compile(r"/users/\d+/likes"),
+    LIMIT_USER_POST=50,
+)
+USER_TWEET_LIKE_REMOVE = Endpoint(
+    resource="/users/:id/likes/:tweet_id",
+    regex=re.compile(r"/users/\d+/likes/\d+"),
+    LIMIT_USER_POST=50,
+)
+TWEET_HIDDEN = Endpoint(
     resource="/tweets/:id/hidden",
     regex=re.compile(r"/tweets/\d+/hidden"),
-    app_limit=0,
-    user_limit=50,
+    LIMIT_USER_PUT=50,
 )
 
 PATH_VAR_ENDPOINTS = [
-    USER_ID_SHOW,
-    USER_USERNAME_SHOW,
-    USER_ID_FOLLOWING,
-    USER_ID_FOLLOWER,
-    USER_ID_TIMELINE,
-    USER_ID_MENTIONS,
-    USER_ID_UNFOLLOW,
-    USER_ID_BLOCK,
-    USER_ID_UNBLOCK,
-    TWEETS_ID_SHOW,
-    TWEETS_ID_HIDDEN,
+    USER_BY_ID,
+    USERS_BY_ID,
+    USER_BY_USERNAME,
+    USERS_BY_USERNAME,
+    USER_FOLLOWING,
+    USER_REMOVE_FOLLOWING,
+    USER_FOLLOWER,
+    USER_BLOCKING,
+    USER_REMOVE_BLOCKING,
+    TWEET_BY_ID,
+    TWEETS_BY_ID,
+    TWEET_SEARCH_RECENT,
+    TWEET_SEARCH_ALL,
+    USER_TIMELINE,
+    USER_MENTIONS,
+    TWEET_LIKING_USER,
+    USER_LIKED_TWEET,
+    USER_TWEET_LIKE,
+    USER_TWEET_LIKE_REMOVE,
+    TWEET_HIDDEN,
 ]
 
 
@@ -123,8 +195,10 @@ class RateLimit:
         ```
         :param auth_type: app auth or user auth
         """
+        if auth_type.lower() not in ("user", "app"):
+            raise PyTwitterError(f"Not support for auth type {auth_type}")
         self.auth_type = auth_type
-        self.mapping = {}
+        self.mapping = defaultdict(dict)
 
     @staticmethod
     def url_to_endpoint(url) -> Endpoint:
@@ -134,7 +208,7 @@ class RateLimit:
                 return endpoint
         return Endpoint(resource=resource)
 
-    def set_limit(self, url, headers) -> RateLimitData:
+    def set_limit(self, url, headers, method="GET") -> RateLimitData:
         """
         Twitter API rate limit data stored at requests headers. Like:
 
@@ -148,6 +222,7 @@ class RateLimit:
 
         :param url: api query url.
         :param headers: api response headers.
+        :param method: request method
         :return:
         """
         endpoint = self.url_to_endpoint(url=url)
@@ -158,14 +233,13 @@ class RateLimit:
             ),
             "reset": conv_type("reset", int, headers.get("x-rate-limit-reset", 0)),
         }
-        self.mapping[endpoint.resource] = RateLimitData(**data)
+        self.mapping[endpoint.resource][method.upper()] = RateLimitData(**data)
 
-        return self.get_limit(url=url)
+        return self.get_limit(url=url, method=method)
 
-    def get_limit(self, url) -> RateLimitData:
+    def get_limit(self, url, method="GET") -> RateLimitData:
         endpoint = self.url_to_endpoint(url=url)
-        if endpoint.resource not in self.mapping:
-            limit = endpoint.get_limit(auth_type=self.auth_type)
+        if method not in self.mapping.get(endpoint.resource, {}):
+            limit = endpoint.get_limit(auth_type=self.auth_type, method=method)
             return RateLimitData(limit=limit, remaining=limit)
-
-        return self.mapping[endpoint.resource]
+        return self.mapping[endpoint.resource][method.upper()]
