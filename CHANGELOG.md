@@ -5,11 +5,11 @@
 ### Features
 
 - API for get blocking users.  [#52](https://github.com/sns-sdks/python-twitter/issues/52)
-- API for user liked tweets and tweet liking users.  #53
+- API for user liked tweets and tweet liking users.  [#53](https://github.com/sns-sdks/python-twitter/issues/53)
 
 ### Broken Changes
 
-- Refactor Ratelimit module.  #54
+- Refactor Ratelimit module.  [#54](https://github.com/sns-sdks/python-twitter/issues/54)
 
 
 ### [0.3.2](https://github.com/sns-sdks/python-twitter/v0.3.2) (2021-05-10)

@@ -19,3 +19,19 @@ Unlike a tweet
 my_api.unlike_tweet(user_id=my_api.auth_user_id, tweet_id="target tweet id")
 # {'data': {'liked': False}}
 ```
+
+## Liking users
+
+You can get users who are liking the tweet
+
+```python
+my_api.get_tweet_liking_users(tweet_id="1395803619614679041")
+```
+
+## liked tweets
+
+You can get tweets which are liking by you.
+
+```python
+my_api.get_user_liked_tweets(user_id=my_api.auth_user_id)
+```
