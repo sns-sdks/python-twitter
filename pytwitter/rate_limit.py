@@ -3,10 +3,12 @@
 """
 import logging
 import re
+from collections import defaultdict
 from dataclasses import dataclass
 from typing import Optional, Pattern
 from urllib.parse import urlparse
 
+from pytwitter.error import PyTwitterError
 from pytwitter.utils.convertors import conv_type
 
 logger = logging.getLogger(__name__)
@@ -32,9 +34,6 @@ class Endpoint:
     LIMIT_USER_DELETE: int = 0
 
     def get_limit(self, auth_type, method="GET"):
-        if auth_type.lower() not in ("user", "app"):
-            logger.warning(f"Not support for auth type {auth_type}")
-            return 0
         return getattr(self, f"LIMIT_{auth_type.upper()}_{method}", 0)
 
 
@@ -196,8 +195,10 @@ class RateLimit:
         ```
         :param auth_type: app auth or user auth
         """
+        if auth_type.lower() not in ("user", "app"):
+            raise PyTwitterError(f"Not support for auth type {auth_type}")
         self.auth_type = auth_type
-        self.mapping = {}
+        self.mapping = defaultdict(dict)
 
     @staticmethod
     def url_to_endpoint(url) -> Endpoint:
@@ -232,14 +233,13 @@ class RateLimit:
             ),
             "reset": conv_type("reset", int, headers.get("x-rate-limit-reset", 0)),
         }
-        self.mapping[endpoint.resource] = RateLimitData(**data)
+        self.mapping[endpoint.resource][method.upper()] = RateLimitData(**data)
 
         return self.get_limit(url=url, method=method)
 
     def get_limit(self, url, method="GET") -> RateLimitData:
         endpoint = self.url_to_endpoint(url=url)
-        if endpoint.resource not in self.mapping:
+        if method not in self.mapping.get(endpoint.resource, {}):
             limit = endpoint.get_limit(auth_type=self.auth_type, method=method)
             return RateLimitData(limit=limit, remaining=limit)
-
-        return self.mapping[endpoint.resource]
+        return self.mapping[endpoint.resource][method.upper()]
