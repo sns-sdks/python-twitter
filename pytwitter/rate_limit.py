@@ -71,7 +71,7 @@ USER_FOLLOWING = Endpoint(
 )
 USER_REMOVE_FOLLOWING = Endpoint(
     resource="/users/:id/following/:target_user_id",
-    regex=re.compile(r"/users/:\d+/following/\d+"),
+    regex=re.compile(r"/users/\d+/following/\d+"),
     LIMIT_USER_DELETE=50,
 )
 USER_FOLLOWER = Endpoint(
@@ -82,13 +82,13 @@ USER_FOLLOWER = Endpoint(
 )
 USER_BLOCKING = Endpoint(
     resource="/users/:id/blocking",
-    regex=re.compile(r"/users/:\d+/blocking"),
+    regex=re.compile(r"/users/\d+/blocking"),
     LIMIT_USER_GET=15,
     LIMIT_USER_POST=50,
 )
 USER_REMOVE_BLOCKING = Endpoint(
     resource="/users/:id/blocking/:target_user_id",
-    regex=re.compile(r"/users/:\d+/blocking/\d+"),
+    regex=re.compile(r"/users/\d+/blocking/\d+"),
     LIMIT_USER_DELETE=50,
 )
 TWEET_BY_ID = Endpoint(
