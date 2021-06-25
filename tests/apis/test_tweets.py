@@ -1,8 +1,9 @@
 """
     tests for tweet api
 """
-
+import pytest
 import responses
+from pytwitter import PyTwitterError
 
 
 @responses.activate
@@ -122,3 +123,45 @@ def test_tweet_liking_users(api, helpers):
     )
     assert resp_json["data"][0]["id"] == "1000247636354461697"
     assert resp_json["includes"]["tweets"][0]["id"] == "1383963809702846470"
+
+
+@responses.activate
+def test_get_tweets_count(api, helpers):
+    recent_counts_data = helpers.load_json_data(
+        "testdata/apis/tweet/tweets_counts_recent_resp.json"
+    )
+    all_counts_data = helpers.load_json_data(
+        "testdata/apis/tweet/tweets_counts_all_resp.json"
+    )
+
+    with pytest.raises(PyTwitterError):
+        api.get_tweets_counts(query="A", search_type="B")
+
+    responses.add(
+        responses.GET,
+        url="https://api.twitter.com/2/tweets/counts/recent",
+        json=recent_counts_data,
+    )
+    resp = api.get_tweets_counts(
+        query="lakers",
+    )
+    assert len(resp.data) == 169
+    assert resp.data[0].tweet_count == 345
+    assert resp.meta.total_tweet_count == 744364
+
+    responses.add(
+        responses.GET,
+        url="https://api.twitter.com/2/tweets/counts/all",
+        json=all_counts_data,
+    )
+    resp_json = api.get_tweets_counts(
+        query="lakers",
+        search_type="all",
+        granularity="day",
+        start_time="2020-01-01T00%3A00%3A00Z",
+        end_time="2020-01-15T00%3A00%3A00Z",
+        return_json=True,
+    )
+
+    assert len(resp_json["data"]) == 14
+    assert resp_json["data"][0]["tweet_count"] == 18392

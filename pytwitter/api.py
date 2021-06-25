@@ -1079,3 +1079,62 @@ class Api:
             multi=True,
             return_json=return_json,
         )
+
+    def get_tweets_counts(
+        self,
+        query: str,
+        search_type: str = "recent",
+        *,
+        granularity: Optional[str] = None,
+        start_time: Optional[str] = None,
+        end_time: Optional[str] = None,
+        since_id: Optional[str] = None,
+        until_id: Optional[str] = None,
+        next_token: Optional[str] = None,
+        return_json: bool = False,
+    ):
+        """
+        Get count of Tweets that match a search query.
+
+        :param query: One rule for matching Tweets.
+            - Standard Project can use the basic set of operators and can make queries up to 512 characters long
+            - Academic Research Project can use all available operators and can make queries up to 1,024 characters long
+        :param search_type: Accepted values:
+            - recent: For all apps, Only can get tweets from the last seven days.
+            - all: only for Academic Research product track. Since the first Tweet was created March 26, 2006.
+        :param granularity: The timeseries count data to be grouped by. Can be day, hour or minute
+        :param start_time: The oldest UTC timestamp from which the Tweets will be provided.
+        :param end_time: The newest, most recent UTC timestamp to which the Tweets will be provided.
+        :param since_id: Returns results with a Tweet ID greater than (for example, more recent than) the specified ID.
+        :param until_id: Returns results with a Tweet ID less than (that is, older than) the specified ID.
+        :param next_token: This parameter is used to get the next 'page' of results.
+        :param return_json: Type for returned data. If you set True JSON data will be returned.
+        :return:
+            - data: Data for the counts.
+            - meta: Meta data for request.
+        """
+
+        args = {
+            "query": query,
+            "granularity": granularity,
+            "start_time": start_time,
+            "end_time": end_time,
+            "since_id": since_id,
+            "until_id": until_id,
+            "next_token": next_token,
+        }
+
+        if search_type == "recent":
+            url = f"{self.BASE_URL_V2}/tweets/counts/recent"
+        elif search_type == "all":
+            url = f"{self.BASE_URL_V2}/tweets/counts/all"
+        else:
+            raise PyTwitterError(f"Not support type for {search_type}")
+
+        return self._get(
+            url=url,
+            params=args,
+            cls=md.TweetCount,
+            multi=True,
+            return_json=return_json,
+        )

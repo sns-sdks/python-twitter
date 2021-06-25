@@ -154,6 +154,12 @@ TWEET_HIDDEN = Endpoint(
     LIMIT_USER_PUT=50,
 )
 
+TWEET_COUNTS = Endpoint(
+    resource="/tweets/counts",
+    regex=re.compile(r"/tweets/counts/\w+"),
+    LIMIT_APP_GET=300,
+)
+
 PATH_VAR_ENDPOINTS = [
     USER_BY_ID,
     USERS_BY_ID,
@@ -175,6 +181,7 @@ PATH_VAR_ENDPOINTS = [
     USER_TWEET_LIKE,
     USER_TWEET_LIKE_REMOVE,
     TWEET_HIDDEN,
+    TWEET_COUNTS,
 ]
 
 
