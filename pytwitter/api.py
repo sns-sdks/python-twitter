@@ -1102,7 +1102,7 @@ class Api:
         :param search_type: Accepted values:
             - recent: For all apps, Only can get tweets from the last seven days.
             - all: only for Academic Research product track. Since the first Tweet was created March 26, 2006.
-        :param granularity: The timeseries count data to be grouped by. May hour,day
+        :param granularity: The timeseries count data to be grouped by. Can be day, hour or minute
         :param start_time: The oldest UTC timestamp from which the Tweets will be provided.
         :param end_time: The newest, most recent UTC timestamp to which the Tweets will be provided.
         :param since_id: Returns results with a Tweet ID greater than (for example, more recent than) the specified ID.

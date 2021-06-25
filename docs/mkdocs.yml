@@ -41,6 +41,7 @@ nav:
           - Tweet Lookup: usage/tweets/tweet-lookup.md
           - Timelines: usage/tweets/timelines.md
           - Search Tweets: usage/tweets/search_tweets.md
+          - Tweet counts: usage/tweets/tweets_counts.md
           - Hide replies: usage/tweets/hide_reply.md
           - Likes: usage/tweets/likes.md
       - Steaming: usage/streaming.md
