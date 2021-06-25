@@ -51,6 +51,7 @@ class Meta(BaseModel):
     newest_id: Optional[str] = field(default=None, repr=False)
     sent: Optional[str] = field(default=None, repr=False)
     summary: Optional[MetaSummary] = field(default=None, repr=False)
+    total_tweet_count: Optional[int] = field(default=None, repr=False)
 
 
 @dataclass
@@ -64,6 +65,18 @@ class Includes(BaseModel):
     polls: Optional[List[Poll]] = field(default=None, compare=False)
     tweets: Optional[List[Tweet]] = field(default=None, compare=False)
     users: Optional[List[User]] = field(default=None, compare=False)
+
+
+@dataclass
+class TweetCount(BaseModel):
+    """
+    A class representing the counts for tweets match a search query.
+    Refer: https://developer.twitter.com/en/docs/twitter-api/tweets/counts/api-reference/get-tweets-counts-recent
+    """
+
+    start: Optional[str] = field(default=None)
+    end: Optional[str] = field(default=None)
+    tweet_count: Optional[int] = field(default=None)
 
 
 @dataclass
@@ -85,6 +98,7 @@ class Response:
             List[Poll],
             List[Place],
             List[StreamRule],
+            List[TweetCount],
         ]
     ]
     includes: Optional[Includes] = field(default=None, repr=False)
