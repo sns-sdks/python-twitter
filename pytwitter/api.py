@@ -1138,3 +1138,36 @@ class Api:
             multi=True,
             return_json=return_json,
         )
+
+    def mute_user(self, user_id: str, target_user_id: str) -> dict:
+        """
+        Allows user to mute the target user.
+
+        :param user_id: The user ID who you would like to initiate the mute on behalf of.
+            It must match your own user ID or that of an authenticating user
+        :param target_user_id: The user ID of the user that you would like the id to mute.
+        :return: Mute status data
+        """
+        resp = self._request(
+            url=f"{self.BASE_URL_V2}/users/{user_id}/muting",
+            verb="POST",
+            json={"target_user_id": target_user_id},
+        )
+        data = self._parse_response(resp)
+        return data
+
+    def unmute_user(self, user_id: str, target_user_id: str) -> dict:
+        """
+        Allows user to unmute the target user.
+
+        :param user_id: The user ID who you would like to initiate an unmute on behalf of.
+            It must match your own user ID or that of an authenticating user
+        :param target_user_id: The user ID of the user that you would like to unmute.
+        :return: Unmute status data
+        """
+        resp = self._request(
+            url=f"{self.BASE_URL_V2}/users/{user_id}/muting/{target_user_id}",
+            verb="DELETE",
+        )
+        data = self._parse_response(resp)
+        return data
