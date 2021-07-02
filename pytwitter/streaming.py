@@ -164,6 +164,7 @@ class StreamApi:
     def sample_stream(
         self,
         *,
+        backfill_minutes: Optional[int] = None,
         tweet_fields: Optional[Union[str, List, Tuple]] = None,
         expansions: Optional[Union[str, List, Tuple]] = None,
         user_fields: Optional[Union[str, List, Tuple]] = None,
@@ -175,6 +176,8 @@ class StreamApi:
         """
         Streams about 1% of all Tweets in real-time.
 
+        :param backfill_minutes: Minutes for disconnection with reconnected stream.
+            Accepted value is 1 to 5.
         :param tweet_fields: Fields for the tweet object.
         :param expansions: Fields for the expansions.
         :param user_fields: Fields for the user object.
@@ -201,6 +204,8 @@ class StreamApi:
             ),
             "poll.fields": enf_comma_separated(name="poll_fields", value=poll_fields),
         }
+        if backfill_minutes is not None:
+            args["backfill_minutes"] = backfill_minutes
 
         # connect the stream
         self._connect(
@@ -212,6 +217,7 @@ class StreamApi:
     def search_stream(
         self,
         *,
+        backfill_minutes: Optional[int] = None,
         tweet_fields: Optional[Union[str, List, Tuple]] = None,
         expansions: Optional[Union[str, List, Tuple]] = None,
         user_fields: Optional[Union[str, List, Tuple]] = None,
@@ -224,6 +230,8 @@ class StreamApi:
         """
         Streams Tweets in real-time based on a specific set of filter rules.
 
+        :param backfill_minutes: Minutes for disconnection with reconnected stream.
+            Accepted value is 1 to 5.
         :param tweet_fields: Fields for the tweet object.
         :param expansions: Fields for the expansions.
         :param user_fields: Fields for the user object.
@@ -250,6 +258,8 @@ class StreamApi:
             ),
             "poll.fields": enf_comma_separated(name="poll_fields", value=poll_fields),
         }
+        if backfill_minutes is not None:
+            args["backfill_minutes"] = backfill_minutes
 
         # connect the stream
         self._connect(

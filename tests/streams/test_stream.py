@@ -82,7 +82,7 @@ def test_stream_connect():
 
     stream_api = MyStreamApi(bearer_token="bearer token")
 
-    stream_api.sample_stream()
+    stream_api.sample_stream(backfill_minutes=1)
 
     assert stream_api.running == False
     assert stream_api.tweet_max_count == 10
@@ -102,4 +102,4 @@ def test_stream_error(patched_time_sleep):
     )
 
     api = StreamApi(bearer_token="bearer token", max_retries=10)
-    api.search_stream()
+    api.search_stream(backfill_minutes=1)
