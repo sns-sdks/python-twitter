@@ -99,7 +99,7 @@ def test_get_user(api, helpers):
 
 
 @responses.activate
-def test_block_and_unblock_user(api_with_user, helpers):
+def test_block_and_unblock_user(api_with_user):
     user_id, target_user_id = "123456", "78910"
 
     responses.add(
@@ -183,3 +183,26 @@ def test_get_user_liked_tweets(api_with_user, helpers):
     )
     assert users_json_resp["data"][0]["id"] == "1395474683630399500"
     assert users_json_resp["includes"]["users"][0]["id"] == "15772978"
+
+
+@responses.activate
+def test_mute_and_unmute_user(api_with_user):
+    user_id, target_user_id = "123456", "78910"
+
+    responses.add(
+        responses.POST,
+        url=f"https://api.twitter.com/2/users/{user_id}/muting",
+        json={"data": {"muting": True}},
+    )
+
+    resp = api_with_user.mute_user(user_id=user_id, target_user_id=target_user_id)
+    assert resp["data"]["muting"]
+
+    responses.add(
+        responses.DELETE,
+        url=f"https://api.twitter.com/2/users/{user_id}/muting/{target_user_id}",
+        json={"data": {"muting": False}},
+    )
+
+    resp = api_with_user.unmute_user(user_id=user_id, target_user_id=target_user_id)
+    assert not resp["data"]["muting"]
