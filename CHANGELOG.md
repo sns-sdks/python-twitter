@@ -1,5 +1,14 @@
 # Changelog
 
+### [0.3.4](https://github.com/sns-sdks/python-twitter/v0.3.4) (2021-07-02)
+
+### Featuers
+
+- API for tweets counts [#58](https://github.com/sns-sdks/python-twitter/issues/58)
+- New parameters for stream API [#60](https://github.com/sns-sdks/python-twitter/issues/60)
+- API for mutes user [#61](https://github.com/sns-sdks/python-twitter/issues/61)
+
+
 ### [0.3.3](https://github.com/sns-sdks/python-twitter/v0.3.3) (2021-05-24)
 
 ### Features
