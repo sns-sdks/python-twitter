@@ -87,6 +87,7 @@ Now cover features:
 - User lookup
 - Follows
 - Blocks
+- Mutes
 - Tweet lookup
 - Search Tweets
 - Tweet counts

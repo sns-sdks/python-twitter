@@ -91,6 +91,16 @@ USER_REMOVE_BLOCKING = Endpoint(
     regex=re.compile(r"/users/\d+/blocking/\d+"),
     LIMIT_USER_DELETE=50,
 )
+USER_MUTING = Endpoint(
+    resource="/users/:id/muting",
+    regex=re.compile(r"/users/\d+/muting"),
+    LIMIT_USER_POST=50,
+)
+USER_REMOVE_MUTING = Endpoint(
+    resource="/users/:id/muting/:target_user_id",
+    regex=re.compile(r"/users/\d+/muting/\d+"),
+    LIMIT_USER_POST=50,
+)
 TWEET_BY_ID = Endpoint(
     resource="/tweets/:id",
     regex=re.compile(r"/tweets/\d+"),
@@ -170,6 +180,8 @@ PATH_VAR_ENDPOINTS = [
     USER_FOLLOWER,
     USER_BLOCKING,
     USER_REMOVE_BLOCKING,
+    USER_MUTING,
+    USER_REMOVE_MUTING,
     TWEET_BY_ID,
     TWEETS_BY_ID,
     TWEET_SEARCH_RECENT,
