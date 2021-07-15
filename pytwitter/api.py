@@ -1208,3 +1208,36 @@ class Api:
             multi=True,
             return_json=return_json,
         )
+
+    def retweet_tweet(self, user_id: str, tweet_id: str) -> dict:
+        """
+        Allows user to retweet a tweet.
+        :param user_id: The user ID who you are retweeting a Tweet on behalf of.
+                It must match your user ID which authorize with the access token.
+        :param tweet_id: The ID of the Tweet that you would retweet.
+        :return: retweet status data
+        """
+
+        resp = self._request(
+            url=f"{self.BASE_URL_V2}/users/{user_id}/retweets",
+            verb="POST",
+            json={"tweet_id": tweet_id},
+        )
+        data = self._parse_response(resp=resp)
+        return data
+
+    def remove_retweet_tweet(self, user_id: str, tweet_id: str) -> dict:
+        """
+        Allows a user to remove the Retweet of a Tweet.
+
+        :param user_id: The user ID who you are removing a Retweet of a Tweet on behalf of.
+                It must match your user ID which authorize with the access token.
+        :param tweet_id: The ID of the Tweet that you would remove retweet status.
+        :return: retweet status data
+        """
+
+        resp = self._request(
+            url=f"{self.BASE_URL_V2}/users/{user_id}/retweets/{tweet_id}", verb="DELETE"
+        )
+        data = self._parse_response(resp=resp)
+        return data
