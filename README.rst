@@ -95,6 +95,7 @@ Now cover features:
 - Filtered stream
 - Sampled stream
 - Likes
+- Retweets
 - Hide replies
 
 -----------

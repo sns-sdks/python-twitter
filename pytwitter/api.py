@@ -1171,3 +1171,73 @@ class Api:
         )
         data = self._parse_response(resp)
         return data
+
+    def get_tweet_retweeted_users(
+        self,
+        tweet_id: str,
+        *,
+        user_fields: Optional[Union[str, List, Tuple]] = None,
+        expansions: Optional[Union[str, List, Tuple]] = None,
+        tweet_fields: Optional[Union[str, List, Tuple]] = None,
+        return_json: bool = False,
+    ):
+        """
+        Get information about who has Retweeted a Tweet.
+
+        :param tweet_id: The tweet ID whose retweeted users you would like to retrieve.
+        :param user_fields: Fields for the user object.
+        :param expansions: Fields for the expansions now only `pinned_tweet_id`.
+        :param tweet_fields: Fields for the tweet object, Expansions required.
+        :param return_json: Type for returned data. If you set True JSON data will be returned.
+        :return:
+            - data: data for the users.
+            - includes: expansions data.
+            - meta: pagination details
+        """
+        args = {
+            "user.fields": enf_comma_separated(name="user_fields", value=user_fields),
+            "expansions": enf_comma_separated(name="expansions", value=expansions),
+            "tweet.fields": enf_comma_separated(
+                name="tweet_fields", value=tweet_fields
+            ),
+        }
+        return self._get(
+            url=f"{self.BASE_URL_V2}/tweets/{tweet_id}/retweeted_by",
+            params=args,
+            cls=md.User,
+            multi=True,
+            return_json=return_json,
+        )
+
+    def retweet_tweet(self, user_id: str, tweet_id: str) -> dict:
+        """
+        Allows user to retweet a tweet.
+        :param user_id: The user ID who you are retweeting a Tweet on behalf of.
+                It must match your user ID which authorize with the access token.
+        :param tweet_id: The ID of the Tweet that you would retweet.
+        :return: retweet status data
+        """
+
+        resp = self._request(
+            url=f"{self.BASE_URL_V2}/users/{user_id}/retweets",
+            verb="POST",
+            json={"tweet_id": tweet_id},
+        )
+        data = self._parse_response(resp=resp)
+        return data
+
+    def remove_retweet_tweet(self, user_id: str, tweet_id: str) -> dict:
+        """
+        Allows a user to remove the Retweet of a Tweet.
+
+        :param user_id: The user ID who you are removing a Retweet of a Tweet on behalf of.
+                It must match your user ID which authorize with the access token.
+        :param tweet_id: The ID of the Tweet that you would remove retweet status.
+        :return: retweet status data
+        """
+
+        resp = self._request(
+            url=f"{self.BASE_URL_V2}/users/{user_id}/retweets/{tweet_id}", verb="DELETE"
+        )
+        data = self._parse_response(resp=resp)
+        return data

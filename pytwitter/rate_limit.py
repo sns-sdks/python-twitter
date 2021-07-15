@@ -142,6 +142,12 @@ TWEET_LIKING_USER = Endpoint(
     LIMIT_APP_GET=75,
     LIMIT_USER_GET=75,
 )
+TWEET_RETWEET_USER = Endpoint(
+    resource="/tweets/:id/retweeted_by",
+    regex=re.compile(r"/tweets/\d+/retweeted_by"),
+    LIMIT_APP_GET=75,
+    LIMIT_USER_GET=75,
+)
 USER_LIKED_TWEET = Endpoint(
     resource="/users/:id/liked_tweets",
     regex=re.compile(r"/users/\d+/liked_tweets"),
@@ -158,6 +164,17 @@ USER_TWEET_LIKE_REMOVE = Endpoint(
     regex=re.compile(r"/users/\d+/likes/\d+"),
     LIMIT_USER_POST=50,
 )
+USER_TWEET_RETWEET = Endpoint(
+    resource="/users/:id/retweets/",
+    regex=re.compile(r"/users/\d+/retweets"),
+    LIMIT_USER_POST=50,
+)
+USER_TWEET_RETWEET_REMOVE = Endpoint(
+    resource="/users/:id/retweets/:tweet_id",
+    regex=re.compile(r"/users/\d+/retweets/\d+"),
+    LIMIT_USER_POST=50,
+)
+
 TWEET_HIDDEN = Endpoint(
     resource="/tweets/:id/hidden",
     regex=re.compile(r"/tweets/\d+/hidden"),

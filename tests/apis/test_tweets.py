@@ -165,3 +165,50 @@ def test_get_tweets_count(api, helpers):
 
     assert len(resp_json["data"]) == 14
     assert resp_json["data"][0]["tweet_count"] == 18392
+
+
+@responses.activate
+def test_tweet_retweeted_users(api, helpers):
+    tweets_data = helpers.load_json_data(
+        "testdata/apis/tweet/tweet_retweed_users_resp.json"
+    )
+    tweet_id = "1354143047324299264"
+    responses.add(
+        responses.GET,
+        url=f"https://api.twitter.com/2/tweets/{tweet_id}/retweeted_by",
+        json=tweets_data,
+    )
+
+    resp = api.get_tweet_retweeted_users(
+        tweet_id=tweet_id,
+        user_fields=["created_at"],
+        expansions=["pinned_tweet_id"],
+        tweet_fields=["created_at"],
+    )
+    assert len(resp.data) == 5
+    assert resp.data[0].id == "1065249714214457345"
+    assert resp.meta.result_count == 5
+    assert resp.includes.tweets[0].id == "1389270063807598594"
+
+
+@responses.activate
+def test_retweet_remove_retweet_tweet(api_with_user, helpers):
+    uid, tweet_id = "123456", "1228393702244134912"
+
+    responses.add(
+        responses.POST,
+        url=f"https://api.twitter.com/2/users/{uid}/retweets",
+        json={"data": {"retweeted": True}},
+    )
+
+    resp = api_with_user.retweet_tweet(user_id=uid, tweet_id=tweet_id)
+    assert resp["data"]["retweeted"]
+
+    responses.add(
+        responses.DELETE,
+        url=f"https://api.twitter.com/2/users/{uid}/retweets/{tweet_id}",
+        json={"data": {"retweeted": False}},
+    )
+
+    resp = api_with_user.remove_retweet_tweet(user_id=uid, tweet_id=tweet_id)
+    assert not resp["data"]["retweeted"]
