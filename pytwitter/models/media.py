@@ -53,3 +53,4 @@ class Media(BaseModel):
     promoted_metrics: Optional[MediaPromotedMetrics] = field(default=None, repr=False)
     public_metrics: Optional[MediaPublicMetrics] = field(default=None, repr=False)
     width: Optional[int] = field(default=None, repr=False)
+    alt_text: Optional[str] = field(default=None, repr=False)
