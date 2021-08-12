@@ -1,5 +1,13 @@
 # Changelog
 
+### [0.3.5](https://github.com/sns-sdks/python-twitter/v0.3.5) (2021-08-12)
+
+### Features
+
+- API for manage retweets [#66](https://github.com/sns-sdks/python-twitter/issues/66)
+- New field `alt_text` for Media [#68](https://github.com/sns-sdks/python-twitter/issues/68)
+
+
 ### [0.3.4](https://github.com/sns-sdks/python-twitter/v0.3.4) (2021-07-02)
 
 ### Features
