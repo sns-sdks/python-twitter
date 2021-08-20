@@ -95,3 +95,11 @@ def test_meta(helpers):
 
     assert stream_meta.sent == "2020-06-18T15:20:24.063Z"
     assert stream_meta.summary.valid == 2
+
+
+def test_space(helpers):
+    space_data = helpers.load_json_data("testdata/models/space.json")
+    space = models.Space.new_from_json_dict(space_data)
+
+    assert space.id == "1zqKVXPQhvZJB"
+    assert space.participant_count == 420
