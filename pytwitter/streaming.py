@@ -137,7 +137,8 @@ class StreamApi:
         """
         data = json.loads(raw_data)
         if not return_json:
-            data = md.Tweet.new_from_json_dict(data=data["data"])
+            data = data.get("data")
+            data = md.Tweet.new_from_json_dict(data=data)
 
         return self.on_tweet(tweet=data)
 
