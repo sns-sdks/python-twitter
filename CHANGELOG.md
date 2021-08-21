@@ -1,6 +1,6 @@
 # Changelog
 
-### [0.4.1](https://github.com/sns-sdks/python-twitter/v0.4.1) (2021-08-21)
+### [0.4.2](https://github.com/sns-sdks/python-twitter/v0.4.2) (2021-08-21)
 
 ### Features
 
