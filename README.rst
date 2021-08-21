@@ -84,19 +84,26 @@ The API is exposed via the ``pytwitter.Api`` class.
 
 Now cover features:
 
-- User lookup
-- Follows
-- Blocks
-- Mutes
-- Tweet lookup
-- Search Tweets
-- Tweet counts
-- Timelines
-- Filtered stream
-- Sampled stream
-- Likes
-- Retweets
-- Hide replies
+- Users
+    - User lookup
+    - Follows
+    - Blocks
+    - Mutes
+
+- Tweets
+    - Tweet lookup
+    - Search Tweets
+    - Tweet counts
+    - Timelines
+    - Filtered stream
+    - Sampled stream
+    - Likes
+    - Retweets
+    - Hide replies
+
+- Spaces
+    - Spaces lookup
+    - Search Spaces
 
 -----------
 INSTANTIATE
