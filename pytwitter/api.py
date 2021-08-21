@@ -1360,3 +1360,51 @@ class Api:
             multi=True,
             return_json=return_json,
         )
+
+    def search_spaces(
+        self,
+        query: str,
+        state: str,
+        *,
+        space_fields: Optional[Union[str, List, Tuple]] = None,
+        expansions: Optional[Union[str, List, Tuple]] = None,
+        user_fields: Optional[Union[str, List, Tuple]] = None,
+        max_results: Optional[int] = None,
+        return_json: bool = False,
+    ):
+        """
+        Return live or scheduled Spaces matching your specified search terms
+
+        :param query: Your search term.
+            This can be any text (including mentions and Hashtags) present in the title of the Space.
+        :param state: Determines the type of results to return.
+            Accepted values: live,scheduled
+        :param space_fields: Fields for the space object.
+        :param expansions: Fields for expansions.
+        :param user_fields: Fields for the user object.
+        :param max_results: The maximum number of results to be returned per page. Number between 1 and the 100.
+        :param return_json: Type for returned data. If you set True JSON data will be returned.
+        :return:
+            - data: data for the spaces
+            - includes: expansions data.
+        """
+
+        args = {
+            "query": query,
+            "state": state,
+            "space.fields": enf_comma_separated(
+                name="space_fields",
+                value=space_fields,
+            ),
+            "expansions": enf_comma_separated(name="expansions", value=expansions),
+            "user.fields": enf_comma_separated(name="user_fields", value=user_fields),
+            "max_results": max_results,
+        }
+
+        return self._get(
+            url=f"{self.BASE_URL_V2}/spaces/search",
+            params=args,
+            cls=md.Space,
+            multi=True,
+            return_json=return_json,
+        )
