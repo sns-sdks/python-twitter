@@ -5,3 +5,4 @@ from .poll import *  # noqa
 from .place import *  # noqa
 from .stream import *  # noqa
 from .ext import *  # noqa
+from .space import *  # noqa

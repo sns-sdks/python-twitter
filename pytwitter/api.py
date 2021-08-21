@@ -292,7 +292,7 @@ class Api:
             return resp_json
         else:
             data, includes, meta, errors = (
-                resp_json["data"],
+                resp_json.get("data", []),
                 resp_json.get("includes"),
                 resp_json.get("meta"),
                 resp_json.get("errors"),
@@ -1241,3 +1241,170 @@ class Api:
         )
         data = self._parse_response(resp=resp)
         return data
+
+    def get_space(
+        self,
+        space_id: str,
+        *,
+        space_fields: Optional[Union[str, List, Tuple]] = None,
+        expansions: Optional[Union[str, List, Tuple]] = None,
+        user_fields: Optional[Union[str, List, Tuple]] = None,
+        return_json: bool = False,
+    ):
+        """
+        Returns a variety of information about a single Space specified by the requested ID.
+
+        :param space_id: The ID for the target space.
+        :param space_fields: Fields for the space object.
+        :param expansions: Fields for expansions.
+        :param user_fields: Fields for the user object.
+        :param return_json: Type for returned data. If you set True JSON data will be returned.
+        :return:
+            - data: data for the space
+            - includes: expansions data.
+        """
+
+        args = {
+            "space.fields": enf_comma_separated(
+                name="space_fields",
+                value=space_fields,
+            ),
+            "expansions": enf_comma_separated(name="expansions", value=expansions),
+            "user.fields": enf_comma_separated(name="user_fields", value=user_fields),
+        }
+
+        return self._get(
+            url=f"{self.BASE_URL_V2}/spaces/{space_id}",
+            params=args,
+            cls=md.Space,
+            return_json=return_json,
+        )
+
+    def get_spaces(
+        self,
+        space_ids: Union[str, List, Tuple],
+        *,
+        space_fields: Optional[Union[str, List, Tuple]] = None,
+        expansions: Optional[Union[str, List, Tuple]] = None,
+        user_fields: Optional[Union[str, List, Tuple]] = None,
+        return_json: bool = False,
+    ):
+        """
+        Returns details about multiple Spaces. Up to 100 comma-separated Spaces IDs can be looked up using this endpoint.
+
+        :param space_ids: The IDs for target spaces, Up to 100 are allowed in a single request.
+        :param space_fields: Fields for the space object.
+        :param expansions: Fields for expansions.
+        :param user_fields: Fields for the user object.
+        :param return_json: Type for returned data. If you set True JSON data will be returned.
+        :return:
+            - data: data for the spaces
+            - includes: expansions data.
+        """
+        args = {
+            "ids": enf_comma_separated(name="space_ids", value=space_ids),
+            "space.fields": enf_comma_separated(
+                name="space_fields",
+                value=space_fields,
+            ),
+            "expansions": enf_comma_separated(name="expansions", value=expansions),
+            "user.fields": enf_comma_separated(name="user_fields", value=user_fields),
+        }
+
+        return self._get(
+            url=f"{self.BASE_URL_V2}/spaces",
+            params=args,
+            cls=md.Space,
+            multi=True,
+            return_json=return_json,
+        )
+
+    def get_spaces_by_creator(
+        self,
+        creator_ids: Union[str, List, Tuple],
+        *,
+        space_fields: Optional[Union[str, List, Tuple]] = None,
+        expansions: Optional[Union[str, List, Tuple]] = None,
+        user_fields: Optional[Union[str, List, Tuple]] = None,
+        max_results: Optional[int] = None,
+        return_json: bool = False,
+    ):
+        """
+        Returns live or scheduled Spaces created by the specified user IDs. Up to 100 comma-separated IDs can be looked up using this endpoint.
+
+        :param creator_ids: IDs for the creators, Up to 100 are allowed in a single request.
+        :param space_fields: Fields for the space object.
+        :param expansions: Fields for expansions.
+        :param user_fields: Fields for the user object.
+        :param max_results: The maximum number of results to be returned per page. Number between 1 and the 100.
+        :param return_json: Type for returned data. If you set True JSON data will be returned.
+        :return:
+            - data: data for the spaces
+            - includes: expansions data.
+        """
+        args = {
+            "user_ids": enf_comma_separated(name="creator_ids", value=creator_ids),
+            "space.fields": enf_comma_separated(
+                name="space_fields",
+                value=space_fields,
+            ),
+            "expansions": enf_comma_separated(name="expansions", value=expansions),
+            "user.fields": enf_comma_separated(name="user_fields", value=user_fields),
+            "max_results": max_results,
+        }
+
+        return self._get(
+            url=f"{self.BASE_URL_V2}/spaces/by/creator_ids",
+            params=args,
+            cls=md.Space,
+            multi=True,
+            return_json=return_json,
+        )
+
+    def search_spaces(
+        self,
+        query: str,
+        state: str,
+        *,
+        space_fields: Optional[Union[str, List, Tuple]] = None,
+        expansions: Optional[Union[str, List, Tuple]] = None,
+        user_fields: Optional[Union[str, List, Tuple]] = None,
+        max_results: Optional[int] = None,
+        return_json: bool = False,
+    ):
+        """
+        Return live or scheduled Spaces matching your specified search terms
+
+        :param query: Your search term.
+            This can be any text (including mentions and Hashtags) present in the title of the Space.
+        :param state: Determines the type of results to return.
+            Accepted values: live,scheduled
+        :param space_fields: Fields for the space object.
+        :param expansions: Fields for expansions.
+        :param user_fields: Fields for the user object.
+        :param max_results: The maximum number of results to be returned per page. Number between 1 and the 100.
+        :param return_json: Type for returned data. If you set True JSON data will be returned.
+        :return:
+            - data: data for the spaces
+            - includes: expansions data.
+        """
+
+        args = {
+            "query": query,
+            "state": state,
+            "space.fields": enf_comma_separated(
+                name="space_fields",
+                value=space_fields,
+            ),
+            "expansions": enf_comma_separated(name="expansions", value=expansions),
+            "user.fields": enf_comma_separated(name="user_fields", value=user_fields),
+            "max_results": max_results,
+        }
+
+        return self._get(
+            url=f"{self.BASE_URL_V2}/spaces/search",
+            params=args,
+            cls=md.Space,
+            multi=True,
+            return_json=return_json,
+        )
