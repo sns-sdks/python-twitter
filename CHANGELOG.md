@@ -1,5 +1,16 @@
 # Changelog
 
+### [0.4.0](https://github.com/sns-sdks/python-twitter/v0.4.0) (2021-08-21)
+
+### Features
+
+- API for new resource Space, lookup and search [#71](https://github.com/sns-sdks/python-twitter/issues/71)
+
+### Fix
+
+- Fix response data handler for streaming [#70](https://github.com/sns-sdks/python-twitter/issues/70)
+
+
 ### [0.3.5](https://github.com/sns-sdks/python-twitter/v0.3.5) (2021-08-12)
 
 ### Features
