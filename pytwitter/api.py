@@ -1241,3 +1241,41 @@ class Api:
         )
         data = self._parse_response(resp=resp)
         return data
+
+    def get_space(
+        self,
+        space_id: str,
+        *,
+        space_fields: Optional[Union[str, List, Tuple]] = None,
+        expansions: Optional[Union[str, List, Tuple]] = None,
+        user_fields: Optional[Union[str, List, Tuple]] = None,
+        return_json: bool = False,
+    ):
+        """
+        Returns a variety of information about a single Space specified by the requested ID.
+
+        :param space_id: The ID for the target space.
+        :param space_fields: Fields for the space object.
+        :param expansions: Fields for expansions.
+        :param user_fields: Fields for the user object.
+        :param return_json: Type for returned data. If you set True JSON data will be returned.
+        :return:
+            - data: data for the space
+            - includes: expansions data.
+        """
+
+        args = {
+            "space.fields": enf_comma_separated(
+                name="space_fields",
+                value=space_fields,
+            ),
+            "expansions": enf_comma_separated(name="expansions", value=expansions),
+            "user.fields": enf_comma_separated(name="user_fields", value=user_fields),
+        }
+
+        return self._get(
+            url=f"{self.BASE_URL_V2}/spaces/{space_id}",
+            params=args,
+            cls=md.Space,
+            return_json=return_json,
+        )
