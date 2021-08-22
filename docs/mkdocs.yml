@@ -44,6 +44,9 @@ nav:
           - Tweet counts: usage/tweets/tweets_counts.md
           - Hide replies: usage/tweets/hide_reply.md
           - Likes: usage/tweets/likes.md
+      - Spaces:
+          - Spaces Lookup: usage/spaces/spaces-lookup.md
+          - Spaces Search: usage/spaces/search.md
       - Steaming: usage/streaming.md
   - Changelog: CHANGELOG.md
 
