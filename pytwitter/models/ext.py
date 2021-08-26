@@ -6,7 +6,17 @@
 from dataclasses import dataclass, field
 from typing import List, Optional, Union
 
-from . import BaseModel, Media, Place, Poll, Tweet, User, StreamRule
+from . import (
+    BaseModel,
+    Media,
+    Place,
+    Poll,
+    Tweet,
+    User,
+    Space,
+    ComplianceJob,
+    StreamRule,
+)
 
 
 @dataclass
@@ -92,6 +102,8 @@ class Response:
             Media,
             Poll,
             Place,
+            Space,
+            ComplianceJob,
             List[User],
             List[Tweet],
             List[Media],
@@ -99,6 +111,8 @@ class Response:
             List[Place],
             List[StreamRule],
             List[TweetCount],
+            List[Space],
+            List[ComplianceJob],
         ]
     ]
     includes: Optional[Includes] = field(default=None, repr=False)

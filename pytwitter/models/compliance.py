@@ -5,7 +5,7 @@
 from dataclasses import dataclass, field
 from typing import Optional
 
-from pytwitter.models.base import BaseModel
+from .base import BaseModel
 
 
 @dataclass
@@ -18,8 +18,8 @@ class ComplianceJob(BaseModel):
 
     id: Optional[str] = field(default=None)
     created_at: Optional[str] = field(default=None, repr=False)
-    type: Optional[str] = field(default=None, repr=False)
-    name: Optional[str] = field(default=None, repr=False)
+    type: Optional[str] = field(default=None)
+    name: Optional[str] = field(default=None)
     upload_url: Optional[str] = field(default=None, repr=False)
     upload_expires_at: Optional[str] = field(default=None, repr=False)
     download_url: Optional[str] = field(default=None, repr=False)
