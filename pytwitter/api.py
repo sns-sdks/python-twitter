@@ -270,7 +270,7 @@ class Api:
     def _get(
         self,
         url: str,
-        params: dict,
+        params: Optional[dict],
         cls,
         multi: bool = False,
         return_json: bool = False,
@@ -1408,3 +1408,92 @@ class Api:
             multi=True,
             return_json=return_json,
         )
+
+    def get_compliance_job(
+        self,
+        job_id: str,
+        *,
+        return_json: bool = False,
+    ):
+        """
+        Get a single compliance job with the specified ID.
+
+        :param job_id: ID for the compliance job.
+        :param return_json: Type for returned data. If you set True JSON data will be returned.
+        :return:
+            - data: data for the job.
+        """
+
+        return self._get(
+            url=f"{self.BASE_URL_V2}/compliance/jobs/{job_id}",
+            params=None,
+            cls=md.ComplianceJob,
+            return_json=return_json,
+        )
+
+    def get_compliance_jobs(
+        self,
+        job_type: Optional[str],
+        *,
+        status: Optional[str] = None,
+        return_json: bool = False,
+    ):
+        """
+        Returns a list of recent compliance jobs.
+
+        :param job_type: Type for the job, Accepted values are: tweets, users.
+        :param status: Status for the job.
+            Accepted values are: created, in_progress, failed, complete.
+            Default is all.
+        :param return_json: Type for returned data. If you set True JSON data will be returned.
+        :return:
+            - data: data for the jobs.
+        """
+
+        args = {"type": job_type}
+        if status:
+            args["status"] = status
+
+        return self._get(
+            url=f"{self.BASE_URL_V2}/compliance/jobs",
+            params=args,
+            cls=md.ComplianceJob,
+            multi=True,
+            return_json=return_json,
+        )
+
+    def create_compliance_job(
+        self,
+        job_type: Optional[str],
+        *,
+        name: Optional[str] = None,
+        resumable: Optional[bool] = None,
+        return_json: bool = False,
+    ):
+        """
+        Creates a new compliance job for Tweet IDs or user IDs.
+        You can run one batch job at a time.
+
+        :param job_type: Type for the job, Accepted values are: tweets, users.
+        :param name: A name for this job, useful to identify multiple jobs using a label you define.
+        :param resumable: Specifies whether to enable the upload URL with support for resumable uploads
+        :param return_json: Type for returned data. If you set True JSON data will be returned.
+        :return: Compliance job information.
+        """
+
+        args = {"type": job_type}
+        if name is not None:
+            args["name"] = name
+        if resumable is not None:
+            args["resumable"] = resumable
+
+        resp = self._request(
+            url=f"{self.BASE_URL_V2}/compliance/jobs",
+            verb="POST",
+            json=args,
+        )
+        data = self._parse_response(resp=resp)
+        if return_json:
+            return data
+        else:
+            return md.ComplianceJob.new_from_json_dict(data["data"])
