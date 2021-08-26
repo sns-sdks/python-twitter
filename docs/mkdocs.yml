@@ -47,6 +47,8 @@ nav:
       - Spaces:
           - Spaces Lookup: usage/spaces/spaces-lookup.md
           - Spaces Search: usage/spaces/search.md
+      - Compliance:
+          - Batch compliance: usage/compliance/batch_compliance.md
       - Steaming: usage/streaming.md
   - Changelog: CHANGELOG.md
 
@@ -55,7 +57,7 @@ extra:
     - icon: fontawesome/brands/twitter
       link: https://twitter.com/realllkk520
     - icon: fontawesome/brands/github
-      link: https://github.com/sns-sdks/python-youtube
+      link: https://github.com/sns-sdks/python-twitter
 
 markdown_extensions:
   - codehilite
