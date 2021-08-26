@@ -103,3 +103,11 @@ def test_space(helpers):
 
     assert space.id == "1zqKVXPQhvZJB"
     assert space.participant_count == 420
+
+
+def test_compliance_job(helpers):
+    job_data = helpers.load_json_data("testdata/models/compliance_job.json")
+    job = models.ComplianceJob.new_from_json_dict(job_data)
+
+    assert job.id == "1423095206576984067"
+    assert not job.resumable
