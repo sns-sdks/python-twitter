@@ -29,7 +29,7 @@ class Endpoint:
     # For different auth type and endpoint
     LIMIT_APP_GET: int = 15
     LIMIT_USER_GET: int = 15
-    LIMIT_APP_POST: int = 15
+    LIMIT_APP_POST: int = 0
     LIMIT_USER_POST: int = 0
     LIMIT_USER_PUT: int = 0
     LIMIT_USER_DELETE: int = 0

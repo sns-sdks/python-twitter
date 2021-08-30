@@ -49,9 +49,6 @@ class TestRateLimit:
         d = user_rate_limit.get_limit(following_url, method="POST")
         assert d.limit == 15
 
-        d = rate_limit.get_limit(following_url, method="POST")
-        assert d.limit == 0
-
         d = rate_limit.set_limit(
             url="https://api.twitter.com/2/users/123456/following",
             headers=self.generate_headers(15, 10, 1612522029),
