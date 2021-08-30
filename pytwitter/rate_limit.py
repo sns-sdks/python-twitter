@@ -190,7 +190,7 @@ TWEET_COUNTS = Endpoint(
 
 SPACE_BY_ID = Endpoint(
     resource="/spaces/:id",
-    regex=re.compile(r"/spaces/\d+"),
+    regex=re.compile(r"/spaces/\w+"),
     LIMIT_APP_GET=300,
 )
 SPACES_BY_IDS = Endpoint(
