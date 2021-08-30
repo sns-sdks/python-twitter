@@ -29,6 +29,7 @@ class Endpoint:
     # For different auth type and endpoint
     LIMIT_APP_GET: int = 15
     LIMIT_USER_GET: int = 15
+    LIMIT_APP_POST: int = 0
     LIMIT_USER_POST: int = 0
     LIMIT_USER_PUT: int = 0
     LIMIT_USER_DELETE: int = 0
@@ -187,6 +188,40 @@ TWEET_COUNTS = Endpoint(
     LIMIT_APP_GET=300,
 )
 
+SPACE_BY_ID = Endpoint(
+    resource="/spaces/:id",
+    regex=re.compile(r"/spaces/\w+"),
+    LIMIT_APP_GET=300,
+)
+SPACES_BY_IDS = Endpoint(
+    resource="/spaces",
+    regex=re.compile(r"/spaces"),
+    LIMIT_APP_GET=300,
+)
+SPACES_BY_CREATORS = Endpoint(
+    resource="/spaces/by/creator_ids",
+    regex=re.compile(r"/spaces/by/creator_ids"),
+    LIMIT_APP_GET=300,
+)
+SPACES_SEARCH = Endpoint(
+    resource="/spaces/search",
+    regex=re.compile("/spaces/search"),
+    LIMIT_APP_GET=300,
+)
+
+COMPLIANCE_JOB_BY_ID = Endpoint(
+    resource="/compliance/jobs/:job_id",
+    regex=re.compile(r"/compliance/jobs/\d+"),
+    LIMIT_APP_GET=150,
+)
+COMPLIANCE_JOBS = Endpoint(
+    resource="/compliance/jobs",
+    regex=re.compile(r"/compliance/jobs"),
+    LIMIT_APP_GET=150,
+    LIMIT_APP_POST=150,
+)
+
+
 PATH_VAR_ENDPOINTS = [
     USER_BY_ID,
     USERS_BY_ID,
@@ -211,6 +246,12 @@ PATH_VAR_ENDPOINTS = [
     USER_TWEET_LIKE_REMOVE,
     TWEET_HIDDEN,
     TWEET_COUNTS,
+    SPACE_BY_ID,
+    SPACES_BY_IDS,
+    SPACES_BY_CREATORS,
+    SPACES_SEARCH,
+    COMPLIANCE_JOB_BY_ID,
+    COMPLIANCE_JOBS,
 ]
 
 
