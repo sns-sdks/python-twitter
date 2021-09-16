@@ -24,7 +24,7 @@ packages = [
 python = "^3.6"
 requests = "^2.24"
 dataclasses-json = "^0.5.2"
-requests-oauthlib = "^1.3.0"
+Authlib = "^0.15.4"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
