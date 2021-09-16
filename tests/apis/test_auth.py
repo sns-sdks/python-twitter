@@ -176,3 +176,33 @@ def test_invalidate_access_token():
     api._auth = None
     with pytest.raises(PyTwitterError):
         api.invalidate_access_token()
+
+
+@responses.activate
+def test_oauth2_flow():
+    api = Api(client_id="You client id", oauth_flow=True)
+
+    url, _, code_verifier = api.get_oauth2_authorize_url()
+    assert url
+
+    # do authorize
+
+    resp_url = "https://localhost/?state=state&code=code"
+
+    responses.add(
+        responses.POST,
+        url="https://api.twitter.com/2/oauth2/token",
+        json={
+            "token_type": "bearer",
+            "expires_in": 7200,
+            "access_token": "access_token",
+            "scope": "users.read tweet.read",
+            "expires_at": 1631766428,
+        },
+    )
+
+    token = api.generate_oauth2_access_token(
+        response=resp_url, code_verifier=code_verifier
+    )
+
+    assert token["access_token"] == "access_token"

@@ -295,7 +295,7 @@ class Api:
         :param redirect_uri: The URL that twitter redirect back to after the user logged in.
         :param scope: A list of permission string to request from the user to using your app.
         :param kwargs: Additional parameters for oauth.
-        :return: Authorization url, state, code_verifier
+        :return: Authorization url, code_verifier, state
         """
         session = self._get_oauth2_session(
             redirect_uri=redirect_uri,
@@ -304,10 +304,11 @@ class Api:
         )
         code_verifier = base64.urlsafe_b64encode(os.urandom(40)).decode("utf-8")
         code_verifier = re.sub("[^a-zA-Z0-9]+", "", code_verifier)
+
         authorization_url, state = session.create_authorization_url(
             url=self.BASE_OAUTH2_AUTHORIZE_URL, code_verifier=code_verifier
         )
-        return authorization_url, state, code_verifier
+        return authorization_url, code_verifier, state
 
     def generate_oauth2_access_token(
         self, response: str, code_verifier: str, redirect_uri: str = None
