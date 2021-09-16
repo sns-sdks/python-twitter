@@ -141,6 +141,24 @@ Or with authorize by user:
      'user_id': '123456',
      'screen_name': 'screen name'}
 
+Twitter has `announcing OAuth 2.0 beta <https://twittercommunity.com/t/announcing-oauth-2-0-beta/159189>`_
+
+Now if you have app with ``OAuth2.0`` client ID. you can do authorize with ``OAuth2``.
+
+.. code-block:: python
+
+    >>> api = Api(client_id="You client ID", oauth_flow=True)
+    # get the url and code verifier for user to authorize
+    >>> url, code_verifier, _ = api.get_oauth2_authorize_url()
+    # copy the response url
+    >>> api.generate_oauth2_access_token("https://localhost/?state=state&code=code", code_verifier)
+    {'token_type': 'bearer',
+     'expires_in': 7200,
+     'access_token': 'access_token',
+     'scope': 'users.read tweet.read',
+     'expires_at': 1631775928}
+
+
 ------------
 Users-lookup
 ------------
