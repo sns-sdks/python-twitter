@@ -206,3 +206,11 @@ def test_oauth2_flow():
     )
 
     assert token["access_token"] == "access_token"
+
+    with pytest.raises(PyTwitterError):
+        api = Api(
+            consumer_key="consumer key",
+            consumer_secret="consumer secret",
+            oauth_flow=True,
+        )
+        api.get_oauth2_authorize_url(resp_url)
