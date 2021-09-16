@@ -12,7 +12,7 @@ import pytwitter.models as md
 from pytwitter.error import PyTwitterError
 from pytwitter.utils.validators import enf_comma_separated
 from requests.models import Response
-from requests_oauthlib.oauth2_auth import OAuth2
+from authlib.integrations.requests_client import OAuth2Auth
 
 logger = logging.getLogger(__name__)
 
@@ -41,14 +41,14 @@ class StreamApi:
         self.chunk_size = chunk_size
 
         if bearer_token:
-            self._auth = OAuth2(
+            self._auth = OAuth2Auth(
                 token={"access_token": bearer_token, "token_type": "Bearer"}
             )
         elif all([self.consumer_key, self.consumer_secret]):
             resp = self.generate_bearer_token(
                 consumer_key=consumer_key, consumer_secret=consumer_secret
             )
-            self._auth = OAuth2(
+            self._auth = OAuth2Auth(
                 token={"access_token": resp["access_token"], "token_type": "Bearer"}
             )
         else:
