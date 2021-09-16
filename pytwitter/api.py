@@ -3,12 +3,19 @@
 """
 import base64
 import logging
+import os
+import re
 import time
 from typing import List, Optional, Tuple, Union
 
 import requests
 from requests.models import Response
-from requests_oauthlib import OAuth1, OAuth2, OAuth1Session
+from authlib.integrations.requests_client import (
+    OAuth2Session,
+    OAuth2Auth,
+    OAuth1Auth,
+    OAuth1Session,
+)
 
 import pytwitter.models as md
 from pytwitter.error import PyTwitterError
@@ -24,6 +31,9 @@ class Api:
     BASE_AUTHORIZE_URL = "https://api.twitter.com/oauth/authorize"
     BASE_ACCESS_TOKEN_URL = "https://api.twitter.com/oauth/access_token"
     DEFAULT_CALLBACK_URI = "https://localhost/"
+    BASE_OAUTH2_AUTHORIZE_URL = "https://twitter.com/i/oauth2/authorize"
+    BASE_OAUTH2_ACCESS_TOKEN_URL = "https://api.twitter.com/2/oauth2/token"
+    DEFAULT_SCOPES = ["users.read", "tweet.read"]
 
     def __init__(
         self,
@@ -32,6 +42,7 @@ class Api:
         consumer_secret=None,
         access_token=None,
         access_secret=None,
+        client_id=None,
         application_only_auth=False,
         oauth_flow=False,  # provide access with authorize
         sleep_on_rate_limit=False,
@@ -43,6 +54,7 @@ class Api:
         self._oauth_session = None
         self.consumer_key = consumer_key
         self.consumer_secret = consumer_secret
+        self.client_id = client_id
         self.timeout = timeout
         self.proxies = proxies
         self.rate_limit = RateLimit()
@@ -51,7 +63,7 @@ class Api:
 
         # just use bearer token
         if bearer_token:
-            self._auth = OAuth2(
+            self._auth = OAuth2Auth(
                 token={"access_token": bearer_token, "token_type": "Bearer"}
             )
         # use app auth
@@ -59,16 +71,16 @@ class Api:
             resp = self.generate_bearer_token(
                 consumer_key=consumer_key, consumer_secret=consumer_secret
             )
-            self._auth = OAuth2(
+            self._auth = OAuth2Auth(
                 token={"access_token": resp["access_token"], "token_type": "Bearer"}
             )
         # use user auth
         elif all([consumer_key, consumer_secret, access_token, access_secret]):
-            self._auth = OAuth1(
-                client_key=consumer_key,
+            self._auth = OAuth1Auth(
+                client_id=consumer_key,
                 client_secret=consumer_secret,
-                resource_owner_key=access_token,
-                resource_owner_secret=access_secret,
+                token=access_token,
+                token_secret=access_secret,
             )
             self.rate_limit = RateLimit("user")
             self.auth_user_id = self.get_uid_from_access_token_key(
@@ -76,6 +88,8 @@ class Api:
             )
         # use oauth flow by hand
         elif consumer_key and consumer_secret and oauth_flow:
+            pass
+        elif client_id and oauth_flow:
             pass
         else:
             raise PyTwitterError("Need oauth")
@@ -145,16 +159,18 @@ class Api:
         if callback_uri is None:
             callback_uri = self.DEFAULT_CALLBACK_URI
         self._oauth_session = OAuth1Session(
-            client_key=self.consumer_key,
+            client_id=self.consumer_key,
             client_secret=self.consumer_secret,
             callback_uri=callback_uri,
         )
         self._oauth_session.fetch_request_token(
             self.BASE_REQUEST_TOKEN_URL, proxies=self.proxies
         )
-        return self._oauth_session.authorization_url(self.BASE_AUTHORIZE_URL, **kwargs)
+        return self._oauth_session.create_authorization_url(
+            self.BASE_AUTHORIZE_URL, **kwargs
+        )
 
-    def generate_access_token(self, response):
+    def generate_access_token(self, response: str):
         """
         :param response:
         :return:
@@ -167,11 +183,11 @@ class Api:
         data = self._oauth_session.fetch_access_token(
             self.BASE_ACCESS_TOKEN_URL, proxies=self.proxies
         )
-        self._auth = OAuth1(
-            client_key=self.consumer_key,
+        self._auth = OAuth1Auth(
+            client_id=self.consumer_key,
             client_secret=self.consumer_secret,
-            resource_owner_key=data["oauth_token"],
-            resource_owner_secret=data["oauth_token_secret"],
+            token=data["oauth_token"],
+            token_secret=data["oauth_token_secret"],
         )
         if "user_id" in data:
             self.auth_user_id = data["user_id"]
@@ -190,7 +206,7 @@ class Api:
         if not self._auth:
             raise PyTwitterError("Must have authorized credentials")
 
-        if not isinstance(self._auth, OAuth1):
+        if not isinstance(self._auth, OAuth1Auth):
             raise PyTwitterError("Can only revoke oauth1 token")
 
         resp = requests.post(
@@ -241,6 +257,77 @@ class Api:
         )
         data = self._parse_response(resp=resp)
         return data
+
+    def _get_oauth2_session(
+        self,
+        redirect_uri: Optional[str] = None,
+        scope: Optional[List[str]] = None,
+        **kwargs,
+    ) -> OAuth2Session:
+        """
+        :param redirect_uri: The URL that twitter redirect back to after the user logged in.
+        :param scope: A list of permission string to request from the user to using your app.
+        :param kwargs: Additional parameters for oauth.
+        :return: OAuth Session
+        """
+        # check app credentials
+        if not self.client_id:
+            raise PyTwitterError({"message": "OAuth need your app credentials"})
+
+        if redirect_uri is None:
+            redirect_uri = self.DEFAULT_CALLBACK_URI
+        if scope is None:
+            scope = self.DEFAULT_SCOPES
+
+        session = OAuth2Session(
+            client_id=self.client_id,
+            scope=scope,
+            redirect_uri=redirect_uri,
+            code_challenge_method="S256",
+            **kwargs,
+        )
+        return session
+
+    def get_oauth2_authorize_url(
+        self, redirect_uri: str = None, scope: Optional[List[str]] = None, **kwargs
+    ) -> Tuple[str, str, str]:
+        """
+        :param redirect_uri: The URL that twitter redirect back to after the user logged in.
+        :param scope: A list of permission string to request from the user to using your app.
+        :param kwargs: Additional parameters for oauth.
+        :return: Authorization url, code_verifier, state
+        """
+        session = self._get_oauth2_session(
+            redirect_uri=redirect_uri,
+            scope=scope,
+            **kwargs,
+        )
+        code_verifier = base64.urlsafe_b64encode(os.urandom(40)).decode("utf-8")
+        code_verifier = re.sub("[^a-zA-Z0-9]+", "", code_verifier)
+
+        authorization_url, state = session.create_authorization_url(
+            url=self.BASE_OAUTH2_AUTHORIZE_URL, code_verifier=code_verifier
+        )
+        return authorization_url, code_verifier, state
+
+    def generate_oauth2_access_token(
+        self, response: str, code_verifier: str, redirect_uri: str = None
+    ):
+        """
+        :param response: Response url after user logged in.
+        :param code_verifier: Code verifier when your
+        :param redirect_uri:
+        :return:
+        """
+        session = self._get_oauth2_session(redirect_uri=redirect_uri)
+
+        token = session.fetch_token(
+            url=self.BASE_OAUTH2_ACCESS_TOKEN_URL,
+            authorization_response=response,
+            code_verifier=code_verifier,
+        )
+        self._auth = OAuth2Auth(token=token["access_token"])
+        return token
 
     @staticmethod
     def _parse_response(resp: Response) -> dict:
@@ -1290,7 +1377,7 @@ class Api:
         return_json: bool = False,
     ):
         """
-        Returns details about multiple Spaces. Up to 100 comma-separated Spaces IDs can be looked up using this endpoint.
+        Returns details for multiple Spaces. Up to 100 comma-separated Spaces IDs can be looked up using this endpoint.
 
         :param space_ids: The IDs for target spaces, Up to 100 are allowed in a single request.
         :param space_fields: Fields for the space object.
@@ -1330,7 +1417,8 @@ class Api:
         return_json: bool = False,
     ):
         """
-        Returns live or scheduled Spaces created by the specified user IDs. Up to 100 comma-separated IDs can be looked up using this endpoint.
+        Returns live or scheduled Spaces created by the specified user IDs.
+        Up to 100 comma-separated IDs can be looked up using this endpoint.
 
         :param creator_ids: IDs for the creators, Up to 100 are allowed in a single request.
         :param space_fields: Fields for the space object.
