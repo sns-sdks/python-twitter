@@ -1259,6 +1259,50 @@ class Api:
         data = self._parse_response(resp)
         return data
 
+    def get_user_muting(
+        self,
+        user_id: str,
+        *,
+        user_fields: Optional[Union[str, List, Tuple]] = None,
+        expansions: Optional[Union[str, List, Tuple]] = None,
+        tweet_fields: Optional[Union[str, List, Tuple]] = None,
+        max_results: Optional[int] = None,
+        pagination_token: Optional[str] = None,
+        return_json: bool = False,
+    ):
+        """
+        Returns a list of users who are muted by the specified user ID.
+
+        :param user_id: ID for user which you want to get muting.
+        :param user_fields: Fields for the user object.
+        :param expansions: Fields for the expansions now only `pinned_tweet_id`.
+        :param tweet_fields: Fields for the tweet object, Expansions required.
+        :param max_results: The maximum number of results to be returned per page. Number between 1 and the 1000.
+        :param pagination_token: Token for the pagination.
+        :param return_json: Type for returned data. If you set True JSON data will be returned.
+        :return:
+            - data: data for the users.
+            - includes: expansions data.
+            - meta: pagination details
+        """
+
+        args = {
+            "user.fields": enf_comma_separated(name="user_fields", value=user_fields),
+            "expansions": enf_comma_separated(name="expansions", value=expansions),
+            "tweet.fields": enf_comma_separated(
+                name="tweet_fields", value=tweet_fields
+            ),
+            "max_results": max_results,
+            "pagination_token": pagination_token,
+        }
+        return self._get(
+            url=f"{self.BASE_URL_V2}/users/{user_id}/muting",
+            params=args,
+            cls=md.User,
+            multi=True,
+            return_json=return_json,
+        )
+
     def get_tweet_retweeted_users(
         self,
         tweet_id: str,

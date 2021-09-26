@@ -186,6 +186,36 @@ def test_get_user_liked_tweets(api_with_user, helpers):
 
 
 @responses.activate
+def test_get_muting(api_with_user, helpers):
+    muting_data = helpers.load_json_data("testdata/apis/user/muting_resp.json")
+    user_id = "1324848235714736129"
+    responses.add(
+        responses.GET,
+        url=f"https://api.twitter.com/2/users/{user_id}/muting",
+        json=muting_data,
+    )
+
+    users_resp = api_with_user.get_user_muting(
+        user_id=user_id,
+        expansions=["pinned_tweet_id"],
+        user_fields=["id", "created_at"],
+        tweet_fields=["created_at"],
+    )
+    assert users_resp.data[0].id == "2244994945"
+    assert users_resp.includes.tweets[0].id == "1430984356139470849"
+
+    users_resp_json = api_with_user.get_user_muting(
+        user_id=user_id,
+        expansions=["pinned_tweet_id"],
+        user_fields=["id", "created_at"],
+        tweet_fields=["created_at"],
+        return_json=True,
+    )
+    assert users_resp_json["data"][0]["id"] == "2244994945"
+    assert users_resp_json["includes"]["tweets"][0]["id"] == "1430984356139470849"
+
+
+@responses.activate
 def test_mute_and_unmute_user(api_with_user):
     user_id, target_user_id = "123456", "78910"
 
