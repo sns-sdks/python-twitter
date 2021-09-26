@@ -95,6 +95,7 @@ USER_REMOVE_BLOCKING = Endpoint(
 USER_MUTING = Endpoint(
     resource="/users/:id/muting",
     regex=re.compile(r"/users/\d+/muting"),
+    LIMIT_USER_GET=15,
     LIMIT_USER_POST=50,
 )
 USER_REMOVE_MUTING = Endpoint(
@@ -126,7 +127,7 @@ TWEET_SEARCH_ALL = Endpoint(
     LIMIT_APP_GET=300,
 )
 USER_TIMELINE = Endpoint(
-    resource="/users/:id/tweets/",
+    resource="/users/:id/tweets",
     regex=re.compile(r"/users/\d+/tweets"),
     LIMIT_APP_GET=1500,
     LIMIT_USER_GET=900,
@@ -166,7 +167,7 @@ USER_TWEET_LIKE_REMOVE = Endpoint(
     LIMIT_USER_POST=50,
 )
 USER_TWEET_RETWEET = Endpoint(
-    resource="/users/:id/retweets/",
+    resource="/users/:id/retweets",
     regex=re.compile(r"/users/\d+/retweets"),
     LIMIT_USER_POST=50,
 )
