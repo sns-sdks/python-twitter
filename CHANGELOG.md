@@ -1,5 +1,17 @@
 # Changelog
 
+### [0.5.0](https://github.com/sns-sdks/python-twitter/v0.5.0) (2021-09-29)
+
+### Features
+
+- API for get user muting [#82](https://github.com/sns-sdks/python-twitter/issues/82)
+- Beta OAuth2.0 auth flow [#80](https://github.com/sns-sdks/python-twitter/issues/80) 
+- API for batch compliance [#76](https://github.com/sns-sdks/python-twitter/issues/76)
+
+### Fix
+
+- Fix rate limit 
+
 ### [0.4.2](https://github.com/sns-sdks/python-twitter/v0.4.2) (2021-08-21)
 
 ### Features
