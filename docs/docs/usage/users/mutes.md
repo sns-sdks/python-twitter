@@ -4,7 +4,7 @@ For these endpoints, there are two methods available: POST and DELETE. The POST 
 
 You can get more information for this at [docs](https://developer.twitter.com/en/docs/twitter-api/users/mutes/introduction)
 
-## Mutes
+## Manage Mutes
 
 You can mute a user
 
@@ -18,4 +18,13 @@ Unmute a user
 ```python
 my_api.unmute_user(user_id=my_api.auth_user_id, target_user_id="target user id")
 # {'data': {'muting': False}}
+```
+
+## Get mutes
+
+Get user muting
+
+```python
+my_api.get_user_muting(my_api.auth_user_id)
+# Response(data=[User(id='id', name='xxx', username='xxx')])
 ```

@@ -7,7 +7,7 @@ So, This will show you how to obtain user access tokens through the 3-legged OAu
 
 At the beginning, You need a Twitter app, and enable the `3-legged OAuth`.
 
-You can get more information  at the [official Documentation](https://developer.twitter.com/en/docs/authentication/oauth-1-0a/obtaining-user-access-tokens).
+You can get more information at the [official Documentation](https://developer.twitter.com/en/docs/authentication/oauth-1-0a/obtaining-user-access-tokens).
 
 If you're ready, now let's get started do a simple example with this library.
 
