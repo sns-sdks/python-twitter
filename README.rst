@@ -105,6 +105,12 @@ Now cover features:
     - Spaces lookup
     - Search Spaces
 
+- Lists
+    - Manage lists
+
+- Compliance
+    - Batch compliance
+
 -----------
 INSTANTIATE
 -----------

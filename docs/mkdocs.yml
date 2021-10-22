@@ -1,31 +1,31 @@
 site_name: Python Twitter V2 Docs
 site_description: Docs for python-twitetr-v2 library
 repo_url: https://github.com/sns-sdks/python-twitter
+site_url: https://sns-sdks.github.io/python-twitter/
 copyright: Copyright &copy; 2021 - 2021 Ikaros kun
 
 theme:
   name: material
   features:
     - navigation.tabs
+  palette:
+    # Light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/toggle-switch-off-outline
+        name: Switch to dark mode
 
-palette:
-  # Light mode
-  - media: "(prefers-color-scheme: light)"
-    scheme: default
-    primary: indigo
-    accent: indigo
-    toggle:
-      icon: material/toggle-switch-off-outline
-      name: Switch to dark mode
-
-  # Dark mode
-  - media: "(prefers-color-scheme: dark)"
-    scheme: slate
-    primary: blue
-    accent: blue
-    toggle:
-      icon: material/toggle-switch
-      name: Switch to light mode
+    # Dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: blue
+      accent: blue
+      toggle:
+        icon: material/toggle-switch
+        name: Switch to light mode
 
 nav:
   - Introduction: index.md
@@ -38,18 +38,25 @@ nav:
           - Users Lookup: usage/users/user-lookup.md
           - Follows: usage/users/follows.md
           - Blocks: usage/users/blocks.md
+          - Mutes: usage/users/mutes.md
       - Tweets:
           - Tweet Lookup: usage/tweets/tweet-lookup.md
           - Timelines: usage/tweets/timelines.md
           - Search Tweets: usage/tweets/search_tweets.md
           - Tweet counts: usage/tweets/tweets_counts.md
           - Hide replies: usage/tweets/hide_reply.md
+          - Retweets: usage/tweets/retweet.md
           - Likes: usage/tweets/likes.md
       - Spaces:
           - Spaces Lookup: usage/spaces/spaces-lookup.md
           - Spaces Search: usage/spaces/search.md
       - Compliance:
           - Batch compliance: usage/compliance/batch_compliance.md
+      - Lists:
+          - Manage Lists: usage/lists/manage-lists.md
+          - Manage List members: usage/lists/manage-list-members.md
+          - Manage List follows: usage/lists/manage-list-follows.md
+          - Manage pinned Lists: usage/lists/manage-pinned-lists.md
       - Steaming: usage/streaming.md
   - Changelog: CHANGELOG.md
 
