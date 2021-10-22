@@ -48,3 +48,31 @@ def test_delete_list(api_with_user, helpers):
 
     deleted = api_with_user.delete_list(list_id)
     assert deleted["data"]["deleted"]
+
+
+@responses.activate
+def test_add_member_to_list(api_with_user, helpers):
+    list_id = "1441162269824405510"
+    user_id = "2244994945"
+    responses.add(
+        responses.POST,
+        url=f"https://api.twitter.com/2/lists/{list_id}/members",
+        json={"data": {"is_member": True}},
+    )
+
+    deleted = api_with_user.add_list_member(list_id, user_id)
+    assert deleted["data"]["is_member"]
+
+
+@responses.activate
+def test_remove_member_to_list(api_with_user, helpers):
+    list_id = "1441162269824405510"
+    user_id = "2244994945"
+    responses.add(
+        responses.DELETE,
+        url=f"https://api.twitter.com/2/lists/{list_id}/members/{user_id}",
+        json={"data": {"is_member": False}},
+    )
+
+    deleted = api_with_user.remove_list_member(list_id, user_id)
+    assert not deleted["data"]["is_member"]
