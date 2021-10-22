@@ -1712,3 +1712,42 @@ class Api:
         )
         data = self._parse_response(resp=resp)
         return data
+
+    def add_list_member(
+        self,
+        list_id: str,
+        user_id: str,
+    ) -> dict:
+        """
+        Enables the authenticated user to add a member to a List they own.
+
+        :param list_id: The ID of the List you are adding a member to.
+        :param user_id: The ID of the user you wish to add as a member of the List.
+        :return: Member added status
+        """
+        resp = self._request(
+            url=f"{self.BASE_URL_V2}/lists/{list_id}/members",
+            verb="POST",
+            json={"user_id": user_id},
+        )
+        data = self._parse_response(resp=resp)
+        return data
+
+    def remove_list_member(
+        self,
+        list_id: str,
+        user_id: str,
+    ) -> dict:
+        """
+        Enables the authenticated user to remove a member from a List they own.
+
+        :param list_id: The ID of the List you are removing a member from.
+        :param user_id: The ID of the user you wish to remove as a member of the List.
+        :return: Member remove status
+        """
+        resp = self._request(
+            url=f"{self.BASE_URL_V2}/lists/{list_id}/members/{user_id}",
+            verb="DELETE",
+        )
+        data = self._parse_response(resp=resp)
+        return data
