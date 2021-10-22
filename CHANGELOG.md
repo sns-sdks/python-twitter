@@ -1,5 +1,12 @@
 # Changelog
 
+### [0.6.0](https://github.com/sns-sdks/python-twitter/v0.5.0) (2021-10-23)
+
+### Features
+
+- API for lists manage [#84](https://github.com/sns-sdks/python-twitter/issues/84)
+- Tests on python 3.10
+
 ### [0.5.0](https://github.com/sns-sdks/python-twitter/v0.5.0) (2021-09-29)
 
 ### Features
