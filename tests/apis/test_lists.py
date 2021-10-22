@@ -109,3 +109,31 @@ def test_unfollow_list(api_with_user, helpers):
 
     following = api_with_user.unfollow_list(user_id, list_id)
     assert not following["data"]["following"]
+
+
+@responses.activate
+def test_pin_list(api_with_user, helpers):
+    list_id = "1441162269824405510"
+    user_id = "2244994945"
+    responses.add(
+        responses.POST,
+        url=f"https://api.twitter.com/2/users/{user_id}/pinned_lists",
+        json={"data": {"pinned": True}},
+    )
+
+    following = api_with_user.pin_list(user_id, list_id)
+    assert following["data"]["pinned"]
+
+
+@responses.activate
+def test_unpin_list(api_with_user, helpers):
+    list_id = "1441162269824405510"
+    user_id = "2244994945"
+    responses.add(
+        responses.DELETE,
+        url=f"https://api.twitter.com/2/users/{user_id}/pinned_lists/{list_id}",
+        json={"data": {"pinned": False}},
+    )
+
+    following = api_with_user.unpin_list(user_id, list_id)
+    assert not following["data"]["pinned"]
