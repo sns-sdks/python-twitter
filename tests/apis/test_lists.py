@@ -33,7 +33,12 @@ def test_update_list(api_with_user, helpers):
         json={"data": {"updated": True}},
     )
 
-    update = api_with_user.update_list(list_id, name="test v2 update list")
+    update = api_with_user.update_list(
+        list_id,
+        name="test v2 update list",
+        description="list description",
+        private=False,
+    )
     assert update["data"]["updated"]
 
 
@@ -60,8 +65,8 @@ def test_add_member_to_list(api_with_user, helpers):
         json={"data": {"is_member": True}},
     )
 
-    deleted = api_with_user.add_list_member(list_id, user_id)
-    assert deleted["data"]["is_member"]
+    is_member = api_with_user.add_list_member(list_id, user_id)
+    assert is_member["data"]["is_member"]
 
 
 @responses.activate
@@ -74,5 +79,33 @@ def test_remove_member_to_list(api_with_user, helpers):
         json={"data": {"is_member": False}},
     )
 
-    deleted = api_with_user.remove_list_member(list_id, user_id)
-    assert not deleted["data"]["is_member"]
+    is_member = api_with_user.remove_list_member(list_id, user_id)
+    assert not is_member["data"]["is_member"]
+
+
+@responses.activate
+def test_follow_list(api_with_user, helpers):
+    list_id = "1441162269824405510"
+    user_id = "2244994945"
+    responses.add(
+        responses.POST,
+        url=f"https://api.twitter.com/2/users/{user_id}/followed_lists",
+        json={"data": {"following": True}},
+    )
+
+    following = api_with_user.follow_list(user_id, list_id)
+    assert following["data"]["following"]
+
+
+@responses.activate
+def test_unfollow_list(api_with_user, helpers):
+    list_id = "1441162269824405510"
+    user_id = "2244994945"
+    responses.add(
+        responses.DELETE,
+        url=f"https://api.twitter.com/2/users/{user_id}/followed_lists/{list_id}",
+        json={"data": {"following": False}},
+    )
+
+    following = api_with_user.unfollow_list(user_id, list_id)
+    assert not following["data"]["following"]
