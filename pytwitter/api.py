@@ -1751,3 +1751,42 @@ class Api:
         )
         data = self._parse_response(resp=resp)
         return data
+
+    def follow_list(
+        self,
+        user_id: str,
+        list_id: str,
+    ) -> dict:
+        """
+        Enables the authenticated user to follow a List.
+
+        :param user_id: The user ID who you are following a List on behalf of, with access token associated.
+        :param list_id: The ID of the List that you would like the user id to follow.
+        :return: Follow list status
+        """
+        resp = self._request(
+            url=f"{self.BASE_URL_V2}/users/{user_id}/followed_lists",
+            verb="POST",
+            json={"list_id": list_id},
+        )
+        data = self._parse_response(resp=resp)
+        return data
+
+    def unfollow_list(
+        self,
+        user_id: str,
+        list_id: str,
+    ) -> dict:
+        """
+        Enables the authenticated user to unfollow a List.
+
+        :param user_id: The user ID who you are unfollowing a List on behalf of, with access token associated.
+        :param list_id: The ID of the List that you would like the user id to unfollow.
+        :return: Unfollow list status.
+        """
+        resp = self._request(
+            url=f"{self.BASE_URL_V2}/users/{user_id}/followed_lists/{list_id}",
+            verb="DELETE",
+        )
+        data = self._parse_response(resp=resp)
+        return data
