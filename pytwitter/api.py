@@ -340,7 +340,7 @@ class Api:
         except ValueError:
             raise PyTwitterError(f"Unknown error: {resp.content}")
 
-        if resp.status_code != 200:
+        if not resp.ok:
             raise PyTwitterError(data)
 
         # note:
@@ -1629,3 +1629,203 @@ class Api:
             return data
         else:
             return md.ComplianceJob.new_from_json_dict(data["data"])
+
+    def create_list(
+        self,
+        name: str,
+        *,
+        description: Optional[str] = None,
+        private: Optional[bool] = None,
+        return_json: bool = False,
+    ) -> Union[md.TwitterList, dict]:
+        """
+        Enables the authenticated user to create a List.
+
+        :param name: The name of the List you wish to create.
+        :param description: Description of the List.
+        :param private: Determine whether the List should be private.
+        :param return_json: Type for returned data. If you set True JSON data will be returned.
+        :return: Twitter List information.
+        """
+
+        args = {"name": name}
+        if description is not None:
+            args["description"] = description
+        if private is not None:
+            args["private"] = private
+
+        resp = self._request(
+            url=f"{self.BASE_URL_V2}/lists",
+            verb="POST",
+            json=args,
+        )
+        data = self._parse_response(resp=resp)
+        if return_json:
+            return data
+        else:
+            return md.TwitterList.new_from_json_dict(data["data"])
+
+    def update_list(
+        self,
+        list_id: str,
+        *,
+        name: Optional[str] = None,
+        description: Optional[str] = None,
+        private: Optional[bool] = None,
+    ) -> dict:
+        """
+        Enables the authenticated user to update the meta data of a specified List that they own.
+
+        :param list_id: The ID of the List to be updated.
+        :param name: Updates the name of the List.
+        :param description: Updates the description of the List.
+        :param private: Determines whether the List should be private.
+        :return: Status for update twitter list.
+        """
+
+        args = {}
+        if name is not None:
+            args["name"] = name
+        if description is not None:
+            args["description"] = description
+        if private is not None:
+            args["private"] = private
+
+        resp = self._request(
+            url=f"{self.BASE_URL_V2}/lists/{list_id}",
+            verb="PUT",
+            json=args,
+        )
+        data = self._parse_response(resp=resp)
+        return data
+
+    def delete_list(self, list_id: str) -> dict:
+        """
+        Enables the authenticated user to delete a List that they own.
+
+        :param list_id: The ID of the List to be deleted.
+        :return: Status for delete list.
+        """
+        resp = self._request(
+            url=f"{self.BASE_URL_V2}/lists/{list_id}",
+            verb="DELETE",
+        )
+        data = self._parse_response(resp=resp)
+        return data
+
+    def add_list_member(
+        self,
+        list_id: str,
+        user_id: str,
+    ) -> dict:
+        """
+        Enables the authenticated user to add a member to a List they own.
+
+        :param list_id: The ID of the List you are adding a member to.
+        :param user_id: The ID of the user you wish to add as a member of the List.
+        :return: Member added status
+        """
+        resp = self._request(
+            url=f"{self.BASE_URL_V2}/lists/{list_id}/members",
+            verb="POST",
+            json={"user_id": user_id},
+        )
+        data = self._parse_response(resp=resp)
+        return data
+
+    def remove_list_member(
+        self,
+        list_id: str,
+        user_id: str,
+    ) -> dict:
+        """
+        Enables the authenticated user to remove a member from a List they own.
+
+        :param list_id: The ID of the List you are removing a member from.
+        :param user_id: The ID of the user you wish to remove as a member of the List.
+        :return: Member remove status
+        """
+        resp = self._request(
+            url=f"{self.BASE_URL_V2}/lists/{list_id}/members/{user_id}",
+            verb="DELETE",
+        )
+        data = self._parse_response(resp=resp)
+        return data
+
+    def follow_list(
+        self,
+        user_id: str,
+        list_id: str,
+    ) -> dict:
+        """
+        Enables the authenticated user to follow a List.
+
+        :param user_id: The user ID who you are following a List on behalf of, with access token associated.
+        :param list_id: The ID of the List that you would like the user id to follow.
+        :return: Follow list status
+        """
+        resp = self._request(
+            url=f"{self.BASE_URL_V2}/users/{user_id}/followed_lists",
+            verb="POST",
+            json={"list_id": list_id},
+        )
+        data = self._parse_response(resp=resp)
+        return data
+
+    def unfollow_list(
+        self,
+        user_id: str,
+        list_id: str,
+    ) -> dict:
+        """
+        Enables the authenticated user to unfollow a List.
+
+        :param user_id: The user ID who you are unfollowing a List on behalf of, with access token associated.
+        :param list_id: The ID of the List that you would like the user id to unfollow.
+        :return: Unfollow list status.
+        """
+        resp = self._request(
+            url=f"{self.BASE_URL_V2}/users/{user_id}/followed_lists/{list_id}",
+            verb="DELETE",
+        )
+        data = self._parse_response(resp=resp)
+        return data
+
+    def pin_list(
+        self,
+        user_id: str,
+        list_id: str,
+    ) -> dict:
+        """
+        Enables the authenticated user to pin a List.
+
+        :param user_id: The user ID who you are pinning a List on behalf of, with access token associated.
+        :param list_id: The ID of the List that you would like the user id to pin.
+        :return: Pin list status.
+        """
+        resp = self._request(
+            url=f"{self.BASE_URL_V2}/users/{user_id}/pinned_lists",
+            verb="POST",
+            json={"list_id": list_id},
+        )
+        data = self._parse_response(resp=resp)
+        return data
+
+    def unpin_list(
+        self,
+        user_id: str,
+        list_id: str,
+    ) -> dict:
+        """
+        Enables the authenticated user to unpin a List.
+
+        :param user_id: The user ID who you are unpin a List on behalf of, with access token associated.
+        :param list_id: The ID of the List that you would like the user id to unpin.
+        :return: unpin list status.
+        """
+        resp = self._request(
+            url=f"{self.BASE_URL_V2}/users/{user_id}/pinned_lists/{list_id}",
+            verb="DELETE",
+        )
+        data = self._parse_response(resp=resp)
+        return data

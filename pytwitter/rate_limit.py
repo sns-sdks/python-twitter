@@ -221,7 +221,47 @@ COMPLIANCE_JOBS = Endpoint(
     LIMIT_APP_GET=150,
     LIMIT_APP_POST=150,
 )
-
+LISTS_MANAGE = Endpoint(
+    resource="/lists",
+    regex=re.compile(r"/lists"),
+    LIMIT_USER_POST=300,
+)
+LISTS_MANAGE_BY_ID = Endpoint(
+    resource="/lists/:id",
+    regex=re.compile(r"/lists/\w+"),
+    LIMIT_USER_PUT=300,
+    LIMIT_USER_DELETE=300,
+)
+LISTS_MANAGE_MEMBERS = Endpoint(
+    resource="/lists/members",
+    regex=re.compile(r"/lists/members"),
+    LIMIT_USER_POST=300,
+)
+LISTS_MANAGE_MEMBERS_BY_ID = Endpoint(
+    resource="/lists/:id/members/:user_id",
+    regex=re.compile(r"/lists/\w+/members/\d+"),
+    LIMIT_USER_DELETE=300,
+)
+USER_FOLLOW_LISTS = Endpoint(
+    resource="/users/:id/followed_lists",
+    regex=re.compile(r"/users/\d+/followed_lists"),
+    LIMIT_USER_POST=50,
+)
+USER_FOLLOW_LISTS_BY_ID = Endpoint(
+    resource="/users/:id/followed_lists/:list_id",
+    regex=re.compile(r"/users/\d+/followed_lists/\w+"),
+    LIMIT_USER_DELETE=50,
+)
+USER_PINNED_LISTS = Endpoint(
+    resource="/users/:id/pinned_lists",
+    regex=re.compile(r"/users/\d+/pinned_lists"),
+    LIMIT_USER_POST=50,
+)
+USER_PINNED_LISTS_BY_ID = Endpoint(
+    resource="/users/:id/pinned_lists/:list_id",
+    regex=re.compile(r"/users/\d+/pinned_lists/\w+"),
+    LIMIT_USER_DELETE=50,
+)
 
 PATH_VAR_ENDPOINTS = [
     USER_BY_ID,
@@ -253,6 +293,14 @@ PATH_VAR_ENDPOINTS = [
     SPACES_SEARCH,
     COMPLIANCE_JOB_BY_ID,
     COMPLIANCE_JOBS,
+    LISTS_MANAGE,
+    LISTS_MANAGE_BY_ID,
+    LISTS_MANAGE_MEMBERS,
+    LISTS_MANAGE_MEMBERS_BY_ID,
+    USER_FOLLOW_LISTS,
+    USER_FOLLOW_LISTS_BY_ID,
+    USER_PINNED_LISTS,
+    USER_PINNED_LISTS_BY_ID,
 ]
 
 
