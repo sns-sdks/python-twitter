@@ -1790,3 +1790,42 @@ class Api:
         )
         data = self._parse_response(resp=resp)
         return data
+
+    def pin_list(
+        self,
+        user_id: str,
+        list_id: str,
+    ) -> dict:
+        """
+        Enables the authenticated user to pin a List.
+
+        :param user_id: The user ID who you are pinning a List on behalf of, with access token associated.
+        :param list_id: The ID of the List that you would like the user id to pin.
+        :return: Pin list status.
+        """
+        resp = self._request(
+            url=f"{self.BASE_URL_V2}/users/{user_id}/pinned_lists",
+            verb="POST",
+            json={"list_id": list_id},
+        )
+        data = self._parse_response(resp=resp)
+        return data
+
+    def unpin_list(
+        self,
+        user_id: str,
+        list_id: str,
+    ) -> dict:
+        """
+        Enables the authenticated user to unpin a List.
+
+        :param user_id: The user ID who you are unpin a List on behalf of, with access token associated.
+        :param list_id: The ID of the List that you would like the user id to unpin.
+        :return: unpin list status.
+        """
+        resp = self._request(
+            url=f"{self.BASE_URL_V2}/users/{user_id}/pinned_lists/{list_id}",
+            verb="DELETE",
+        )
+        data = self._parse_response(resp=resp)
+        return data
