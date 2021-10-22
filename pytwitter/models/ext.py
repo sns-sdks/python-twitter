@@ -16,6 +16,7 @@ from . import (
     Space,
     ComplianceJob,
     StreamRule,
+    TwitterList,
 )
 
 
@@ -104,6 +105,7 @@ class Response:
             Place,
             Space,
             ComplianceJob,
+            TwitterList,
             List[User],
             List[Tweet],
             List[Media],

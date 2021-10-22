@@ -340,7 +340,7 @@ class Api:
         except ValueError:
             raise PyTwitterError(f"Unknown error: {resp.content}")
 
-        if resp.status_code != 200:
+        if not resp.ok:
             raise PyTwitterError(data)
 
         # note:
@@ -1629,3 +1629,86 @@ class Api:
             return data
         else:
             return md.ComplianceJob.new_from_json_dict(data["data"])
+
+    def create_list(
+        self,
+        name: str,
+        *,
+        description: Optional[str] = None,
+        private: Optional[bool] = None,
+        return_json: bool = False,
+    ) -> Union[md.TwitterList, dict]:
+        """
+        Enables the authenticated user to create a List.
+
+        :param name: The name of the List you wish to create.
+        :param description: Description of the List.
+        :param private: Determine whether the List should be private.
+        :param return_json: Type for returned data. If you set True JSON data will be returned.
+        :return: Twitter List information.
+        """
+
+        args = {"name": name}
+        if description is not None:
+            args["description"] = description
+        if private is not None:
+            args["private"] = private
+
+        resp = self._request(
+            url=f"{self.BASE_URL_V2}/lists",
+            verb="POST",
+            json=args,
+        )
+        data = self._parse_response(resp=resp)
+        if return_json:
+            return data
+        else:
+            return md.TwitterList.new_from_json_dict(data["data"])
+
+    def update_list(
+        self,
+        list_id: str,
+        *,
+        name: Optional[str] = None,
+        description: Optional[str] = None,
+        private: Optional[bool] = None,
+    ) -> dict:
+        """
+        Enables the authenticated user to update the meta data of a specified List that they own.
+
+        :param list_id: The ID of the List to be updated.
+        :param name: Updates the name of the List.
+        :param description: Updates the description of the List.
+        :param private: Determines whether the List should be private.
+        :return: Status for update twitter list.
+        """
+
+        args = {}
+        if name is not None:
+            args["name"] = name
+        if description is not None:
+            args["description"] = description
+        if private is not None:
+            args["private"] = private
+
+        resp = self._request(
+            url=f"{self.BASE_URL_V2}/lists/{list_id}",
+            verb="PUT",
+            json=args,
+        )
+        data = self._parse_response(resp=resp)
+        return data
+
+    def delete_list(self, list_id: str) -> dict:
+        """
+        Enables the authenticated user to delete a List that they own.
+
+        :param list_id: The ID of the List to be deleted.
+        :return: Status for delete list.
+        """
+        resp = self._request(
+            url=f"{self.BASE_URL_V2}/lists/{list_id}",
+            verb="DELETE",
+        )
+        data = self._parse_response(resp=resp)
+        return data
