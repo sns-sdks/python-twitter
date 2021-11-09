@@ -37,17 +37,17 @@ class Api:
 
     def __init__(
         self,
-        bearer_token=None,
-        consumer_key=None,
-        consumer_secret=None,
-        access_token=None,
-        access_secret=None,
-        client_id=None,
-        application_only_auth=False,
-        oauth_flow=False,  # provide access with authorize
-        sleep_on_rate_limit=False,
-        timeout=None,
-        proxies=None,
+        bearer_token: Optional[str] = None,
+        consumer_key: Optional[str] = None,
+        consumer_secret: Optional[str] = None,
+        access_token: Optional[str] = None,
+        access_secret: Optional[str] = None,
+        client_id: Optional[str] = None,
+        application_only_auth: bool = False,
+        oauth_flow: bool = False,  # provide access with authorize
+        sleep_on_rate_limit: bool = False,
+        timeout: Optional[int] = None,
+        proxies: Optional[dict] = None,
     ) -> None:
         """
         Initial the Api instance.
@@ -514,6 +514,109 @@ class Api:
             cls=md.Tweet,
             return_json=return_json,
         )
+
+    def create_tweet(
+        self,
+        *,
+        text: Optional[str] = None,
+        direct_message_deep_link: Optional[str] = None,
+        for_super_followers_only: Optional[bool] = None,
+        geo_place_id: Optional[str] = None,
+        media_media_ids: Optional[List[str]] = None,
+        media_tagged_user_ids: Optional[List[str]] = None,
+        poll_duration_minutes: Optional[int] = None,
+        poll_options: Optional[str] = None,
+        quote_tweet_id: Optional[str] = None,
+        reply_exclude_reply_user_ids: Optional[List[str]] = None,
+        reply_in_reply_to_tweet_id: Optional[str] = None,
+        reply_settings: Optional[str] = None,
+        return_json: bool = False,
+    ) -> Union[dict, md.Tweet]:
+        """
+        Creates a Tweet on behalf of an authenticated user.
+
+        :param text: Text of the Tweet being created. This field is required if media.media_ids is not present.
+        :param direct_message_deep_link: Tweets a link directly to a Direct Message conversation with an account.
+        :param for_super_followers_only: Allows you to Tweet exclusively for Super Followers.
+        :param geo_place_id: Place ID being attached to the Tweet for geo location.
+        :param media_media_ids: A list of Media IDs being attached to the Tweet.
+            This is only required if the request includes the tagged_user_ids.
+        :param media_tagged_user_ids: A list of User IDs being tagged in the Tweet with Media.
+            If the user you're tagging doesn't have photo-tagging enabled, their names won't show up
+            in the list of tagged users even though the Tweet is successfully created.
+        :param poll_duration_minutes: Duration of the poll in minutes for a Tweet with a poll.
+            This is only required if the request includes poll.options
+        :param poll_options: A list of poll options for a Tweet with a poll.
+            For the request to be successful it must also include duration_minutes too.
+        :param quote_tweet_id: Link to the Tweet being quoted.
+        :param reply_exclude_reply_user_ids: A list of User IDs to be excluded from the reply Tweet
+            thus removing a user from a thread.
+        :param reply_in_reply_to_tweet_id: Tweet ID of the Tweet being replied to. Please note that in_reply_to_tweet_id
+            needs to be in the request if exclude_reply_user_ids is present.
+        :param reply_settings: Settings to indicate who can reply to the Tweet.
+            Options include "mentionedUsers" and "following". If the field isn’t specified, it will default to everyone.
+        :param return_json: Type for returned data. If you set True JSON data will be returned.
+        :returns: Data for tweet created.
+        """
+        args = {}
+        if geo_place_id is not None:
+            args["geo"] = {"place_id": geo_place_id}
+        if media_media_ids is not None or media_tagged_user_ids is not None:
+            args["media"] = {
+                "media_ids": media_media_ids,
+                "tagged_user_ids": media_tagged_user_ids,
+            }
+        if poll_duration_minutes is not None or poll_options is not None:
+            args["poll"] = {
+                "duration_minutes": poll_duration_minutes,
+                "options": poll_options,
+            }
+        if (
+            reply_in_reply_to_tweet_id is not None
+            or reply_exclude_reply_user_ids is not None
+        ):
+            args["reply"] = {
+                "exclude_reply_user_ids": reply_exclude_reply_user_ids,
+                "in_reply_to_tweet_id": reply_in_reply_to_tweet_id,
+            }
+        if direct_message_deep_link is not None:
+            args["direct_message_deep_link"] = direct_message_deep_link
+        if for_super_followers_only is not None:
+            args["for_super_followers_only"] = for_super_followers_only
+        if quote_tweet_id is not None:
+            args["quote_tweet_id"] = quote_tweet_id
+        if reply_settings is not None:
+            args["reply_settings"] = reply_settings
+        if text is not None:
+            args["text"] = text
+
+        resp = self._request(
+            url=f"{self.BASE_URL_V2}/tweets",
+            verb="POST",
+            json=args,
+        )
+        data = self._parse_response(resp=resp)
+        if return_json:
+            return data
+        else:
+            return md.Tweet.new_from_json_dict(data=data["data"])
+
+    def delete_tweet(
+        self,
+        tweet_id: str,
+    ) -> dict:
+        """
+        Allows a user or authenticated user ID to delete a Tweet.
+
+        :param tweet_id: ID for the tweet will be deleted.
+        :return: Tweet delete status.
+        """
+        resp = self._request(
+            url=f"{self.BASE_URL_V2}/tweets/{tweet_id}",
+            verb="DELETE",
+        )
+        data = self._parse_response(resp=resp)
+        return data
 
     def get_timelines(
         self,
@@ -1641,6 +1744,7 @@ class Api:
 
     def add_list_member(
         self,
+        *,
         list_id: str,
         user_id: str,
     ) -> dict:
@@ -1661,6 +1765,7 @@ class Api:
 
     def remove_list_member(
         self,
+        *,
         list_id: str,
         user_id: str,
     ) -> dict:
@@ -1680,6 +1785,7 @@ class Api:
 
     def follow_list(
         self,
+        *,
         user_id: str,
         list_id: str,
     ) -> dict:
@@ -1700,6 +1806,7 @@ class Api:
 
     def unfollow_list(
         self,
+        *,
         user_id: str,
         list_id: str,
     ) -> dict:
@@ -1719,6 +1826,7 @@ class Api:
 
     def pin_list(
         self,
+        *,
         user_id: str,
         list_id: str,
     ) -> dict:
@@ -1739,6 +1847,7 @@ class Api:
 
     def unpin_list(
         self,
+        *,
         user_id: str,
         list_id: str,
     ) -> dict:
