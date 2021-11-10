@@ -38,13 +38,98 @@ class Endpoint:
         return getattr(self, f"LIMIT_{auth_type.upper()}_{method}", 0)
 
 
+TWEETS_BY_ID = Endpoint(
+    resource="/tweets",
+    regex=re.compile(r"/tweets"),
+    LIMIT_APP_GET=300,
+    LIMIT_USER_GET=900,
+    LIMIT_USER_POST=200,
+)
+TWEET_BY_ID = Endpoint(
+    resource="/tweets/:id",
+    regex=re.compile(r"/tweets/\d+"),
+    LIMIT_APP_GET=300,
+    LIMIT_USER_GET=900,
+    LIMIT_USER_DELETE=50,
+)
+USER_TIMELINE = Endpoint(
+    resource="/users/:id/tweets",
+    regex=re.compile(r"/users/\d+/tweets"),
+    LIMIT_APP_GET=1500,
+    LIMIT_USER_GET=900,
+)
+USER_MENTIONS = Endpoint(
+    resource="/users/:id/mentions",
+    regex=re.compile(r"/users/\d+/mentions"),
+    LIMIT_APP_GET=450,
+    LIMIT_USER_GET=180,
+)
+TWEET_SEARCH_RECENT = Endpoint(
+    resource="/tweets/search/recent",
+    regex=re.compile(r"/tweets/search/recent"),
+    LIMIT_APP_GET=450,
+    LIMIT_USER_GET=180,
+)
+TWEET_SEARCH_ALL = Endpoint(
+    resource="/tweets/search/all",
+    regex=re.compile(r"/tweets/search/all"),
+    LIMIT_APP_GET=300,
+)
+TWEET_COUNTS = Endpoint(
+    resource="/tweets/counts",
+    regex=re.compile(r"/tweets/counts/\w+"),
+    LIMIT_APP_GET=300,
+)
+TWEET_RETWEET_USER = Endpoint(
+    resource="/tweets/:id/retweeted_by",
+    regex=re.compile(r"/tweets/\d+/retweeted_by"),
+    LIMIT_APP_GET=75,
+    LIMIT_USER_GET=75,
+)
+USER_TWEET_RETWEET = Endpoint(
+    resource="/users/:id/retweets",
+    regex=re.compile(r"/users/\d+/retweets"),
+    LIMIT_USER_POST=50,
+)
+USER_TWEET_RETWEET_REMOVE = Endpoint(
+    resource="/users/:id/retweets/:tweet_id",
+    regex=re.compile(r"/users/\d+/retweets/\d+"),
+    LIMIT_USER_POST=50,
+)
+TWEET_LIKING_USER = Endpoint(
+    resource="/tweets/:id/liking_users",
+    regex=re.compile(r"/tweets/\d+/liking_users"),
+    LIMIT_APP_GET=75,
+    LIMIT_USER_GET=75,
+)
+USER_LIKED_TWEET = Endpoint(
+    resource="/users/:id/liked_tweets",
+    regex=re.compile(r"/users/\d+/liked_tweets"),
+    LIMIT_APP_GET=75,
+    LIMIT_USER_GET=75,
+)
+USER_TWEET_LIKE = Endpoint(
+    resource="/users/:id/likes",
+    regex=re.compile(r"/users/\d+/likes"),
+    LIMIT_USER_POST=50,
+)
+USER_TWEET_LIKE_REMOVE = Endpoint(
+    resource="/users/:id/likes/:tweet_id",
+    regex=re.compile(r"/users/\d+/likes/\d+"),
+    LIMIT_USER_POST=50,
+)
+TWEET_HIDDEN = Endpoint(
+    resource="/tweets/:id/hidden",
+    regex=re.compile(r"/tweets/\d+/hidden"),
+    LIMIT_USER_PUT=50,
+)
+
 USER_BY_ID = Endpoint(
     resource="/users/:id",
     regex=re.compile(r"/users/\d+"),
     LIMIT_APP_GET=300,
     LIMIT_USER_GET=900,
 )
-
 USERS_BY_ID = Endpoint(
     resource="/users",
     regex=re.compile(r"/users"),
@@ -103,91 +188,6 @@ USER_REMOVE_MUTING = Endpoint(
     regex=re.compile(r"/users/\d+/muting/\d+"),
     LIMIT_USER_POST=50,
 )
-TWEET_BY_ID = Endpoint(
-    resource="/tweets/:id",
-    regex=re.compile(r"/tweets/\d+"),
-    LIMIT_APP_GET=300,
-    LIMIT_USER_GET=900,
-)
-TWEETS_BY_ID = Endpoint(
-    resource="/tweets",
-    regex=re.compile(r"/tweets"),
-    LIMIT_APP_GET=300,
-    LIMIT_USER_GET=900,
-)
-TWEET_SEARCH_RECENT = Endpoint(
-    resource="/tweets/search/recent",
-    regex=re.compile(r"/tweets/search/recent"),
-    LIMIT_APP_GET=450,
-    LIMIT_USER_GET=180,
-)
-TWEET_SEARCH_ALL = Endpoint(
-    resource="/tweets/search/all",
-    regex=re.compile(r"/tweets/search/all"),
-    LIMIT_APP_GET=300,
-)
-USER_TIMELINE = Endpoint(
-    resource="/users/:id/tweets",
-    regex=re.compile(r"/users/\d+/tweets"),
-    LIMIT_APP_GET=1500,
-    LIMIT_USER_GET=900,
-)
-USER_MENTIONS = Endpoint(
-    resource="/users/:id/mentions",
-    regex=re.compile(r"/users/\d+/mentions"),
-    LIMIT_APP_GET=450,
-    LIMIT_USER_GET=180,
-)
-TWEET_LIKING_USER = Endpoint(
-    resource="/tweets/:id/liking_users",
-    regex=re.compile(r"/tweets/\d+/liking_users"),
-    LIMIT_APP_GET=75,
-    LIMIT_USER_GET=75,
-)
-TWEET_RETWEET_USER = Endpoint(
-    resource="/tweets/:id/retweeted_by",
-    regex=re.compile(r"/tweets/\d+/retweeted_by"),
-    LIMIT_APP_GET=75,
-    LIMIT_USER_GET=75,
-)
-USER_LIKED_TWEET = Endpoint(
-    resource="/users/:id/liked_tweets",
-    regex=re.compile(r"/users/\d+/liked_tweets"),
-    LIMIT_APP_GET=75,
-    LIMIT_USER_GET=75,
-)
-USER_TWEET_LIKE = Endpoint(
-    resource="/users/:id/likes",
-    regex=re.compile(r"/users/\d+/likes"),
-    LIMIT_USER_POST=50,
-)
-USER_TWEET_LIKE_REMOVE = Endpoint(
-    resource="/users/:id/likes/:tweet_id",
-    regex=re.compile(r"/users/\d+/likes/\d+"),
-    LIMIT_USER_POST=50,
-)
-USER_TWEET_RETWEET = Endpoint(
-    resource="/users/:id/retweets",
-    regex=re.compile(r"/users/\d+/retweets"),
-    LIMIT_USER_POST=50,
-)
-USER_TWEET_RETWEET_REMOVE = Endpoint(
-    resource="/users/:id/retweets/:tweet_id",
-    regex=re.compile(r"/users/\d+/retweets/\d+"),
-    LIMIT_USER_POST=50,
-)
-
-TWEET_HIDDEN = Endpoint(
-    resource="/tweets/:id/hidden",
-    regex=re.compile(r"/tweets/\d+/hidden"),
-    LIMIT_USER_PUT=50,
-)
-
-TWEET_COUNTS = Endpoint(
-    resource="/tweets/counts",
-    regex=re.compile(r"/tweets/counts/\w+"),
-    LIMIT_APP_GET=300,
-)
 
 SPACE_BY_ID = Endpoint(
     resource="/spaces/:id",
@@ -210,17 +210,6 @@ SPACES_SEARCH = Endpoint(
     LIMIT_APP_GET=300,
 )
 
-COMPLIANCE_JOB_BY_ID = Endpoint(
-    resource="/compliance/jobs/:job_id",
-    regex=re.compile(r"/compliance/jobs/\d+"),
-    LIMIT_APP_GET=150,
-)
-COMPLIANCE_JOBS = Endpoint(
-    resource="/compliance/jobs",
-    regex=re.compile(r"/compliance/jobs"),
-    LIMIT_APP_GET=150,
-    LIMIT_APP_POST=150,
-)
 LISTS_MANAGE = Endpoint(
     resource="/lists",
     regex=re.compile(r"/lists"),
@@ -263,7 +252,34 @@ USER_PINNED_LISTS_BY_ID = Endpoint(
     LIMIT_USER_DELETE=50,
 )
 
+COMPLIANCE_JOB_BY_ID = Endpoint(
+    resource="/compliance/jobs/:job_id",
+    regex=re.compile(r"/compliance/jobs/\d+"),
+    LIMIT_APP_GET=150,
+)
+COMPLIANCE_JOBS = Endpoint(
+    resource="/compliance/jobs",
+    regex=re.compile(r"/compliance/jobs"),
+    LIMIT_APP_GET=150,
+    LIMIT_APP_POST=150,
+)
+
 PATH_VAR_ENDPOINTS = [
+    TWEET_BY_ID,
+    TWEETS_BY_ID,
+    USER_TIMELINE,
+    USER_MENTIONS,
+    TWEET_SEARCH_RECENT,
+    TWEET_SEARCH_ALL,
+    TWEET_COUNTS,
+    TWEET_RETWEET_USER,
+    USER_TWEET_RETWEET,
+    USER_TWEET_RETWEET_REMOVE,
+    TWEET_LIKING_USER,
+    USER_LIKED_TWEET,
+    USER_TWEET_LIKE,
+    USER_TWEET_LIKE_REMOVE,
+    TWEET_HIDDEN,
     USER_BY_ID,
     USERS_BY_ID,
     USER_BY_USERNAME,
@@ -275,24 +291,10 @@ PATH_VAR_ENDPOINTS = [
     USER_REMOVE_BLOCKING,
     USER_MUTING,
     USER_REMOVE_MUTING,
-    TWEET_BY_ID,
-    TWEETS_BY_ID,
-    TWEET_SEARCH_RECENT,
-    TWEET_SEARCH_ALL,
-    USER_TIMELINE,
-    USER_MENTIONS,
-    TWEET_LIKING_USER,
-    USER_LIKED_TWEET,
-    USER_TWEET_LIKE,
-    USER_TWEET_LIKE_REMOVE,
-    TWEET_HIDDEN,
-    TWEET_COUNTS,
     SPACE_BY_ID,
     SPACES_BY_IDS,
     SPACES_BY_CREATORS,
     SPACES_SEARCH,
-    COMPLIANCE_JOB_BY_ID,
-    COMPLIANCE_JOBS,
     LISTS_MANAGE,
     LISTS_MANAGE_BY_ID,
     LISTS_MANAGE_MEMBERS,
@@ -301,6 +303,8 @@ PATH_VAR_ENDPOINTS = [
     USER_FOLLOW_LISTS_BY_ID,
     USER_PINNED_LISTS,
     USER_PINNED_LISTS_BY_ID,
+    COMPLIANCE_JOB_BY_ID,
+    COMPLIANCE_JOBS,
 ]
 
 

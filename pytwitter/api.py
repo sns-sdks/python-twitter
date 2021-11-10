@@ -37,18 +37,33 @@ class Api:
 
     def __init__(
         self,
-        bearer_token=None,
-        consumer_key=None,
-        consumer_secret=None,
-        access_token=None,
-        access_secret=None,
-        client_id=None,
-        application_only_auth=False,
-        oauth_flow=False,  # provide access with authorize
-        sleep_on_rate_limit=False,
-        timeout=None,
-        proxies=None,
-    ):
+        bearer_token: Optional[str] = None,
+        consumer_key: Optional[str] = None,
+        consumer_secret: Optional[str] = None,
+        access_token: Optional[str] = None,
+        access_secret: Optional[str] = None,
+        client_id: Optional[str] = None,
+        application_only_auth: bool = False,
+        oauth_flow: bool = False,  # provide access with authorize
+        sleep_on_rate_limit: bool = False,
+        timeout: Optional[int] = None,
+        proxies: Optional[dict] = None,
+    ) -> None:
+        """
+        Initial the Api instance.
+
+        :param bearer_token: OAuth2.0 Token for app.
+        :param consumer_key: Consumer key for app.
+        :param consumer_secret: Consumer secret for app.
+        :param access_token: Access token for the authenticated user.
+        :param access_secret: Access token secret for the authenticated user.
+        :param client_id: Client ID for app with OAuth2.0
+        :param application_only_auth: If set this, with auto exchange app bearer token with consumer credentials.
+        :param oauth_flow: If set this, You need generate access token with user by OAuth1.1 or OAuth2.0
+        :param sleep_on_rate_limit: If token reach the limit, will sleep.
+        :param timeout: Timeout for requests.
+        :param proxies: Proxies for requests.
+        """
         self.session = requests.Session()
         self._auth = None
         self._oauth_session = None
@@ -95,9 +110,9 @@ class Api:
             raise PyTwitterError("Need oauth")
 
     @staticmethod
-    def get_uid_from_access_token_key(access_token: str):
+    def get_uid_from_access_token_key(access_token: str) -> str:
         """
-        get uid from access token, ex: 1323843269210460160-xxx
+        Get uid from access token, ex: 1323843269210460160-xxx
         :param access_token: Access token
         :return: uid
         """
@@ -106,7 +121,7 @@ class Api:
 
     def _request(
         self, url, verb="GET", params=None, data=None, json=None, enforce_auth=True
-    ):
+    ) -> Response:
         """
         Request for twitter api url
         :param url: The api location for twitter
@@ -149,7 +164,7 @@ class Api:
 
         return resp
 
-    def get_authorize_url(self, callback_uri=None, **kwargs):
+    def get_authorize_url(self, callback_uri=None, **kwargs) -> str:
         """
         Get url which to do authorize.
         :param callback_uri: The URL you wish your user to be redirected to.
@@ -170,7 +185,7 @@ class Api:
             self.BASE_AUTHORIZE_URL, **kwargs
         )
 
-    def generate_access_token(self, response: str):
+    def generate_access_token(self, response: str) -> dict:
         """
         :param response:
         :return:
@@ -312,7 +327,7 @@ class Api:
 
     def generate_oauth2_access_token(
         self, response: str, code_verifier: str, redirect_uri: str = None
-    ):
+    ) -> dict:
         """
         :param response: Response url after user logged in.
         :param code_verifier: Code verifier when your
@@ -361,7 +376,7 @@ class Api:
         cls,
         multi: bool = False,
         return_json: bool = False,
-    ):
+    ) -> Union[dict, md.Response]:
         """
         :param url: Url for twitter api
         :param params: Parameters for api
@@ -399,102 +414,6 @@ class Api:
             )
             return res
 
-    def get_users(
-        self,
-        *,
-        ids: Optional[Union[str, List, Tuple]] = None,
-        usernames: Optional[Union[str, List, Tuple]] = None,
-        user_fields: Optional[Union[str, List, Tuple]] = None,
-        expansions: Optional[Union[str, List, Tuple]] = None,
-        tweet_fields: Optional[Union[str, List, Tuple]] = None,
-        return_json: bool = False,
-    ):
-        """
-        Returns a variety of information about one or more users specified by the requested IDs or usernames.
-
-        :param ids: The IDs for target users, Up to 100 are allowed in a single request.
-        :param usernames: The username for target users, Up to 100 are allowed in a single request.
-            Either ids or username is required for this method.
-        :param user_fields: Fields for the user object.
-        :param expansions: Fields for expansions.
-        :param tweet_fields: Fields for the tweet object.
-        :param return_json: Type for returned data. If you set True JSON data will be returned.
-        :returns:
-            - data: data for the users
-            - includes: expansions data.
-        """
-        args = {
-            "ids": enf_comma_separated(name="ids", value=ids),
-            "user.fields": enf_comma_separated(name="user_fields", value=user_fields),
-            "tweet.fields": enf_comma_separated(
-                name="tweet_fields", value=tweet_fields
-            ),
-            "expansions": enf_comma_separated(name="expansions", value=expansions),
-        }
-
-        if ids:
-            args["ids"] = enf_comma_separated(name="ids", value=ids)
-            path = "users"
-        elif usernames:
-            args["usernames"] = enf_comma_separated(name="usernames", value=usernames)
-            path = "users/by"
-        else:
-            raise PyTwitterError("Specify at least one of ids or usernames")
-
-        return self._get(
-            url=f"{self.BASE_URL_V2}/{path}",
-            params=args,
-            cls=md.User,
-            multi=True,
-            return_json=return_json,
-        )
-
-    def get_user(
-        self,
-        *,
-        user_id: Optional[str] = None,
-        username: Optional[str] = None,
-        user_fields: Optional[Union[str, List, Tuple]] = None,
-        expansions: Optional[Union[str, List, Tuple]] = None,
-        tweet_fields: Optional[Union[str, List, Tuple]] = None,
-        return_json: bool = False,
-    ):
-        """
-        Returns a variety of information about a single user specified by the requested ID or username.
-
-        :param user_id: The ID of target user.
-        :param username: The username of target user.
-        :param user_fields: Fields for the user object.
-        :param expansions: Fields for expansions.
-        :param tweet_fields: Fields for the tweet object.
-        :param return_json: Type for returned data. If you set True JSON data will be returned.
-        :returns:
-            - data: data for the user
-            - includes: expansions data.
-        """
-
-        args = {
-            "user.fields": enf_comma_separated(name="user_fields", value=user_fields),
-            "tweet.fields": enf_comma_separated(
-                name="tweet_fields", value=tweet_fields
-            ),
-            "expansions": enf_comma_separated(name="expansions", value=expansions),
-        }
-
-        if user_id:
-            path = f"users/{user_id}"
-        elif username:
-            path = f"users/by/username/{username}"
-        else:
-            raise PyTwitterError("Specify at least one of user_id or username")
-
-        return self._get(
-            url=f"{self.BASE_URL_V2}/{path}",
-            params=args,
-            cls=md.User,
-            return_json=return_json,
-        )
-
     def get_tweets(
         self,
         tweet_ids: Optional[Union[str, List, Tuple]],
@@ -506,7 +425,7 @@ class Api:
         poll_fields: Optional[Union[str, List, Tuple]] = None,
         user_fields: Optional[Union[str, List, Tuple]] = None,
         return_json: bool = False,
-    ):
+    ) -> Union[dict, md.Response]:
         """
         Returns a variety of information about the Tweet specified by the requested ID or list of IDs.
 
@@ -558,7 +477,7 @@ class Api:
         poll_fields: Optional[Union[str, List, Tuple]] = None,
         user_fields: Optional[Union[str, List, Tuple]] = None,
         return_json: bool = False,
-    ):
+    ) -> Union[dict, md.Response]:
         """
         Returns a variety of information about a single Tweet specified by the requested ID.
 
@@ -596,131 +515,108 @@ class Api:
             return_json=return_json,
         )
 
-    def get_following(
+    def create_tweet(
         self,
-        user_id: str,
         *,
-        expansions: Optional[Union[str, List, Tuple]] = None,
-        user_fields: Optional[Union[str, List, Tuple]] = None,
-        tweet_fields: Optional[Union[str, List, Tuple]] = None,
-        max_results: Optional[int] = None,
-        pagination_token: Optional[str] = None,
+        text: Optional[str] = None,
+        direct_message_deep_link: Optional[str] = None,
+        for_super_followers_only: Optional[bool] = None,
+        geo_place_id: Optional[str] = None,
+        media_media_ids: Optional[List[str]] = None,
+        media_tagged_user_ids: Optional[List[str]] = None,
+        poll_duration_minutes: Optional[int] = None,
+        poll_options: Optional[str] = None,
+        quote_tweet_id: Optional[str] = None,
+        reply_exclude_reply_user_ids: Optional[List[str]] = None,
+        reply_in_reply_to_tweet_id: Optional[str] = None,
+        reply_settings: Optional[str] = None,
         return_json: bool = False,
-    ):
+    ) -> Union[dict, md.Tweet]:
         """
-        Returns a list of users the specified user ID is following.
+        Creates a Tweet on behalf of an authenticated user.
 
-        :param user_id: The user ID whose following you would like to retrieve.
-        :param expansions: Fields for the expansions.
-        :param user_fields: Fields for the user object.
-        :param tweet_fields: Fields for the tweet object.
-        :param max_results: The maximum number of results to be returned per page. Number between 1 and the 1000.
-        By default, each page will return 100 results.
-        :param pagination_token: Token for the pagination.
+        :param text: Text of the Tweet being created. This field is required if media.media_ids is not present.
+        :param direct_message_deep_link: Tweets a link directly to a Direct Message conversation with an account.
+        :param for_super_followers_only: Allows you to Tweet exclusively for Super Followers.
+        :param geo_place_id: Place ID being attached to the Tweet for geo location.
+        :param media_media_ids: A list of Media IDs being attached to the Tweet.
+            This is only required if the request includes the tagged_user_ids.
+        :param media_tagged_user_ids: A list of User IDs being tagged in the Tweet with Media.
+            If the user you're tagging doesn't have photo-tagging enabled, their names won't show up
+            in the list of tagged users even though the Tweet is successfully created.
+        :param poll_duration_minutes: Duration of the poll in minutes for a Tweet with a poll.
+            This is only required if the request includes poll.options
+        :param poll_options: A list of poll options for a Tweet with a poll.
+            For the request to be successful it must also include duration_minutes too.
+        :param quote_tweet_id: Link to the Tweet being quoted.
+        :param reply_exclude_reply_user_ids: A list of User IDs to be excluded from the reply Tweet
+            thus removing a user from a thread.
+        :param reply_in_reply_to_tweet_id: Tweet ID of the Tweet being replied to. Please note that in_reply_to_tweet_id
+            needs to be in the request if exclude_reply_user_ids is present.
+        :param reply_settings: Settings to indicate who can reply to the Tweet.
+            Options include "mentionedUsers" and "following". If the field isn’t specified, it will default to everyone.
         :param return_json: Type for returned data. If you set True JSON data will be returned.
-        :return:
-            - data: data for the following.
-            - includes: expansions data.
-            - meta: pagination details
+        :returns: Data for tweet created.
         """
-
-        args = {
-            "expansions": enf_comma_separated(name="expansions", value=expansions),
-            "user.fields": enf_comma_separated(name="user_fields", value=user_fields),
-            "tweet.fields": enf_comma_separated(
-                name="tweet_fields", value=tweet_fields
-            ),
-            "max_results": max_results,
-            "pagination_token": pagination_token,
-        }
-
-        return self._get(
-            url=f"{self.BASE_URL_V2}/users/{user_id}/following",
-            params=args,
-            cls=md.User,
-            multi=True,
-            return_json=return_json,
-        )
-
-    def follow_user(self, user_id: str, target_user_id: str) -> dict:
-        """
-        Allows a user ID to follow another user.
-        If the target user does not have public Tweets, this endpoint will send a follow request.
-
-        :param user_id: The user ID who you would like to initiate the follow on behalf of.
-                        It must match the authenticating user.
-        :param target_user_id: The target user ID of user to follow
-        :return: follow status data
-        """
+        args = {}
+        if geo_place_id is not None:
+            args["geo"] = {"place_id": geo_place_id}
+        if media_media_ids is not None or media_tagged_user_ids is not None:
+            args["media"] = {
+                "media_ids": media_media_ids,
+                "tagged_user_ids": media_tagged_user_ids,
+            }
+        if poll_duration_minutes is not None or poll_options is not None:
+            args["poll"] = {
+                "duration_minutes": poll_duration_minutes,
+                "options": poll_options,
+            }
+        if (
+            reply_in_reply_to_tweet_id is not None
+            or reply_exclude_reply_user_ids is not None
+        ):
+            args["reply"] = {
+                "exclude_reply_user_ids": reply_exclude_reply_user_ids,
+                "in_reply_to_tweet_id": reply_in_reply_to_tweet_id,
+            }
+        if direct_message_deep_link is not None:
+            args["direct_message_deep_link"] = direct_message_deep_link
+        if for_super_followers_only is not None:
+            args["for_super_followers_only"] = for_super_followers_only
+        if quote_tweet_id is not None:
+            args["quote_tweet_id"] = quote_tweet_id
+        if reply_settings is not None:
+            args["reply_settings"] = reply_settings
+        if text is not None:
+            args["text"] = text
 
         resp = self._request(
-            url=f"{self.BASE_URL_V2}/users/{user_id}/following",
+            url=f"{self.BASE_URL_V2}/tweets",
             verb="POST",
-            json={"target_user_id": target_user_id},
+            json=args,
         )
-        data = self._parse_response(resp)
-        return data
+        data = self._parse_response(resp=resp)
+        if return_json:
+            return data
+        else:
+            return md.Tweet.new_from_json_dict(data=data["data"])
 
-    def unfollow_user(self, user_id: str, target_user_id: str) -> dict:
+    def delete_tweet(
+        self,
+        tweet_id: str,
+    ) -> dict:
         """
-        Allows a user ID to unfollow another user.
+        Allows a user or authenticated user ID to delete a Tweet.
 
-        :param user_id: The user ID who you would like to initiate the unfollow on behalf of.
-                        It must match the username of the authenticating user.
-        :param target_user_id: The user ID of user to unfollow.
-        :return: follow status data
+        :param tweet_id: ID for the tweet will be deleted.
+        :return: Tweet delete status.
         """
         resp = self._request(
-            url=f"{self.BASE_URL_V2}/users/{user_id}/following/{target_user_id}",
+            url=f"{self.BASE_URL_V2}/tweets/{tweet_id}",
             verb="DELETE",
         )
-        data = self._parse_response(resp)
+        data = self._parse_response(resp=resp)
         return data
-
-    def get_followers(
-        self,
-        user_id: str,
-        *,
-        expansions: Optional[Union[str, List, Tuple]] = None,
-        user_fields: Optional[Union[str, List, Tuple]] = None,
-        tweet_fields: Optional[Union[str, List, Tuple]] = None,
-        max_results: Optional[int] = None,
-        pagination_token: Optional[str] = None,
-        return_json: bool = False,
-    ):
-        """
-        Returns a list of users who are followers of the specified user ID.
-
-        :param user_id: The user ID whose following you would like to retrieve.
-        :param expansions: Fields for the expansions.
-        :param user_fields: Fields for the user object.
-        :param tweet_fields: Fields for the tweet object.
-        :param max_results: The maximum number of results to be returned per page. Number between 1 and the 1000.
-        By default, each page will return 100 results.
-        :param pagination_token: Token for the pagination.
-        :param return_json: Type for returned data. If you set True JSON data will be returned.
-        :return:
-            - data: data for the following.
-            - includes: expansions data.
-            - meta: pagination details
-        """
-        args = {
-            "expansions": enf_comma_separated(name="expansions", value=expansions),
-            "user.fields": enf_comma_separated(name="user_fields", value=user_fields),
-            "tweet.fields": enf_comma_separated(
-                name="tweet_fields", value=tweet_fields
-            ),
-            "max_results": max_results,
-            "pagination_token": pagination_token,
-        }
-
-        return self._get(
-            url=f"{self.BASE_URL_V2}/users/{user_id}/followers",
-            params=args,
-            cls=md.User,
-            multi=True,
-            return_json=return_json,
-        )
 
     def get_timelines(
         self,
@@ -740,7 +636,7 @@ class Api:
         place_fields: Optional[Union[str, List, Tuple]] = None,
         poll_fields: Optional[Union[str, List, Tuple]] = None,
         return_json: bool = False,
-    ):
+    ) -> Union[dict, md.Response]:
         """
         Returns Tweets composed by a single user
 
@@ -809,7 +705,7 @@ class Api:
         place_fields: Optional[Union[str, List, Tuple]] = None,
         poll_fields: Optional[Union[str, List, Tuple]] = None,
         return_json: bool = False,
-    ):
+    ) -> Union[dict, md.Response]:
         """
         Returns Tweets mentioning user specified by ID.
 
@@ -876,7 +772,7 @@ class Api:
         place_fields: Optional[Union[str, List, Tuple]] = None,
         poll_fields: Optional[Union[str, List, Tuple]] = None,
         return_json: bool = False,
-    ):
+    ) -> Union[dict, md.Response]:
         """
         Search tweets endpoint has two type:
             - recent (default): Returns Tweets from the last seven days that match a search query.
@@ -940,233 +836,6 @@ class Api:
             return_json=return_json,
         )
 
-    def hidden_reply(self, tweet_id: str, hidden: Optional[bool] = True) -> dict:
-        """
-        Hide or un-hide a reply to a Tweet.
-
-        Note: This api must with OAuth 1.0a User context.
-
-        :param tweet_id: ID of the tweet to hide or un-hide,
-        :param hidden: If set True, will hide reply, If set False, will un-hide reply. Default is True.
-        :return: status for hide or un-hide.
-        """
-
-        resp = self._request(
-            url=f"{self.BASE_URL_V2}/tweets/{tweet_id}/hidden",
-            verb="PUT",
-            json={"hidden": hidden},
-        )
-        data = self._parse_response(resp=resp)
-        return data
-
-    def block_user(self, user_id: str, target_user_id: str) -> dict:
-        """
-        Allows user to block target user.
-
-        :param user_id: The user ID who you would like to initiate the block on behalf of.
-                It must match your user ID which authorize with the access token.
-        :param target_user_id: The target user ID of user to block
-        :return: block status data
-        """
-
-        resp = self._request(
-            url=f"{self.BASE_URL_V2}/users/{user_id}/blocking",
-            verb="POST",
-            json={"target_user_id": target_user_id},
-        )
-        data = self._parse_response(resp)
-        return data
-
-    def get_blocking_users(
-        self,
-        user_id: str,
-        *,
-        expansions: Optional[Union[str, List, Tuple]] = None,
-        user_fields: Optional[Union[str, List, Tuple]] = None,
-        tweet_fields: Optional[Union[str, List, Tuple]] = None,
-        max_results: Optional[int] = None,
-        pagination_token: Optional[str] = None,
-        return_json: bool = False,
-    ):
-        """
-        Returns a list of users who are blocked by the specified user ID.
-
-        :param user_id: The user ID whose blocking you would like to retrieve.
-        :param expansions: Fields for the expansions.
-        :param user_fields: Fields for the user object.
-        :param tweet_fields: Fields for the tweet object.
-        :param max_results: The maximum number of results to be returned per page. Number between 1 and the 1000.
-        By default, each page will return 100 results.
-        :param pagination_token: Token for the pagination.
-        :param return_json: Type for returned data. If you set True JSON data will be returned.
-        :return:
-            - data: data for the blocking.
-            - includes: expansions data.
-            - meta: pagination details
-        """
-        args = {
-            "expansions": enf_comma_separated(name="expansions", value=expansions),
-            "user.fields": enf_comma_separated(name="user_fields", value=user_fields),
-            "tweet.fields": enf_comma_separated(
-                name="tweet_fields", value=tweet_fields
-            ),
-            "max_results": max_results,
-            "pagination_token": pagination_token,
-        }
-        return self._get(
-            url=f"{self.BASE_URL_V2}/users/{user_id}/blocking",
-            params=args,
-            cls=md.User,
-            multi=True,
-            return_json=return_json,
-        )
-
-    def unblock_user(self, user_id: str, target_user_id: str) -> dict:
-        """
-        Allows user to unblock another user.
-
-        :param user_id: The user ID who you would like to initiate an unblock on behalf of.
-                It must match your user ID which authorize with the access token.
-        :param target_user_id: The target user ID of user to block
-        :return: delete block status data
-        """
-
-        resp = self._request(
-            url=f"{self.BASE_URL_V2}/users/{user_id}/blocking/{target_user_id}",
-            verb="DELETE",
-        )
-        data = self._parse_response(resp)
-        return data
-
-    def like_tweet(self, user_id: str, tweet_id: str) -> dict:
-        """
-        Allows user to like tweet.
-
-        :param user_id: The user ID who you are liking a Tweet on behalf of.
-                It must match your user ID which authorize with the access token.
-        :param tweet_id: The ID of the Tweet that you would like.
-        :return: like status data
-        """
-
-        resp = self._request(
-            url=f"{self.BASE_URL_V2}/users/{user_id}/likes",
-            verb="POST",
-            json={"tweet_id": tweet_id},
-        )
-        data = self._parse_response(resp=resp)
-        return data
-
-    def unlike_tweet(self, user_id: str, tweet_id: str) -> dict:
-        """
-        Allows user to remove like status from a tweet.
-
-        :param user_id: The user ID who you are removing a Like of a Tweet on behalf of.
-                It must match your user ID which authorize with the access token.
-        :param tweet_id: The ID of the Tweet that you would remove like status.
-        :return: like status data
-        """
-
-        resp = self._request(
-            url=f"{self.BASE_URL_V2}/users/{user_id}/likes/{tweet_id}", verb="DELETE"
-        )
-        data = self._parse_response(resp=resp)
-        return data
-
-    def get_user_liked_tweets(
-        self,
-        user_id: str,
-        *,
-        pagination_token: Optional[str] = None,
-        max_results: Optional[int] = None,
-        tweet_fields: Optional[Union[str, List, Tuple]] = None,
-        expansions: Optional[Union[str, List, Tuple]] = None,
-        user_fields: Optional[Union[str, List, Tuple]] = None,
-        media_fields: Optional[Union[str, List, Tuple]] = None,
-        place_fields: Optional[Union[str, List, Tuple]] = None,
-        poll_fields: Optional[Union[str, List, Tuple]] = None,
-        return_json: bool = False,
-    ):
-        """
-        Get information about a user’s liked Tweets.
-
-        :param user_id: The user ID whose liked tweets you would like to retrieve.
-        :param expansions: Fields for the expansions.
-        :param pagination_token: Token for the pagination.
-        :param max_results: The maximum number of results to be returned per page. Number between 1 and the 1000.
-        By default, each page will return 100 results.
-        :param tweet_fields: Fields for the tweet object.
-        :param user_fields: Fields for the user object, Expansion required.
-        :param media_fields: Fields for the media object, Expansion required.
-        :param place_fields: Fields for the place object, Expansion required.
-        :param poll_fields: Fields for the poll object, Expansion required.
-        :param return_json: Type for returned data. If you set True JSON data will be returned.
-        :return:
-            - data: data for the tweets.
-            - includes: expansions data.
-            - meta: pagination details
-        """
-        args = {
-            "expansions": enf_comma_separated(name="expansions", value=expansions),
-            "tweet.fields": enf_comma_separated(
-                name="tweet_fields", value=tweet_fields
-            ),
-            "user.fields": enf_comma_separated(name="user_fields", value=user_fields),
-            "media.fields": enf_comma_separated(
-                name="media_fields", value=media_fields
-            ),
-            "place.fields": enf_comma_separated(
-                name="place_fields", value=place_fields
-            ),
-            "poll.fields": enf_comma_separated(name="poll_fields", value=poll_fields),
-            "max_results": max_results,
-            "pagination_token": pagination_token,
-        }
-        return self._get(
-            url=f"{self.BASE_URL_V2}/users/{user_id}/liked_tweets",
-            params=args,
-            cls=md.Tweet,
-            multi=True,
-            return_json=return_json,
-        )
-
-    def get_tweet_liking_users(
-        self,
-        tweet_id: str,
-        *,
-        user_fields: Optional[Union[str, List, Tuple]] = None,
-        expansions: Optional[Union[str, List, Tuple]] = None,
-        tweet_fields: Optional[Union[str, List, Tuple]] = None,
-        return_json: bool = False,
-    ):
-        """
-        Get information about a Tweet’s liking users.
-
-        :param tweet_id: The tweet ID whose liking users you would like to retrieve.
-        :param expansions: Fields for the expansions.
-        By default, each page will return 100 results.
-        :param tweet_fields: Fields for the tweet object.
-        :param user_fields: Fields for the user object, Expansion required.
-        :param return_json: Type for returned data. If you set True JSON data will be returned.
-        :return:
-            - data: data for the users.
-            - includes: expansions data.
-            - meta: pagination details
-        """
-        args = {
-            "expansions": enf_comma_separated(name="expansions", value=expansions),
-            "user.fields": enf_comma_separated(name="user_fields", value=user_fields),
-            "tweet.fields": enf_comma_separated(
-                name="tweet_fields", value=tweet_fields
-            ),
-        }
-        return self._get(
-            url=f"{self.BASE_URL_V2}/tweets/{tweet_id}/liking_users",
-            params=args,
-            cls=md.User,
-            multi=True,
-            return_json=return_json,
-        )
-
     def get_tweets_counts(
         self,
         query: str,
@@ -1179,7 +848,7 @@ class Api:
         until_id: Optional[str] = None,
         next_token: Optional[str] = None,
         return_json: bool = False,
-    ):
+    ) -> Union[dict, md.Response]:
         """
         Get count of Tweets that match a search query.
 
@@ -1226,83 +895,6 @@ class Api:
             return_json=return_json,
         )
 
-    def mute_user(self, user_id: str, target_user_id: str) -> dict:
-        """
-        Allows user to mute the target user.
-
-        :param user_id: The user ID who you would like to initiate the mute on behalf of.
-            It must match your own user ID or that of an authenticating user
-        :param target_user_id: The user ID of the user that you would like the id to mute.
-        :return: Mute status data
-        """
-        resp = self._request(
-            url=f"{self.BASE_URL_V2}/users/{user_id}/muting",
-            verb="POST",
-            json={"target_user_id": target_user_id},
-        )
-        data = self._parse_response(resp)
-        return data
-
-    def unmute_user(self, user_id: str, target_user_id: str) -> dict:
-        """
-        Allows user to unmute the target user.
-
-        :param user_id: The user ID who you would like to initiate an unmute on behalf of.
-            It must match your own user ID or that of an authenticating user
-        :param target_user_id: The user ID of the user that you would like to unmute.
-        :return: Unmute status data
-        """
-        resp = self._request(
-            url=f"{self.BASE_URL_V2}/users/{user_id}/muting/{target_user_id}",
-            verb="DELETE",
-        )
-        data = self._parse_response(resp)
-        return data
-
-    def get_user_muting(
-        self,
-        user_id: str,
-        *,
-        user_fields: Optional[Union[str, List, Tuple]] = None,
-        expansions: Optional[Union[str, List, Tuple]] = None,
-        tweet_fields: Optional[Union[str, List, Tuple]] = None,
-        max_results: Optional[int] = None,
-        pagination_token: Optional[str] = None,
-        return_json: bool = False,
-    ):
-        """
-        Returns a list of users who are muted by the specified user ID.
-
-        :param user_id: ID for user which you want to get muting.
-        :param user_fields: Fields for the user object.
-        :param expansions: Fields for the expansions now only `pinned_tweet_id`.
-        :param tweet_fields: Fields for the tweet object, Expansions required.
-        :param max_results: The maximum number of results to be returned per page. Number between 1 and the 1000.
-        :param pagination_token: Token for the pagination.
-        :param return_json: Type for returned data. If you set True JSON data will be returned.
-        :return:
-            - data: data for the users.
-            - includes: expansions data.
-            - meta: pagination details
-        """
-
-        args = {
-            "user.fields": enf_comma_separated(name="user_fields", value=user_fields),
-            "expansions": enf_comma_separated(name="expansions", value=expansions),
-            "tweet.fields": enf_comma_separated(
-                name="tweet_fields", value=tweet_fields
-            ),
-            "max_results": max_results,
-            "pagination_token": pagination_token,
-        }
-        return self._get(
-            url=f"{self.BASE_URL_V2}/users/{user_id}/muting",
-            params=args,
-            cls=md.User,
-            multi=True,
-            return_json=return_json,
-        )
-
     def get_tweet_retweeted_users(
         self,
         tweet_id: str,
@@ -1311,7 +903,7 @@ class Api:
         expansions: Optional[Union[str, List, Tuple]] = None,
         tweet_fields: Optional[Union[str, List, Tuple]] = None,
         return_json: bool = False,
-    ):
+    ) -> Union[dict, md.Response]:
         """
         Get information about who has Retweeted a Tweet.
 
@@ -1373,6 +965,532 @@ class Api:
         data = self._parse_response(resp=resp)
         return data
 
+    def get_tweet_liking_users(
+        self,
+        tweet_id: str,
+        *,
+        user_fields: Optional[Union[str, List, Tuple]] = None,
+        expansions: Optional[Union[str, List, Tuple]] = None,
+        tweet_fields: Optional[Union[str, List, Tuple]] = None,
+        return_json: bool = False,
+    ) -> Union[dict, md.Response]:
+        """
+        Get information about a Tweet’s liking users.
+
+        :param tweet_id: The tweet ID whose liking users you would like to retrieve.
+        :param expansions: Fields for the expansions.
+        By default, each page will return 100 results.
+        :param tweet_fields: Fields for the tweet object.
+        :param user_fields: Fields for the user object, Expansion required.
+        :param return_json: Type for returned data. If you set True JSON data will be returned.
+        :return:
+            - data: data for the users.
+            - includes: expansions data.
+            - meta: pagination details
+        """
+        args = {
+            "expansions": enf_comma_separated(name="expansions", value=expansions),
+            "user.fields": enf_comma_separated(name="user_fields", value=user_fields),
+            "tweet.fields": enf_comma_separated(
+                name="tweet_fields", value=tweet_fields
+            ),
+        }
+        return self._get(
+            url=f"{self.BASE_URL_V2}/tweets/{tweet_id}/liking_users",
+            params=args,
+            cls=md.User,
+            multi=True,
+            return_json=return_json,
+        )
+
+    def get_user_liked_tweets(
+        self,
+        user_id: str,
+        *,
+        pagination_token: Optional[str] = None,
+        max_results: Optional[int] = None,
+        tweet_fields: Optional[Union[str, List, Tuple]] = None,
+        expansions: Optional[Union[str, List, Tuple]] = None,
+        user_fields: Optional[Union[str, List, Tuple]] = None,
+        media_fields: Optional[Union[str, List, Tuple]] = None,
+        place_fields: Optional[Union[str, List, Tuple]] = None,
+        poll_fields: Optional[Union[str, List, Tuple]] = None,
+        return_json: bool = False,
+    ) -> Union[dict, md.Response]:
+        """
+        Get information about a user’s liked Tweets.
+
+        :param user_id: The user ID whose liked tweets you would like to retrieve.
+        :param expansions: Fields for the expansions.
+        :param pagination_token: Token for the pagination.
+        :param max_results: The maximum number of results to be returned per page. Number between 1 and the 1000.
+        By default, each page will return 100 results.
+        :param tweet_fields: Fields for the tweet object.
+        :param user_fields: Fields for the user object, Expansion required.
+        :param media_fields: Fields for the media object, Expansion required.
+        :param place_fields: Fields for the place object, Expansion required.
+        :param poll_fields: Fields for the poll object, Expansion required.
+        :param return_json: Type for returned data. If you set True JSON data will be returned.
+        :return:
+            - data: data for the tweets.
+            - includes: expansions data.
+            - meta: pagination details
+        """
+        args = {
+            "expansions": enf_comma_separated(name="expansions", value=expansions),
+            "tweet.fields": enf_comma_separated(
+                name="tweet_fields", value=tweet_fields
+            ),
+            "user.fields": enf_comma_separated(name="user_fields", value=user_fields),
+            "media.fields": enf_comma_separated(
+                name="media_fields", value=media_fields
+            ),
+            "place.fields": enf_comma_separated(
+                name="place_fields", value=place_fields
+            ),
+            "poll.fields": enf_comma_separated(name="poll_fields", value=poll_fields),
+            "max_results": max_results,
+            "pagination_token": pagination_token,
+        }
+        return self._get(
+            url=f"{self.BASE_URL_V2}/users/{user_id}/liked_tweets",
+            params=args,
+            cls=md.Tweet,
+            multi=True,
+            return_json=return_json,
+        )
+
+    def like_tweet(self, user_id: str, tweet_id: str) -> dict:
+        """
+        Allows user to like tweet.
+
+        :param user_id: The user ID who you are liking a Tweet on behalf of.
+                It must match your user ID which authorize with the access token.
+        :param tweet_id: The ID of the Tweet that you would like.
+        :return: like status data
+        """
+
+        resp = self._request(
+            url=f"{self.BASE_URL_V2}/users/{user_id}/likes",
+            verb="POST",
+            json={"tweet_id": tweet_id},
+        )
+        data = self._parse_response(resp=resp)
+        return data
+
+    def unlike_tweet(self, user_id: str, tweet_id: str) -> dict:
+        """
+        Allows user to remove like status from a tweet.
+
+        :param user_id: The user ID who you are removing a Like of a Tweet on behalf of.
+                It must match your user ID which authorize with the access token.
+        :param tweet_id: The ID of the Tweet that you would remove like status.
+        :return: like status data
+        """
+
+        resp = self._request(
+            url=f"{self.BASE_URL_V2}/users/{user_id}/likes/{tweet_id}", verb="DELETE"
+        )
+        data = self._parse_response(resp=resp)
+        return data
+
+    def hidden_reply(self, tweet_id: str, hidden: Optional[bool] = True) -> dict:
+        """
+        Hide or un-hide a reply to a Tweet.
+
+        Note: This api must with OAuth 1.0a User context.
+
+        :param tweet_id: ID of the tweet to hide or un-hide,
+        :param hidden: If set True, will hide reply, If set False, will un-hide reply. Default is True.
+        :return: status for hide or un-hide.
+        """
+
+        resp = self._request(
+            url=f"{self.BASE_URL_V2}/tweets/{tweet_id}/hidden",
+            verb="PUT",
+            json={"hidden": hidden},
+        )
+        data = self._parse_response(resp=resp)
+        return data
+
+    def get_users(
+        self,
+        *,
+        ids: Optional[Union[str, List, Tuple]] = None,
+        usernames: Optional[Union[str, List, Tuple]] = None,
+        user_fields: Optional[Union[str, List, Tuple]] = None,
+        expansions: Optional[Union[str, List, Tuple]] = None,
+        tweet_fields: Optional[Union[str, List, Tuple]] = None,
+        return_json: bool = False,
+    ) -> Union[dict, md.Response]:
+        """
+        Returns a variety of information about one or more users specified by the requested IDs or usernames.
+
+        :param ids: The IDs for target users, Up to 100 are allowed in a single request.
+        :param usernames: The username for target users, Up to 100 are allowed in a single request.
+            Either ids or username is required for this method.
+        :param user_fields: Fields for the user object.
+        :param expansions: Fields for expansions.
+        :param tweet_fields: Fields for the tweet object.
+        :param return_json: Type for returned data. If you set True JSON data will be returned.
+        :returns:
+            - data: data for the users
+            - includes: expansions data.
+        """
+        args = {
+            "ids": enf_comma_separated(name="ids", value=ids),
+            "user.fields": enf_comma_separated(name="user_fields", value=user_fields),
+            "tweet.fields": enf_comma_separated(
+                name="tweet_fields", value=tweet_fields
+            ),
+            "expansions": enf_comma_separated(name="expansions", value=expansions),
+        }
+
+        if ids:
+            args["ids"] = enf_comma_separated(name="ids", value=ids)
+            path = "users"
+        elif usernames:
+            args["usernames"] = enf_comma_separated(name="usernames", value=usernames)
+            path = "users/by"
+        else:
+            raise PyTwitterError("Specify at least one of ids or usernames")
+
+        return self._get(
+            url=f"{self.BASE_URL_V2}/{path}",
+            params=args,
+            cls=md.User,
+            multi=True,
+            return_json=return_json,
+        )
+
+    def get_user(
+        self,
+        *,
+        user_id: Optional[str] = None,
+        username: Optional[str] = None,
+        user_fields: Optional[Union[str, List, Tuple]] = None,
+        expansions: Optional[Union[str, List, Tuple]] = None,
+        tweet_fields: Optional[Union[str, List, Tuple]] = None,
+        return_json: bool = False,
+    ) -> Union[dict, md.Response]:
+        """
+        Returns a variety of information about a single user specified by the requested ID or username.
+
+        :param user_id: The ID of target user.
+        :param username: The username of target user.
+        :param user_fields: Fields for the user object.
+        :param expansions: Fields for expansions.
+        :param tweet_fields: Fields for the tweet object.
+        :param return_json: Type for returned data. If you set True JSON data will be returned.
+        :returns:
+            - data: data for the user
+            - includes: expansions data.
+        """
+
+        args = {
+            "user.fields": enf_comma_separated(name="user_fields", value=user_fields),
+            "tweet.fields": enf_comma_separated(
+                name="tweet_fields", value=tweet_fields
+            ),
+            "expansions": enf_comma_separated(name="expansions", value=expansions),
+        }
+
+        if user_id:
+            path = f"users/{user_id}"
+        elif username:
+            path = f"users/by/username/{username}"
+        else:
+            raise PyTwitterError("Specify at least one of user_id or username")
+
+        return self._get(
+            url=f"{self.BASE_URL_V2}/{path}",
+            params=args,
+            cls=md.User,
+            return_json=return_json,
+        )
+
+    def get_following(
+        self,
+        user_id: str,
+        *,
+        expansions: Optional[Union[str, List, Tuple]] = None,
+        user_fields: Optional[Union[str, List, Tuple]] = None,
+        tweet_fields: Optional[Union[str, List, Tuple]] = None,
+        max_results: Optional[int] = None,
+        pagination_token: Optional[str] = None,
+        return_json: bool = False,
+    ) -> Union[dict, md.Response]:
+        """
+        Returns a list of users the specified user ID is following.
+
+        :param user_id: The user ID whose following you would like to retrieve.
+        :param expansions: Fields for the expansions.
+        :param user_fields: Fields for the user object.
+        :param tweet_fields: Fields for the tweet object.
+        :param max_results: The maximum number of results to be returned per page. Number between 1 and the 1000.
+        By default, each page will return 100 results.
+        :param pagination_token: Token for the pagination.
+        :param return_json: Type for returned data. If you set True JSON data will be returned.
+        :return:
+            - data: data for the following.
+            - includes: expansions data.
+            - meta: pagination details
+        """
+
+        args = {
+            "expansions": enf_comma_separated(name="expansions", value=expansions),
+            "user.fields": enf_comma_separated(name="user_fields", value=user_fields),
+            "tweet.fields": enf_comma_separated(
+                name="tweet_fields", value=tweet_fields
+            ),
+            "max_results": max_results,
+            "pagination_token": pagination_token,
+        }
+
+        return self._get(
+            url=f"{self.BASE_URL_V2}/users/{user_id}/following",
+            params=args,
+            cls=md.User,
+            multi=True,
+            return_json=return_json,
+        )
+
+    def get_followers(
+        self,
+        user_id: str,
+        *,
+        expansions: Optional[Union[str, List, Tuple]] = None,
+        user_fields: Optional[Union[str, List, Tuple]] = None,
+        tweet_fields: Optional[Union[str, List, Tuple]] = None,
+        max_results: Optional[int] = None,
+        pagination_token: Optional[str] = None,
+        return_json: bool = False,
+    ) -> Union[dict, md.Response]:
+        """
+        Returns a list of users who are followers of the specified user ID.
+
+        :param user_id: The user ID whose following you would like to retrieve.
+        :param expansions: Fields for the expansions.
+        :param user_fields: Fields for the user object.
+        :param tweet_fields: Fields for the tweet object.
+        :param max_results: The maximum number of results to be returned per page. Number between 1 and the 1000.
+        By default, each page will return 100 results.
+        :param pagination_token: Token for the pagination.
+        :param return_json: Type for returned data. If you set True JSON data will be returned.
+        :return:
+            - data: data for the following.
+            - includes: expansions data.
+            - meta: pagination details
+        """
+        args = {
+            "expansions": enf_comma_separated(name="expansions", value=expansions),
+            "user.fields": enf_comma_separated(name="user_fields", value=user_fields),
+            "tweet.fields": enf_comma_separated(
+                name="tweet_fields", value=tweet_fields
+            ),
+            "max_results": max_results,
+            "pagination_token": pagination_token,
+        }
+
+        return self._get(
+            url=f"{self.BASE_URL_V2}/users/{user_id}/followers",
+            params=args,
+            cls=md.User,
+            multi=True,
+            return_json=return_json,
+        )
+
+    def follow_user(self, user_id: str, target_user_id: str) -> dict:
+        """
+        Allows a user ID to follow another user.
+        If the target user does not have public Tweets, this endpoint will send a follow request.
+
+        :param user_id: The user ID who you would like to initiate the follow on behalf of.
+                        It must match the authenticating user.
+        :param target_user_id: The target user ID of user to follow
+        :return: follow status data
+        """
+
+        resp = self._request(
+            url=f"{self.BASE_URL_V2}/users/{user_id}/following",
+            verb="POST",
+            json={"target_user_id": target_user_id},
+        )
+        data = self._parse_response(resp)
+        return data
+
+    def unfollow_user(self, user_id: str, target_user_id: str) -> dict:
+        """
+        Allows a user ID to unfollow another user.
+
+        :param user_id: The user ID who you would like to initiate the unfollow on behalf of.
+                        It must match the username of the authenticating user.
+        :param target_user_id: The user ID of user to unfollow.
+        :return: follow status data
+        """
+        resp = self._request(
+            url=f"{self.BASE_URL_V2}/users/{user_id}/following/{target_user_id}",
+            verb="DELETE",
+        )
+        data = self._parse_response(resp)
+        return data
+
+    def get_blocking_users(
+        self,
+        user_id: str,
+        *,
+        expansions: Optional[Union[str, List, Tuple]] = None,
+        user_fields: Optional[Union[str, List, Tuple]] = None,
+        tweet_fields: Optional[Union[str, List, Tuple]] = None,
+        max_results: Optional[int] = None,
+        pagination_token: Optional[str] = None,
+        return_json: bool = False,
+    ) -> Union[dict, md.Response]:
+        """
+        Returns a list of users who are blocked by the specified user ID.
+
+        :param user_id: The user ID whose blocking you would like to retrieve.
+        :param expansions: Fields for the expansions.
+        :param user_fields: Fields for the user object.
+        :param tweet_fields: Fields for the tweet object.
+        :param max_results: The maximum number of results to be returned per page. Number between 1 and the 1000.
+        By default, each page will return 100 results.
+        :param pagination_token: Token for the pagination.
+        :param return_json: Type for returned data. If you set True JSON data will be returned.
+        :return:
+            - data: data for the blocking.
+            - includes: expansions data.
+            - meta: pagination details
+        """
+        args = {
+            "expansions": enf_comma_separated(name="expansions", value=expansions),
+            "user.fields": enf_comma_separated(name="user_fields", value=user_fields),
+            "tweet.fields": enf_comma_separated(
+                name="tweet_fields", value=tweet_fields
+            ),
+            "max_results": max_results,
+            "pagination_token": pagination_token,
+        }
+        return self._get(
+            url=f"{self.BASE_URL_V2}/users/{user_id}/blocking",
+            params=args,
+            cls=md.User,
+            multi=True,
+            return_json=return_json,
+        )
+
+    def block_user(self, user_id: str, target_user_id: str) -> dict:
+        """
+        Allows user to block target user.
+
+        :param user_id: The user ID who you would like to initiate the block on behalf of.
+                It must match your user ID which authorize with the access token.
+        :param target_user_id: The target user ID of user to block
+        :return: block status data
+        """
+
+        resp = self._request(
+            url=f"{self.BASE_URL_V2}/users/{user_id}/blocking",
+            verb="POST",
+            json={"target_user_id": target_user_id},
+        )
+        data = self._parse_response(resp)
+        return data
+
+    def unblock_user(self, user_id: str, target_user_id: str) -> dict:
+        """
+        Allows user to unblock another user.
+
+        :param user_id: The user ID who you would like to initiate an unblock on behalf of.
+                It must match your user ID which authorize with the access token.
+        :param target_user_id: The target user ID of user to block
+        :return: delete block status data
+        """
+
+        resp = self._request(
+            url=f"{self.BASE_URL_V2}/users/{user_id}/blocking/{target_user_id}",
+            verb="DELETE",
+        )
+        data = self._parse_response(resp)
+        return data
+
+    def get_user_muting(
+        self,
+        user_id: str,
+        *,
+        user_fields: Optional[Union[str, List, Tuple]] = None,
+        expansions: Optional[Union[str, List, Tuple]] = None,
+        tweet_fields: Optional[Union[str, List, Tuple]] = None,
+        max_results: Optional[int] = None,
+        pagination_token: Optional[str] = None,
+        return_json: bool = False,
+    ) -> Union[dict, md.Response]:
+        """
+        Returns a list of users who are muted by the specified user ID.
+
+        :param user_id: ID for user which you want to get muting.
+        :param user_fields: Fields for the user object.
+        :param expansions: Fields for the expansions now only `pinned_tweet_id`.
+        :param tweet_fields: Fields for the tweet object, Expansions required.
+        :param max_results: The maximum number of results to be returned per page. Number between 1 and the 1000.
+        :param pagination_token: Token for the pagination.
+        :param return_json: Type for returned data. If you set True JSON data will be returned.
+        :return:
+            - data: data for the users.
+            - includes: expansions data.
+            - meta: pagination details
+        """
+
+        args = {
+            "user.fields": enf_comma_separated(name="user_fields", value=user_fields),
+            "expansions": enf_comma_separated(name="expansions", value=expansions),
+            "tweet.fields": enf_comma_separated(
+                name="tweet_fields", value=tweet_fields
+            ),
+            "max_results": max_results,
+            "pagination_token": pagination_token,
+        }
+        return self._get(
+            url=f"{self.BASE_URL_V2}/users/{user_id}/muting",
+            params=args,
+            cls=md.User,
+            multi=True,
+            return_json=return_json,
+        )
+
+    def mute_user(self, user_id: str, target_user_id: str) -> dict:
+        """
+        Allows user to mute the target user.
+
+        :param user_id: The user ID who you would like to initiate the mute on behalf of.
+            It must match your own user ID or that of an authenticating user
+        :param target_user_id: The user ID of the user that you would like the id to mute.
+        :return: Mute status data
+        """
+        resp = self._request(
+            url=f"{self.BASE_URL_V2}/users/{user_id}/muting",
+            verb="POST",
+            json={"target_user_id": target_user_id},
+        )
+        data = self._parse_response(resp)
+        return data
+
+    def unmute_user(self, user_id: str, target_user_id: str) -> dict:
+        """
+        Allows user to unmute the target user.
+
+        :param user_id: The user ID who you would like to initiate an unmute on behalf of.
+            It must match your own user ID or that of an authenticating user
+        :param target_user_id: The user ID of the user that you would like to unmute.
+        :return: Unmute status data
+        """
+        resp = self._request(
+            url=f"{self.BASE_URL_V2}/users/{user_id}/muting/{target_user_id}",
+            verb="DELETE",
+        )
+        data = self._parse_response(resp)
+        return data
+
     def get_space(
         self,
         space_id: str,
@@ -1381,7 +1499,7 @@ class Api:
         expansions: Optional[Union[str, List, Tuple]] = None,
         user_fields: Optional[Union[str, List, Tuple]] = None,
         return_json: bool = False,
-    ):
+    ) -> Union[dict, md.Response]:
         """
         Returns a variety of information about a single Space specified by the requested ID.
 
@@ -1419,7 +1537,7 @@ class Api:
         expansions: Optional[Union[str, List, Tuple]] = None,
         user_fields: Optional[Union[str, List, Tuple]] = None,
         return_json: bool = False,
-    ):
+    ) -> Union[dict, md.Response]:
         """
         Returns details for multiple Spaces. Up to 100 comma-separated Spaces IDs can be looked up using this endpoint.
 
@@ -1459,7 +1577,7 @@ class Api:
         user_fields: Optional[Union[str, List, Tuple]] = None,
         max_results: Optional[int] = None,
         return_json: bool = False,
-    ):
+    ) -> Union[dict, md.Response]:
         """
         Returns live or scheduled Spaces created by the specified user IDs.
         Up to 100 comma-separated IDs can be looked up using this endpoint.
@@ -1503,7 +1621,7 @@ class Api:
         user_fields: Optional[Union[str, List, Tuple]] = None,
         max_results: Optional[int] = None,
         return_json: bool = False,
-    ):
+    ) -> Union[dict, md.Response]:
         """
         Return live or scheduled Spaces matching your specified search terms
 
@@ -1540,95 +1658,6 @@ class Api:
             multi=True,
             return_json=return_json,
         )
-
-    def get_compliance_job(
-        self,
-        job_id: str,
-        *,
-        return_json: bool = False,
-    ):
-        """
-        Get a single compliance job with the specified ID.
-
-        :param job_id: ID for the compliance job.
-        :param return_json: Type for returned data. If you set True JSON data will be returned.
-        :return:
-            - data: data for the job.
-        """
-
-        return self._get(
-            url=f"{self.BASE_URL_V2}/compliance/jobs/{job_id}",
-            params=None,
-            cls=md.ComplianceJob,
-            return_json=return_json,
-        )
-
-    def get_compliance_jobs(
-        self,
-        job_type: Optional[str],
-        *,
-        status: Optional[str] = None,
-        return_json: bool = False,
-    ):
-        """
-        Returns a list of recent compliance jobs.
-
-        :param job_type: Type for the job, Accepted values are: tweets, users.
-        :param status: Status for the job.
-            Accepted values are: created, in_progress, failed, complete.
-            Default is all.
-        :param return_json: Type for returned data. If you set True JSON data will be returned.
-        :return:
-            - data: data for the jobs.
-        """
-
-        args = {"type": job_type}
-        if status:
-            args["status"] = status
-
-        return self._get(
-            url=f"{self.BASE_URL_V2}/compliance/jobs",
-            params=args,
-            cls=md.ComplianceJob,
-            multi=True,
-            return_json=return_json,
-        )
-
-    def create_compliance_job(
-        self,
-        job_type: Optional[str],
-        *,
-        name: Optional[str] = None,
-        resumable: Optional[bool] = None,
-        return_json: bool = False,
-    ):
-        """
-        Creates a new compliance job for Tweet IDs or user IDs.
-        You can run one batch job at a time.
-
-        :param job_type: Type for the job, Accepted values are: tweets, users.
-        :param name: A name for this job, useful to identify multiple jobs using a label you define.
-        :param resumable: Specifies whether to enable the upload URL with support for resumable uploads
-        :param return_json: Type for returned data. If you set True JSON data will be returned.
-        :return: Compliance job information.
-        """
-
-        args = {"type": job_type}
-        if name is not None:
-            args["name"] = name
-        if resumable is not None:
-            args["resumable"] = resumable
-
-        resp = self._request(
-            url=f"{self.BASE_URL_V2}/compliance/jobs",
-            verb="POST",
-            json=args,
-        )
-        data = self._parse_response(resp=resp)
-        if return_json:
-            return data
-        else:
-            return md.ComplianceJob.new_from_json_dict(data["data"])
 
     def create_list(
         self,
@@ -1715,6 +1744,7 @@ class Api:
 
     def add_list_member(
         self,
+        *,
         list_id: str,
         user_id: str,
     ) -> dict:
@@ -1735,6 +1765,7 @@ class Api:
 
     def remove_list_member(
         self,
+        *,
         list_id: str,
         user_id: str,
     ) -> dict:
@@ -1754,6 +1785,7 @@ class Api:
 
     def follow_list(
         self,
+        *,
         user_id: str,
         list_id: str,
     ) -> dict:
@@ -1774,6 +1806,7 @@ class Api:
 
     def unfollow_list(
         self,
+        *,
         user_id: str,
         list_id: str,
     ) -> dict:
@@ -1793,6 +1826,7 @@ class Api:
 
     def pin_list(
         self,
+        *,
         user_id: str,
         list_id: str,
     ) -> dict:
@@ -1813,6 +1847,7 @@ class Api:
 
     def unpin_list(
         self,
+        *,
         user_id: str,
         list_id: str,
     ) -> dict:
@@ -1829,3 +1864,92 @@ class Api:
         )
         data = self._parse_response(resp=resp)
         return data
+
+    def get_compliance_job(
+        self,
+        job_id: str,
+        *,
+        return_json: bool = False,
+    ) -> Union[dict, md.Response]:
+        """
+        Get a single compliance job with the specified ID.
+
+        :param job_id: ID for the compliance job.
+        :param return_json: Type for returned data. If you set True JSON data will be returned.
+        :return:
+            - data: data for the job.
+        """
+
+        return self._get(
+            url=f"{self.BASE_URL_V2}/compliance/jobs/{job_id}",
+            params=None,
+            cls=md.ComplianceJob,
+            return_json=return_json,
+        )
+
+    def get_compliance_jobs(
+        self,
+        job_type: Optional[str],
+        *,
+        status: Optional[str] = None,
+        return_json: bool = False,
+    ) -> Union[dict, md.Response]:
+        """
+        Returns a list of recent compliance jobs.
+
+        :param job_type: Type for the job, Accepted values are: tweets, users.
+        :param status: Status for the job.
+            Accepted values are: created, in_progress, failed, complete.
+            Default is all.
+        :param return_json: Type for returned data. If you set True JSON data will be returned.
+        :return:
+            - data: data for the jobs.
+        """
+
+        args = {"type": job_type}
+        if status:
+            args["status"] = status
+
+        return self._get(
+            url=f"{self.BASE_URL_V2}/compliance/jobs",
+            params=args,
+            cls=md.ComplianceJob,
+            multi=True,
+            return_json=return_json,
+        )
+
+    def create_compliance_job(
+        self,
+        job_type: Optional[str],
+        *,
+        name: Optional[str] = None,
+        resumable: Optional[bool] = None,
+        return_json: bool = False,
+    ) -> Union[dict, md.ComplianceJob]:
+        """
+        Creates a new compliance job for Tweet IDs or user IDs.
+        You can run one batch job at a time.
+
+        :param job_type: Type for the job, Accepted values are: tweets, users.
+        :param name: A name for this job, useful to identify multiple jobs using a label you define.
+        :param resumable: Specifies whether to enable the upload URL with support for resumable uploads
+        :param return_json: Type for returned data. If you set True JSON data will be returned.
+        :return: Compliance job information.
+        """
+
+        args = {"type": job_type}
+        if name is not None:
+            args["name"] = name
+        if resumable is not None:
+            args["resumable"] = resumable
+
+        resp = self._request(
+            url=f"{self.BASE_URL_V2}/compliance/jobs",
+            verb="POST",
+            json=args,
+        )
+        data = self._parse_response(resp=resp)
+        if return_json:
+            return data
+        else:
+            return md.ComplianceJob.new_from_json_dict(data["data"])

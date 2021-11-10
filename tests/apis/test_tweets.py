@@ -212,3 +212,45 @@ def test_retweet_remove_retweet_tweet(api_with_user, helpers):
 
     resp = api_with_user.remove_retweet_tweet(user_id=uid, tweet_id=tweet_id)
     assert not resp["data"]["retweeted"]
+
+
+@responses.activate
+def test_create_tweet(api_with_user, helpers):
+    responses.add(
+        responses.POST,
+        url="https://api.twitter.com/2/tweets",
+        json=helpers.load_json_data("testdata/apis/tweet/create_tweet_resp.json"),
+    )
+
+    resp = api_with_user.create_tweet(text="Hello world!")
+    assert resp.id == "1445880548472328192"
+
+    resp = api_with_user.create_tweet(
+        direct_message_deep_link="https://twitter.com/messages/compose?recipient_id=2244994945",
+        for_super_followers_only=True,
+        geo_place_id="5a110d312052166f",
+        media_media_ids=["1455952740635586573"],
+        media_tagged_user_ids=["2244994945", "6253282"],
+        poll_duration_minutes=120,
+        poll_options=["yes", "maybe", "no"],
+        quote_tweet_id="1455953449422516226",
+        reply_in_reply_to_tweet_id="1455953449422516226",
+        reply_exclude_reply_user_ids=["6253282"],
+        reply_settings="mentionedUsers",
+        return_json=True,
+    )
+    assert resp["data"]["id"] == "1445880548472328192"
+
+
+@responses.activate
+def test_delete_tweet(api_with_user, helpers):
+    tweet_id = "1445880548472328192"
+
+    responses.add(
+        responses.DELETE,
+        url=f"https://api.twitter.com/2/tweets/{tweet_id}",
+        json={"data": {"deleted": True}},
+    )
+
+    resp = api_with_user.delete_tweet(tweet_id=tweet_id)
+    assert resp["data"]["deleted"]
