@@ -226,6 +226,8 @@ def test_create_tweet(api_with_user, helpers):
     assert resp.id == "1445880548472328192"
 
     resp = api_with_user.create_tweet(
+        direct_message_deep_link="https://twitter.com/messages/compose?recipient_id=2244994945",
+        for_super_followers_only=True,
         geo_place_id="5a110d312052166f",
         media_media_ids=["1455952740635586573"],
         media_tagged_user_ids=["2244994945", "6253282"],
