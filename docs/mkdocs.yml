@@ -34,29 +34,30 @@ nav:
   - Authorization OAuth2.0: authorization_oauth2.md
   - Usage:
       - Preparation: usage/preparation.md
-      - Users:
-          - Users Lookup: usage/users/user-lookup.md
-          - Follows: usage/users/follows.md
-          - Blocks: usage/users/blocks.md
-          - Mutes: usage/users/mutes.md
       - Tweets:
           - Tweet Lookup: usage/tweets/tweet-lookup.md
+          - Manage Tweets: usage/tweets/tweet-manage.md
           - Timelines: usage/tweets/timelines.md
           - Search Tweets: usage/tweets/search_tweets.md
           - Tweet counts: usage/tweets/tweets_counts.md
           - Hide replies: usage/tweets/hide_reply.md
           - Retweets: usage/tweets/retweet.md
           - Likes: usage/tweets/likes.md
+      - Users:
+          - Users Lookup: usage/users/user-lookup.md
+          - Follows: usage/users/follows.md
+          - Blocks: usage/users/blocks.md
+          - Mutes: usage/users/mutes.md
       - Spaces:
           - Spaces Lookup: usage/spaces/spaces-lookup.md
           - Spaces Search: usage/spaces/search.md
-      - Compliance:
-          - Batch compliance: usage/compliance/batch_compliance.md
       - Lists:
           - Manage Lists: usage/lists/manage-lists.md
           - Manage List members: usage/lists/manage-list-members.md
           - Manage List follows: usage/lists/manage-list-follows.md
           - Manage pinned Lists: usage/lists/manage-pinned-lists.md
+      - Compliance:
+          - Batch compliance: usage/compliance/batch_compliance.md
       - Steaming: usage/streaming.md
   - Changelog: CHANGELOG.md
 
