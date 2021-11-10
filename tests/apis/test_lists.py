@@ -51,7 +51,7 @@ def test_delete_list(api_with_user, helpers):
         json={"data": {"deleted": True}},
     )
 
-    deleted = api_with_user.delete_list(list_id)
+    deleted = api_with_user.delete_list(list_id=list_id)
     assert deleted["data"]["deleted"]
 
 
@@ -65,7 +65,7 @@ def test_add_member_to_list(api_with_user, helpers):
         json={"data": {"is_member": True}},
     )
 
-    is_member = api_with_user.add_list_member(list_id, user_id)
+    is_member = api_with_user.add_list_member(list_id=list_id, user_id=user_id)
     assert is_member["data"]["is_member"]
 
 
@@ -79,7 +79,7 @@ def test_remove_member_to_list(api_with_user, helpers):
         json={"data": {"is_member": False}},
     )
 
-    is_member = api_with_user.remove_list_member(list_id, user_id)
+    is_member = api_with_user.remove_list_member(list_id=list_id, user_id=user_id)
     assert not is_member["data"]["is_member"]
 
 
@@ -93,7 +93,7 @@ def test_follow_list(api_with_user, helpers):
         json={"data": {"following": True}},
     )
 
-    following = api_with_user.follow_list(user_id, list_id)
+    following = api_with_user.follow_list(user_id=user_id, list_id=list_id)
     assert following["data"]["following"]
 
 
@@ -107,7 +107,7 @@ def test_unfollow_list(api_with_user, helpers):
         json={"data": {"following": False}},
     )
 
-    following = api_with_user.unfollow_list(user_id, list_id)
+    following = api_with_user.unfollow_list(user_id=user_id, list_id=list_id)
     assert not following["data"]["following"]
 
 
@@ -121,7 +121,7 @@ def test_pin_list(api_with_user, helpers):
         json={"data": {"pinned": True}},
     )
 
-    following = api_with_user.pin_list(user_id, list_id)
+    following = api_with_user.pin_list(user_id=user_id, list_id=list_id)
     assert following["data"]["pinned"]
 
 
@@ -135,5 +135,5 @@ def test_unpin_list(api_with_user, helpers):
         json={"data": {"pinned": False}},
     )
 
-    following = api_with_user.unpin_list(user_id, list_id)
+    following = api_with_user.unpin_list(user_id=user_id, list_id=list_id)
     assert not following["data"]["pinned"]
