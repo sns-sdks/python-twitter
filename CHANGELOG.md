@@ -1,6 +1,17 @@
 # Changelog
 
-### [0.6.0](https://github.com/sns-sdks/python-twitter/v0.5.0) (2021-10-23)
+### [0.6.1](https://github.com/sns-sdks/python-twitter/v0.6.1) (2021-11-15)
+
+### Features
+
+- Tweet Manage [#88](https://github.com/sns-sdks/python-twitter/issues/88)
+
+### Fix
+
+-  Fix ratelimt for some apis.
+
+
+### [0.6.0](https://github.com/sns-sdks/python-twitter/v0.6.0) (2021-10-23)
 
 ### Features
 
