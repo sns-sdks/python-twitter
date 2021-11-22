@@ -236,8 +236,20 @@ LISTS_MANAGE_BY_ID = Endpoint(
 LIST_TWEETS = Endpoint(
     resource="/lists/:id/tweets",
     regex=re.compile(r"/lists/\d+/tweets"),
-    LIMIT_USER_PUT=900,
-    LIMIT_USER_DELETE=900,
+    LIMIT_APP_GET=900,
+    LIMIT_USER_GET=900,
+)
+LIST_MEMBERS = Endpoint(
+    resource="/lists/:id/members",
+    regex=re.compile(r"/lists/\d+/members"),
+    LIMIT_APP_GET=900,
+    LIMIT_USER_GET=900,
+)
+LISTS_MEMBERSHIPS_BY_USER = Endpoint(
+    resource="/users/:id/list_memberships",
+    regex=re.compile(r"/users/\d+/list_memberships"),
+    LIMIT_APP_GET=75,
+    LIMIT_USER_GET=75,
 )
 LISTS_MANAGE_MEMBERS = Endpoint(
     resource="/lists/members",
@@ -318,6 +330,8 @@ PATH_VAR_ENDPOINTS = [
     LISTS_MANAGE,
     LISTS_MANAGE_BY_ID,
     LIST_TWEETS,
+    LIST_MEMBERS,
+    LISTS_MEMBERSHIPS_BY_USER,
     LISTS_MANAGE_MEMBERS,
     LISTS_MANAGE_MEMBERS_BY_ID,
     USER_FOLLOW_LISTS,
