@@ -1659,6 +1659,83 @@ class Api:
             return_json=return_json,
         )
 
+    def get_list(
+        self,
+        list_id: str,
+        *,
+        list_fields: Optional[Union[str, List, Tuple]] = None,
+        expansions: Optional[Union[str, List, Tuple]] = None,
+        user_fields: Optional[Union[str, List, Tuple]] = None,
+        return_json: bool = False,
+    ) -> Union[dict, md.Response]:
+        """
+        Returns the details of a specified List.
+
+        :param list_id: ID for the list.
+        :param list_fields: Fields for the list object.
+        :param expansions: Fields for expansions.
+        :param user_fields: Fields for the user object.
+        :param return_json: Type for returned data. If you set True JSON data will be returned.
+        :return:
+            - data: data for the list
+            - includes: expansions data.
+        """
+
+        args = {
+            "list.fields": enf_comma_separated(name="list_fields", value=list_fields),
+            "expansions": enf_comma_separated(name="expansions", value=expansions),
+            "user.fields": enf_comma_separated(name="user_fields", value=user_fields),
+        }
+
+        return self._get(
+            url=f"{self.BASE_URL_V2}/lists/{list_id}",
+            params=args,
+            cls=md.TwitterList,
+            return_json=return_json,
+        )
+
+    def get_user_owned_lists(
+        self,
+        user_id: str,
+        *,
+        list_fields: Optional[Union[str, List, Tuple]] = None,
+        expansions: Optional[Union[str, List, Tuple]] = None,
+        user_fields: Optional[Union[str, List, Tuple]] = None,
+        max_results: Optional[int] = None,
+        pagination_token: Optional[str] = None,
+        return_json: bool = False,
+    ) -> Union[dict, md.Response]:
+        """
+        Returns all Lists owned by the specified user.
+
+        :param user_id: ID for the user.
+        :param list_fields: Fields for the list object.
+        :param expansions: Fields for expansions.
+        :param user_fields: Fields for the user object.
+        :param max_results: The maximum number of results to be returned per page. Number between 1 and the 100.
+        By default, each page will return 100 results.
+        :param pagination_token: Token for the pagination.
+        :param return_json: Type for returned data. If you set True JSON data will be returned.
+        :return:
+            - data for the lists
+            - includes: expansions data.
+        """
+
+        args = {
+            "list.fields": enf_comma_separated(name="list_fields", value=list_fields),
+            "expansions": enf_comma_separated(name="expansions", value=expansions),
+            "user.fields": enf_comma_separated(name="user_fields", value=user_fields),
+            "max_results": max_results,
+            "pagination_token": pagination_token,
+        }
+        return self._get(
+            url=f"{self.BASE_URL_V2}/users/{user_id}/owned_lists",
+            params=args,
+            cls=md.TwitterList,
+            multi=True,
+            return_json=return_json,
+        )
+
     def create_list(
         self,
         name: str,
