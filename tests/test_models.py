@@ -111,3 +111,11 @@ def test_compliance_job(helpers):
 
     assert job.id == "1423095206576984067"
     assert not job.resumable
+
+
+def test_list(helpers):
+    list_data = helpers.load_json_data("testdata/models/list.json")
+    twitter_list = models.TwitterList.new_from_json_dict(list_data)
+
+    assert twitter_list.id == "1355797419175383040"
+    assert twitter_list.follower_count == 198

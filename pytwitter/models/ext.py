@@ -113,6 +113,7 @@ class Response:
             List[Place],
             List[StreamRule],
             List[TweetCount],
+            List[TwitterList],
             List[Space],
             List[ComplianceJob],
         ]
