@@ -2038,6 +2038,131 @@ class Api:
         data = self._parse_response(resp=resp)
         return data
 
+    def get_list_followers(
+        self,
+        list_id: str,
+        *,
+        user_fields: Optional[Union[str, List, Tuple]] = None,
+        expansions: Optional[Union[str, List, Tuple]] = None,
+        tweet_fields: Optional[Union[str, List, Tuple]] = None,
+        max_results: Optional[int] = None,
+        pagination_token: Optional[str] = None,
+        return_json: bool = False,
+    ) -> Union[dict, md.Response]:
+        """
+        Returns a list of users who are followers of the specified List.
+
+        :param list_id: ID for the list.
+        :param user_fields: Fields for the user object.
+        :param expansions: Fields for expansions.
+        :param tweet_fields: Fields for the tweet object.
+        :param max_results: The maximum number of results to be returned per page. Number between 1 and the 100.
+            By default, each page will return 100 results.
+        :param pagination_token: Token for the pagination.
+        :param return_json: Type for returned data. If you set True JSON data will be returned.
+        :return:
+            - data: data for the tweets.
+            - includes: expansions data.
+            - meta: pagination details
+        """
+
+        args = {
+            "user.fields": enf_comma_separated(name="user_fields", value=user_fields),
+            "expansions": enf_comma_separated(name="expansions", value=expansions),
+            "tweet.fields": enf_comma_separated(
+                name="tweet_fields", value=tweet_fields
+            ),
+            "max_results": max_results,
+            "pagination_token": pagination_token,
+        }
+
+        return self._get(
+            url=f"{self.BASE_URL_V2}/lists/{list_id}/followers",
+            params=args,
+            cls=md.User,
+            multi=True,
+            return_json=return_json,
+        )
+
+    def get_user_followed_lists(
+        self,
+        user_id: str,
+        *,
+        list_fields: Optional[Union[str, List, Tuple]] = None,
+        expansions: Optional[Union[str, List, Tuple]] = None,
+        user_fields: Optional[Union[str, List, Tuple]] = None,
+        max_results: Optional[int] = None,
+        pagination_token: Optional[str] = None,
+        return_json: bool = False,
+    ) -> Union[dict, md.Response]:
+        """
+        Returns all Lists a specified user follows.
+
+        :param user_id: ID for the user.
+        :param list_fields: Fields for the list object.
+        :param expansions: Fields for expansions.
+        :param user_fields: Fields for the user object. Expansion required.
+        :param max_results: The maximum number of results to be returned per page. Number between 1 and the 100.
+            By default, each page will return 100 results.
+        :param pagination_token: Token for the pagination.
+        :param return_json: Type for returned data. If you set True JSON data will be returned.
+        :return:
+            - data for the lists.
+            - includes: expansions data.
+            - meta: pagination details
+        """
+
+        args = {
+            "list.fields": enf_comma_separated(name="list_fields", value=list_fields),
+            "expansions": enf_comma_separated(name="expansions", value=expansions),
+            "user.fields": enf_comma_separated(name="user_fields", value=user_fields),
+            "max_results": max_results,
+            "pagination_token": pagination_token,
+        }
+
+        return self._get(
+            url=f"{self.BASE_URL_V2}/users/{user_id}/followed_lists",
+            params=args,
+            cls=md.TwitterList,
+            multi=True,
+            return_json=return_json,
+        )
+
+    def get_user_pinned_lists(
+        self,
+        user_id: str,
+        *,
+        list_fields: Optional[Union[str, List, Tuple]] = None,
+        expansions: Optional[Union[str, List, Tuple]] = None,
+        user_fields: Optional[Union[str, List, Tuple]] = None,
+        return_json: bool = False,
+    ) -> Union[dict, md.Response]:
+        """
+        Returns the Lists pinned by a specified user.
+
+        :param user_id: ID for the user.
+        :param list_fields: Fields for the list object.
+        :param expansions: Fields for expansions.
+        :param user_fields: Fields for the user object. Expansion required.
+        :param return_json: Type for returned data. If you set True JSON data will be returned.
+        :return:
+            - data for the lists
+            - includes: expansions data.
+            - meta: pagination details
+        """
+        args = {
+            "list.fields": enf_comma_separated(name="list_fields", value=list_fields),
+            "expansions": enf_comma_separated(name="expansions", value=expansions),
+            "user.fields": enf_comma_separated(name="user_fields", value=user_fields),
+        }
+        return self._get(
+            url=f"{self.BASE_URL_V2}/users/{user_id}/pinned_lists",
+            params=args,
+            cls=md.TwitterList,
+            multi=True,
+            return_json=return_json,
+        )
+
     def pin_list(
         self,
         *,

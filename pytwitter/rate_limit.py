@@ -261,10 +261,18 @@ LISTS_MANAGE_MEMBERS_BY_ID = Endpoint(
     regex=re.compile(r"/lists/\w+/members/\d+"),
     LIMIT_USER_DELETE=300,
 )
+LISTS_MANAGE_FOLLOWERS = Endpoint(
+    resource="/lists/followers",
+    regex=re.compile(r"/lists/followers"),
+    LIMIT_USER_GET=180,
+    LIMIT_APP_GET=180,
+)
 USER_FOLLOW_LISTS = Endpoint(
     resource="/users/:id/followed_lists",
     regex=re.compile(r"/users/\d+/followed_lists"),
     LIMIT_USER_POST=50,
+    LIMIT_USER_GET=15,
+    LIMIT_APP_GET=15,
 )
 USER_FOLLOW_LISTS_BY_ID = Endpoint(
     resource="/users/:id/followed_lists/:list_id",
@@ -274,6 +282,7 @@ USER_FOLLOW_LISTS_BY_ID = Endpoint(
 USER_PINNED_LISTS = Endpoint(
     resource="/users/:id/pinned_lists",
     regex=re.compile(r"/users/\d+/pinned_lists"),
+    LIMIT_USER_GET=15,
     LIMIT_USER_POST=50,
 )
 USER_PINNED_LISTS_BY_ID = Endpoint(
@@ -334,6 +343,7 @@ PATH_VAR_ENDPOINTS = [
     LISTS_MEMBERSHIPS_BY_USER,
     LISTS_MANAGE_MEMBERS,
     LISTS_MANAGE_MEMBERS_BY_ID,
+    LISTS_MANAGE_FOLLOWERS,
     USER_FOLLOW_LISTS,
     USER_FOLLOW_LISTS_BY_ID,
     USER_PINNED_LISTS,
