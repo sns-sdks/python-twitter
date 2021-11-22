@@ -282,6 +282,7 @@ USER_FOLLOW_LISTS_BY_ID = Endpoint(
 USER_PINNED_LISTS = Endpoint(
     resource="/users/:id/pinned_lists",
     regex=re.compile(r"/users/\d+/pinned_lists"),
+    LIMIT_USER_GET=15,
     LIMIT_USER_POST=50,
 )
 USER_PINNED_LISTS_BY_ID = Endpoint(

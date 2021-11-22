@@ -2128,6 +2128,41 @@ class Api:
             return_json=return_json,
         )
 
+    def get_user_pinned_lists(
+        self,
+        user_id: str,
+        *,
+        list_fields: Optional[Union[str, List, Tuple]] = None,
+        expansions: Optional[Union[str, List, Tuple]] = None,
+        user_fields: Optional[Union[str, List, Tuple]] = None,
+        return_json: bool = False,
+    ) -> Union[dict, md.Response]:
+        """
+        Returns the Lists pinned by a specified user.
+
+        :param user_id: ID for the user.
+        :param list_fields: Fields for the list object.
+        :param expansions: Fields for expansions.
+        :param user_fields: Fields for the user object. Expansion required.
+        :param return_json: Type for returned data. If you set True JSON data will be returned.
+        :return:
+            - data for the lists
+            - includes: expansions data.
+            - meta: pagination details
+        """
+        args = {
+            "list.fields": enf_comma_separated(name="list_fields", value=list_fields),
+            "expansions": enf_comma_separated(name="expansions", value=expansions),
+            "user.fields": enf_comma_separated(name="user_fields", value=user_fields),
+        }
+        return self._get(
+            url=f"{self.BASE_URL_V2}/users/{user_id}/pinned_lists",
+            params=args,
+            cls=md.TwitterList,
+            multi=True,
+            return_json=return_json,
+        )
+
     def pin_list(
         self,
         *,
