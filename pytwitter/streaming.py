@@ -337,7 +337,7 @@ class StreamApi:
             )
 
     def manage_rules(
-        self, rules: Optional[Set[Dict[str, List]]], dry_run=False, return_json=False
+        self, rules: Optional[Dict[str, List]], dry_run=False, return_json=False
     ):
         """
         Add or delete rules to your stream.
