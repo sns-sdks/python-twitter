@@ -6,6 +6,39 @@ import responses
 
 
 @responses.activate
+def test_get_list(api, helpers):
+    list_id = "84839422"
+    responses.add(
+        responses.GET,
+        url=f"https://api.twitter.com/2/lists/{list_id}",
+        json=helpers.load_json_data("testdata/apis/lists/list_resp.json"),
+    )
+
+    resp = api.get_list(list_id=list_id)
+    assert resp.data.id == list_id
+
+
+@responses.activate
+def test_get_user_owned_lists(api, helpers):
+    user_id = "2244994945"
+
+    responses.add(
+        responses.GET,
+        url=f"https://api.twitter.com/2/users/{user_id}/owned_lists",
+        json=helpers.load_json_data("testdata/apis/lists/user_lists_resp.json"),
+    )
+
+    resp = api.get_user_owned_lists(
+        user_id=user_id,
+        list_fields="follower_count",
+        expansions="owner_id",
+        user_fields="created_at",
+    )
+    assert resp.data[0].id == "1451305624956858369"
+    assert resp.meta.result_count == 1
+
+
+@responses.activate
 def test_create_list(api_with_user, helpers):
     responses.add(
         responses.POST,

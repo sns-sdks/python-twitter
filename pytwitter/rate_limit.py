@@ -210,6 +210,18 @@ SPACES_SEARCH = Endpoint(
     LIMIT_APP_GET=300,
 )
 
+LIST_BY_ID = Endpoint(
+    resource="/lists/:id",
+    regex=re.compile(r"/lists/\d+"),
+    LIMIT_APP_GET=75,
+    LIMIT_USER_GET=75,
+)
+LISTS_BY_USER = Endpoint(
+    resource="/users/:id/owned_lists",
+    regex=re.compile(r"/users/\d+/owned_lists"),
+    LIMIT_APP_GET=15,
+    LIMIT_USER_GET=15,
+)
 LISTS_MANAGE = Endpoint(
     resource="/lists",
     regex=re.compile(r"/lists"),
@@ -295,6 +307,8 @@ PATH_VAR_ENDPOINTS = [
     SPACES_BY_IDS,
     SPACES_BY_CREATORS,
     SPACES_SEARCH,
+    LIST_BY_ID,
+    LISTS_BY_USER,
     LISTS_MANAGE,
     LISTS_MANAGE_BY_ID,
     LISTS_MANAGE_MEMBERS,
