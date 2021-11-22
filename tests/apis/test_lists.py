@@ -89,6 +89,62 @@ def test_delete_list(api_with_user, helpers):
 
 
 @responses.activate
+def test_get_list_tweets(api, helpers):
+    list_id = "84839422"
+    responses.add(
+        responses.GET,
+        url=f"https://api.twitter.com/2/lists/{list_id}/tweets",
+        json=helpers.load_json_data("testdata/apis/lists/list_tweets_resp.json"),
+    )
+
+    resp = api.get_lists_tweets(
+        list_id=list_id, expansions="author_id", user_fields="verified"
+    )
+    assert resp.data[0].id == "1067094924124872705"
+    assert resp.meta.result_count == 1
+
+
+@responses.activate
+def test_get_list_members(api, helpers):
+    list_id = "84839422"
+    responses.add(
+        responses.GET,
+        url=f"https://api.twitter.com/2/lists/{list_id}/members",
+        json=helpers.load_json_data("testdata/apis/lists/list_members_resp.json"),
+    )
+
+    resp = api.get_list_members(
+        list_id=list_id,
+        expansions="pinned_tweet_id",
+        user_fields="username",
+        max_results=5,
+    )
+    assert resp.data[0].id == "1319036828964454402"
+    assert resp.meta.result_count == 5
+
+
+@responses.activate
+def test_get_user_memberships_lists(api, helpers):
+    user_id = "84839422"
+    responses.add(
+        responses.GET,
+        url=f"https://api.twitter.com/2/users/{user_id}/list_memberships",
+        json=helpers.load_json_data(
+            "testdata/apis/lists/user_memberships_lists_resp.json"
+        ),
+    )
+
+    resp = api.get_user_memberships_lists(
+        user_id=user_id,
+        list_fields="follower_count",
+        expansions="owner_id",
+        user_fields="created_at",
+    )
+    assert resp.data[0].id == "1451951974291689472"
+    assert resp.meta.result_count == 1
+
+
+@responses.activate
 def test_add_member_to_list(api_with_user, helpers):
     list_id = "1441162269824405510"
     user_id = "2244994945"

@@ -1912,7 +1912,7 @@ class Api:
             return_json=return_json,
         )
 
-    def get_user_list_memberships(
+    def get_user_memberships_lists(
         self,
         user_id: str,
         *,
