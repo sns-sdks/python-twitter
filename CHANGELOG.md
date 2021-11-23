@@ -1,6 +1,19 @@
 # Changelog
 
-### [0.6.1](https://github.com/sns-sdks/python-twitter/v0.6.1) (2021-11-15)
+All notable changes to this project will be documented in this file.
+
+## [0.7.0](https://github.com/sns-sdks/python-twitter/v0.7.0) (2021-11-23)
+
+### Features
+
+- More apis for lists.
+
+### Fix
+
+- Fix manage_rules params [#94](https://github.com/sns-sdks/python-twitter/pull/94) By [@erwanvivien](https://github.com/erwanvivien).
+
+
+## [0.6.1](https://github.com/sns-sdks/python-twitter/v0.6.1) (2021-11-15)
 
 ### Features
 
@@ -11,14 +24,14 @@
 -  Fix ratelimt for some apis.
 
 
-### [0.6.0](https://github.com/sns-sdks/python-twitter/v0.6.0) (2021-10-23)
+## [0.6.0](https://github.com/sns-sdks/python-twitter/v0.6.0) (2021-10-23)
 
 ### Features
 
 - API for lists manage [#84](https://github.com/sns-sdks/python-twitter/issues/84)
 - Tests on python 3.10
 
-### [0.5.0](https://github.com/sns-sdks/python-twitter/v0.5.0) (2021-09-29)
+## [0.5.0](https://github.com/sns-sdks/python-twitter/v0.5.0) (2021-09-29)
 
 ### Features
 
@@ -30,7 +43,7 @@
 
 - Fix rate limit 
 
-### [0.4.2](https://github.com/sns-sdks/python-twitter/v0.4.2) (2021-08-21)
+## [0.4.2](https://github.com/sns-sdks/python-twitter/v0.4.2) (2021-08-21)
 
 ### Features
 
@@ -41,7 +54,7 @@
 - Fix response data handler for streaming [#70](https://github.com/sns-sdks/python-twitter/issues/70)
 
 
-### [0.3.5](https://github.com/sns-sdks/python-twitter/v0.3.5) (2021-08-12)
+## [0.3.5](https://github.com/sns-sdks/python-twitter/v0.3.5) (2021-08-12)
 
 ### Features
 
@@ -49,7 +62,7 @@
 - New field `alt_text` for Media [#68](https://github.com/sns-sdks/python-twitter/issues/68)
 
 
-### [0.3.4](https://github.com/sns-sdks/python-twitter/v0.3.4) (2021-07-02)
+## [0.3.4](https://github.com/sns-sdks/python-twitter/v0.3.4) (2021-07-02)
 
 ### Features
 
@@ -58,7 +71,7 @@
 - API for mutes user [#61](https://github.com/sns-sdks/python-twitter/issues/61)
 
 
-### [0.3.3](https://github.com/sns-sdks/python-twitter/v0.3.3) (2021-05-24)
+## [0.3.3](https://github.com/sns-sdks/python-twitter/v0.3.3) (2021-05-24)
 
 ### Features
 
@@ -70,14 +83,14 @@
 - Refactor Ratelimit module.  [#54](https://github.com/sns-sdks/python-twitter/issues/54)
 
 
-### [0.3.2](https://github.com/sns-sdks/python-twitter/v0.3.2) (2021-05-10)
+## [0.3.2](https://github.com/sns-sdks/python-twitter/v0.3.2) (2021-05-10)
 
 ### Features
 
 - Model update for tweet and media
 
 
-### [0.3.1](https://github.com/sns-sdks/python-twitter/v0.3.1) (2021-04-25)
+## [0.3.1](https://github.com/sns-sdks/python-twitter/v0.3.1) (2021-04-25)
 
 ### Features
 
@@ -85,7 +98,7 @@
 - keep uid with [`auth_user_id`](https://github.com/sns-sdks/python-twitter/pull/44)
 
 
-### [0.3.0](https://github.com/sns-sdks/python-twitter/v0.3.0) (2021-04-08)
+## [0.3.0](https://github.com/sns-sdks/python-twitter/v0.3.0) (2021-04-08)
 
 ### Features
 
@@ -100,7 +113,7 @@
 - Stream API
 
 
-### [0.1.0](https://github.com/sns-sdks/python-twitter/v0.1.0) (2021-03-07)
+## [0.1.0](https://github.com/sns-sdks/python-twitter/v0.1.0) (2021-03-07)
 
 ### Features
 
