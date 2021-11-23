@@ -1820,7 +1820,7 @@ class Api:
         data = self._parse_response(resp=resp)
         return data
 
-    def get_lists_tweets(
+    def get_list_tweets(
         self,
         list_id: str,
         *,

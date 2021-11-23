@@ -52,10 +52,12 @@ nav:
           - Spaces Lookup: usage/spaces/spaces-lookup.md
           - Spaces Search: usage/spaces/search.md
       - Lists:
+          - List lookup: usage/lists/list-lookup.md
           - Manage Lists: usage/lists/manage-lists.md
-          - Manage List members: usage/lists/manage-list-members.md
-          - Manage List follows: usage/lists/manage-list-follows.md
-          - Manage pinned Lists: usage/lists/manage-pinned-lists.md
+          - List Tweets lookup: usage/lists/list-tweets-lookup.md
+          - List members: usage/lists/list-members.md
+          - List follows: usage/lists/list-follows.md
+          - Pinned Lists: usage/lists/pinned-lists.md
       - Compliance:
           - Batch compliance: usage/compliance/batch_compliance.md
       - Steaming: usage/streaming.md

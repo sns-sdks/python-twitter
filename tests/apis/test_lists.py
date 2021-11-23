@@ -97,7 +97,7 @@ def test_get_list_tweets(api, helpers):
         json=helpers.load_json_data("testdata/apis/lists/list_tweets_resp.json"),
     )
 
-    resp = api.get_lists_tweets(
+    resp = api.get_list_tweets(
         list_id=list_id, expansions="author_id", user_fields="verified"
     )
     assert resp.data[0].id == "1067094924124872705"

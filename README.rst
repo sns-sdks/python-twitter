@@ -110,7 +110,12 @@ Now cover features:
     - Batch compliance
 
 - Lists
+    - List lookup
     - Manage lists
+    - List Tweets lookup
+    - List members
+    - List follows
+    - Pinned Lists
 
 -----------
 INSTANTIATE
