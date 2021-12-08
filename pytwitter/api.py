@@ -48,6 +48,8 @@ class Api:
         sleep_on_rate_limit: bool = False,
         timeout: Optional[int] = None,
         proxies: Optional[dict] = None,
+        callback_uri: Optional[str] = None,
+        scopes: Optional[List[str]] = None,
     ) -> None:
         """
         Initial the Api instance.
@@ -63,6 +65,8 @@ class Api:
         :param sleep_on_rate_limit: If token reach the limit, will sleep.
         :param timeout: Timeout for requests.
         :param proxies: Proxies for requests.
+        :param callback_uri: Your callback URL. This value must correspond to one of the Callback URLs defined in your App settings.
+        :param scopes: Scopes allow you to set granular access for your App so that your App only has the permissions that it needs.
         """
         self.session = requests.Session()
         self._auth = None
@@ -75,6 +79,10 @@ class Api:
         self.rate_limit = RateLimit()
         self.sleep_on_rate_limit = sleep_on_rate_limit
         self.auth_user_id = None  # Note: use this keep uid for auth user
+        self.callback_uri = (
+            callback_uri if callback_uri is None else self.DEFAULT_CALLBACK_URI
+        )
+        self.scopes = scopes if scopes is None else self.DEFAULT_SCOPES
 
         # just use bearer token
         if bearer_token:
@@ -172,7 +180,7 @@ class Api:
         :return: link to authorize
         """
         if callback_uri is None:
-            callback_uri = self.DEFAULT_CALLBACK_URI
+            callback_uri = self.callback_uri
         self._oauth_session = OAuth1Session(
             client_id=self.consumer_key,
             client_secret=self.consumer_secret,
@@ -290,9 +298,9 @@ class Api:
             raise PyTwitterError({"message": "OAuth need your app credentials"})
 
         if redirect_uri is None:
-            redirect_uri = self.DEFAULT_CALLBACK_URI
+            redirect_uri = self.callback_uri
         if scope is None:
-            scope = self.DEFAULT_SCOPES
+            scope = self.scopes
 
         session = OAuth2Session(
             client_id=self.client_id,
