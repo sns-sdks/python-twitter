@@ -80,9 +80,9 @@ class Api:
         self.sleep_on_rate_limit = sleep_on_rate_limit
         self.auth_user_id = None  # Note: use this keep uid for auth user
         self.callback_uri = (
-            callback_uri if callback_uri is None else self.DEFAULT_CALLBACK_URI
+            callback_uri if callback_uri is not None else self.DEFAULT_CALLBACK_URI
         )
-        self.scopes = scopes if scopes is None else self.DEFAULT_SCOPES
+        self.scopes = scopes if scopes is not None else self.DEFAULT_SCOPES
 
         # just use bearer token
         if bearer_token:
