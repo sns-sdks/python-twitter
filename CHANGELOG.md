@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.7.2](https://github.com/sns-sdks/python-twitter/v0.7.2) (2021-12-15)
+
+### Features
+
+- Add api for get authorized user data
+- Refactor code for OAuth1
+
 ## [0.7.1](https://github.com/sns-sdks/python-twitter/v0.7.1) (2021-12-09)
 
 ### Features
