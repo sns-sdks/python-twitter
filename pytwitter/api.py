@@ -172,38 +172,55 @@ class Api:
 
         return resp
 
+    def _get_oauth1_session(
+        self,
+        callback_uri: Optional[str] = None,
+        **kwargs,
+    ) -> OAuth1Session:
+        """
+        :param callback_uri: The URL that twitter redirect back to after the user logged in.
+        :param kwargs: Additional parameters for oauth1.
+        :return: OAuth Session
+        """
+        # check app credentials
+        if not (self.consumer_key and self.consumer_secret):
+            raise PyTwitterError({"message": "OAuth need your app credentials"})
+
+        if callback_uri is None:
+            callback_uri = self.callback_uri
+
+        session = OAuth1Session(
+            client_id=self.consumer_key,
+            client_secret=self.consumer_secret,
+            callback_uri=callback_uri,
+            **kwargs,
+        )
+        return session
+
     def get_authorize_url(self, callback_uri=None, **kwargs) -> str:
         """
         Get url which to do authorize.
         :param callback_uri: The URL you wish your user to be redirected to.
-        :param kwargs: Optional parameter, like force_login,screen_name and so on.
+        :param kwargs: Additional parameters for oauth1, like force_login,screen_name and so on.
         :return: link to authorize
         """
-        if callback_uri is None:
-            callback_uri = self.callback_uri
-        self._oauth_session = OAuth1Session(
-            client_id=self.consumer_key,
-            client_secret=self.consumer_secret,
-            callback_uri=callback_uri,
-        )
-        self._oauth_session.fetch_request_token(
-            self.BASE_REQUEST_TOKEN_URL, proxies=self.proxies
-        )
-        return self._oauth_session.create_authorization_url(
-            self.BASE_AUTHORIZE_URL, **kwargs
-        )
+        session = self._get_oauth1_session(callback_uri=callback_uri, **kwargs)
+        session.fetch_request_token(self.BASE_REQUEST_TOKEN_URL, proxies=self.proxies)
+        return session.create_authorization_url(self.BASE_AUTHORIZE_URL, **kwargs)
 
-    def generate_access_token(self, response: str) -> dict:
+    def generate_access_token(
+        self, response: str, callback_uri: str = None, **kwargs
+    ) -> dict:
         """
-        :param response:
+        :param response: Response url after user logged in.
+        :param callback_uri: The URL you wish your user to be redirected to.
+        :param kwargs: Additional parameters for oauth1.
         :return:
         """
-        if not self._oauth_session:
-            raise PyTwitterError("Need get_authorize_url first")
+        session = self._get_oauth1_session(callback_uri=callback_uri, **kwargs)
+        session.parse_authorization_response(response)
 
-        self._oauth_session.parse_authorization_response(response)
-
-        data = self._oauth_session.fetch_access_token(
+        data = session.fetch_access_token(
             self.BASE_ACCESS_TOKEN_URL, proxies=self.proxies
         )
         self._auth = OAuth1Auth(

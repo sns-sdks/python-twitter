@@ -108,14 +108,6 @@ def test_oauth_flow():
     assert token["oauth_token"] == "uid-token"
     assert api.auth_user_id == "123456"
 
-    with pytest.raises(PyTwitterError):
-        api = Api(
-            consumer_key="consumer key",
-            consumer_secret="consumer secret",
-            oauth_flow=True,
-        )
-        api.generate_access_token(resp_url)
-
 
 @responses.activate
 def test_oauth_uid():
