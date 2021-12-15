@@ -110,11 +110,10 @@ def test_oauth_flow():
 
     with pytest.raises(PyTwitterError):
         api = Api(
-            consumer_key="consumer key",
-            consumer_secret="consumer secret",
+            client_id="client id",
             oauth_flow=True,
         )
-        api.generate_access_token(resp_url)
+        api._get_oauth1_session()
 
 
 @responses.activate
