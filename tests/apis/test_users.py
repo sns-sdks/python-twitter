@@ -99,6 +99,24 @@ def test_get_user(api, helpers):
 
 
 @responses.activate
+def test_get_me(api_with_user, helpers):
+    me_data = helpers.load_json_data("testdata/apis/user/me_resp.json")
+
+    responses.add(
+        responses.GET,
+        url=f"https://api.twitter.com/2/users/me",
+        json=me_data,
+    )
+
+    me_resp = api_with_user.get_me(
+        user_fields="created_at",
+        expansions="pinned_tweet_id",
+        tweet_fields="created_at",
+    )
+    assert me_resp.data.id == "2244994945"
+
+
+@responses.activate
 def test_block_and_unblock_user(api_with_user):
     user_id, target_user_id = "123456", "78910"
 

@@ -1234,6 +1234,40 @@ class Api:
             return_json=return_json,
         )
 
+    def get_me(
+        self,
+        *,
+        user_fields: Optional[Union[str, List, Tuple]] = None,
+        expansions: Optional[Union[str, List, Tuple]] = None,
+        tweet_fields: Optional[Union[str, List, Tuple]] = None,
+        return_json: bool = False,
+    ):
+        """
+        Returns information about an authorized user.
+
+        :param user_fields: Fields for the user object.
+        :param expansions: Fields for expansions.
+        :param tweet_fields: Fields for the tweet object.
+        :param return_json: Type for returned data. If you set True JSON data will be returned.
+        :returns:
+            - data: data for the user
+            - includes: expansions data.
+        """
+        args = {
+            "user.fields": enf_comma_separated(name="user_fields", value=user_fields),
+            "tweet.fields": enf_comma_separated(
+                name="tweet_fields", value=tweet_fields
+            ),
+            "expansions": enf_comma_separated(name="expansions", value=expansions),
+        }
+
+        return self._get(
+            url=f"{self.BASE_URL_V2}/users/me",
+            params=args,
+            cls=md.User,
+            return_json=return_json,
+        )
+
     def get_following(
         self,
         user_id: str,
