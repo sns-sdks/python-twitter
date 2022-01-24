@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.7.3](https://github.com/sns-sdks/python-twitter/v0.7.3) (2022-02-24)
+
+### Features
+
+- Add parameters for pagination for tweet's liking users and retweets
+- Add scripts for generate update text.
+
 ## [0.7.2](https://github.com/sns-sdks/python-twitter/v0.7.2) (2021-12-15)
 
 ### Features
