@@ -2,7 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
-## [0.7.3](https://github.com/sns-sdks/python-twitter/v0.7.3) (2022-02-24)
+## [0.7.4](https://github.com/sns-sdks/python-twitter/v0.7.4) (2021-02-17)
+
+### Features
+
+- Add sort parameter for search tweets, [docs](https://twittercommunity.com/t/introducing-the-sort-order-parameter-for-search-endpoints-in-the-twitter-api-v2/166377)
+
+## [0.7.3](https://github.com/sns-sdks/python-twitter/v0.7.3) (2021-01-24)
 
 ### Features
 
