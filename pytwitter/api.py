@@ -789,6 +789,7 @@ class Api:
         since_id: Optional[str] = None,
         until_id: Optional[str] = None,
         max_results: Optional[int] = None,
+        sort_order: Optional[str] = None,
         next_token: Optional[str] = None,
         tweet_fields: Optional[Union[str, List, Tuple]] = None,
         expansions: Optional[Union[str, List, Tuple]] = None,
@@ -813,6 +814,8 @@ class Api:
         :param until_id: Less than (that is, older than) tweet id for response. Exclude this until_id.
         :param max_results: The maximum number of results to be returned per page. Number between 10 and up to 500.
         By default, each page will return 10 results.
+        :param sort_order: This parameter is used to specify the order in which you want the Tweets returned.
+        By default, a request will return the most recent Tweets first (sorted by recency).
         :param next_token: Token for the pagination.
         :param tweet_fields: Fields for the tweet object.
         :param expansions: Fields for the expansions.
@@ -844,6 +847,7 @@ class Api:
             "poll.fields": enf_comma_separated(name="poll_fields", value=poll_fields),
             "max_results": max_results,
             "next_token": next_token,
+            "sort_order": sort_order,
         }
 
         if query_type == "recent":
