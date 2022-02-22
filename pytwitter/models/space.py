@@ -19,6 +19,7 @@ class Space(BaseModel):
     id: Optional[str] = field(default=None)
     state: Optional[str] = field(default=None)
     created_at: Optional[str] = field(default=None, repr=False)
+    ended_at: Optional[str] = field(default=None, repr=False)
     host_ids: Optional[List[str]] = field(default=None, repr=False)
     lang: Optional[str] = field(default=None, repr=False)
     is_ticketed: Optional[bool] = field(default=None, repr=False)
@@ -28,4 +29,16 @@ class Space(BaseModel):
     speaker_ids: Optional[List[str]] = field(default=None, repr=False)
     started_at: Optional[str] = field(default=None, repr=False)
     title: Optional[str] = field(default=None, repr=False)
+    topic_ids: Optional[List[str]] = field(default=None, repr=False)
     updated_at: Optional[str] = field(default=None, repr=False)
+
+
+@dataclass
+class Topic(BaseModel):
+    """
+    A class representing the space topic object.
+    """
+
+    id: Optional[str] = field(default=None)
+    name: Optional[str] = field(default=None)
+    description: Optional[str] = field(default=None, repr=False)

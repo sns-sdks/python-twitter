@@ -14,6 +14,7 @@ from . import (
     Tweet,
     User,
     Space,
+    Topic,
     ComplianceJob,
     StreamRule,
     TwitterList,
@@ -76,6 +77,7 @@ class Includes(BaseModel):
     polls: Optional[List[Poll]] = field(default=None, compare=False)
     tweets: Optional[List[Tweet]] = field(default=None, compare=False)
     users: Optional[List[User]] = field(default=None, compare=False)
+    topics: Optional[List[Topic]] = field(default=None, compare=False)
 
 
 @dataclass

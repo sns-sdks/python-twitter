@@ -1574,6 +1574,7 @@ class Api:
         *,
         space_fields: Optional[Union[str, List, Tuple]] = None,
         expansions: Optional[Union[str, List, Tuple]] = None,
+        topic_fields: Optional[Union[str, List, Tuple]] = None,
         user_fields: Optional[Union[str, List, Tuple]] = None,
         return_json: bool = False,
     ) -> Union[dict, md.Response]:
@@ -1583,6 +1584,7 @@ class Api:
         :param space_id: The ID for the target space.
         :param space_fields: Fields for the space object.
         :param expansions: Fields for expansions.
+        :param topic_fields: Fields for the topic object.
         :param user_fields: Fields for the user object.
         :param return_json: Type for returned data. If you set True JSON data will be returned.
         :return:
@@ -1596,6 +1598,9 @@ class Api:
                 value=space_fields,
             ),
             "expansions": enf_comma_separated(name="expansions", value=expansions),
+            "topic.fields": enf_comma_separated(
+                name="topic_fields", value=topic_fields
+            ),
             "user.fields": enf_comma_separated(name="user_fields", value=user_fields),
         }
 
@@ -1612,6 +1617,7 @@ class Api:
         *,
         space_fields: Optional[Union[str, List, Tuple]] = None,
         expansions: Optional[Union[str, List, Tuple]] = None,
+        topic_fields: Optional[Union[str, List, Tuple]] = None,
         user_fields: Optional[Union[str, List, Tuple]] = None,
         return_json: bool = False,
     ) -> Union[dict, md.Response]:
@@ -1621,6 +1627,7 @@ class Api:
         :param space_ids: The IDs for target spaces, Up to 100 are allowed in a single request.
         :param space_fields: Fields for the space object.
         :param expansions: Fields for expansions.
+        :param topic_fields: Fields for the topic object.
         :param user_fields: Fields for the user object.
         :param return_json: Type for returned data. If you set True JSON data will be returned.
         :return:
@@ -1634,6 +1641,9 @@ class Api:
                 value=space_fields,
             ),
             "expansions": enf_comma_separated(name="expansions", value=expansions),
+            "topic.fields": enf_comma_separated(
+                name="topic_fields", value=topic_fields
+            ),
             "user.fields": enf_comma_separated(name="user_fields", value=user_fields),
         }
 
@@ -1651,6 +1661,7 @@ class Api:
         *,
         space_fields: Optional[Union[str, List, Tuple]] = None,
         expansions: Optional[Union[str, List, Tuple]] = None,
+        topic_fields: Optional[Union[str, List, Tuple]] = None,
         user_fields: Optional[Union[str, List, Tuple]] = None,
         max_results: Optional[int] = None,
         return_json: bool = False,
@@ -1662,6 +1673,7 @@ class Api:
         :param creator_ids: IDs for the creators, Up to 100 are allowed in a single request.
         :param space_fields: Fields for the space object.
         :param expansions: Fields for expansions.
+        :param topic_fields: Fields for the topic object.
         :param user_fields: Fields for the user object.
         :param max_results: The maximum number of results to be returned per page. Number between 1 and the 100.
         :param return_json: Type for returned data. If you set True JSON data will be returned.
@@ -1676,6 +1688,9 @@ class Api:
                 value=space_fields,
             ),
             "expansions": enf_comma_separated(name="expansions", value=expansions),
+            "topic.fields": enf_comma_separated(
+                name="topic_fields", value=topic_fields
+            ),
             "user.fields": enf_comma_separated(name="user_fields", value=user_fields),
             "max_results": max_results,
         }
@@ -1688,15 +1703,100 @@ class Api:
             return_json=return_json,
         )
 
+    def get_buyers_by_space(
+        self,
+        space_id: str,
+        *,
+        expansions: Optional[Union[str, List, Tuple]] = None,
+        user_fields: Optional[Union[str, List, Tuple]] = None,
+        tweet_fields: Optional[Union[str, List, Tuple]] = None,
+        return_json: bool = False,
+    ) -> Union[dict, md.Response]:
+        """
+        Returns a list of user who purchased a ticket to the requested Space. You must authenticate the request using the Access Token of the creator of the requested Space.
+
+        :param space_id: The space ID whose buyers you would like to retrieve.
+        :param expansions: Fields for the expansions.
+        :param user_fields: Fields for the user object.
+        :param tweet_fields: Fields for the tweet object.
+        :param return_json: Type for returned data. If you set True JSON data will be returned.
+        :return:
+            - data: data for the blocking.
+            - includes: expansions data.
+        """
+        args = {
+            "expansions": enf_comma_separated(name="expansions", value=expansions),
+            "user.fields": enf_comma_separated(name="user_fields", value=user_fields),
+            "tweet.fields": enf_comma_separated(
+                name="tweet_fields", value=tweet_fields
+            ),
+        }
+        return self._get(
+            url=f"{self.BASE_URL_V2}/spaces/{space_id}/buyers",
+            params=args,
+            cls=md.User,
+            multi=True,
+            return_json=return_json,
+        )
+
+    def get_tweets_by_space(
+        self,
+        space_id: str,
+        *,
+        tweet_fields: Optional[Union[str, List, Tuple]] = None,
+        expansions: Optional[Union[str, List, Tuple]] = None,
+        user_fields: Optional[Union[str, List, Tuple]] = None,
+        media_fields: Optional[Union[str, List, Tuple]] = None,
+        place_fields: Optional[Union[str, List, Tuple]] = None,
+        poll_fields: Optional[Union[str, List, Tuple]] = None,
+        return_json: bool = False,
+    ) -> Union[dict, md.Response]:
+        """
+        Returns Tweets shared in the requested Spaces.
+
+        :param space_id: The ID for space containing the Tweets you'd like to access.
+        :param expansions: Fields for the expansions.
+        :param tweet_fields: Fields for the tweet object.
+        :param user_fields: Fields for the user object, Expansion required.
+        :param media_fields: Fields for the media object, Expansion required.
+        :param place_fields: Fields for the place object, Expansion required.
+        :param poll_fields: Fields for the poll object, Expansion required.
+        :param return_json: Type for returned data. If you set True JSON data will be returned.
+        :return:
+            - data: data for the tweets.
+            - includes: expansions data.
+        """
+        args = {
+            "expansions": enf_comma_separated(name="expansions", value=expansions),
+            "tweet.fields": enf_comma_separated(
+                name="tweet_fields", value=tweet_fields
+            ),
+            "user.fields": enf_comma_separated(name="user_fields", value=user_fields),
+            "media.fields": enf_comma_separated(
+                name="media_fields", value=media_fields
+            ),
+            "place.fields": enf_comma_separated(
+                name="place_fields", value=place_fields
+            ),
+            "poll.fields": enf_comma_separated(name="poll_fields", value=poll_fields),
+        }
+        return self._get(
+            url=f"{self.BASE_URL_V2}/spaces/{space_id}/tweets",
+            params=args,
+            cls=md.Tweet,
+            multi=True,
+            return_json=return_json,
+        )
+
     def search_spaces(
         self,
         query: str,
-        state: str,
         *,
+        state: Optional[str] = None,
         space_fields: Optional[Union[str, List, Tuple]] = None,
         expansions: Optional[Union[str, List, Tuple]] = None,
+        topic_fields: Optional[Union[str, List, Tuple]] = None,
         user_fields: Optional[Union[str, List, Tuple]] = None,
-        max_results: Optional[int] = None,
         return_json: bool = False,
     ) -> Union[dict, md.Response]:
         """
@@ -1708,8 +1808,8 @@ class Api:
             Accepted values: live,scheduled
         :param space_fields: Fields for the space object.
         :param expansions: Fields for expansions.
+        :param topic_fields: Fields for the topic object.
         :param user_fields: Fields for the user object.
-        :param max_results: The maximum number of results to be returned per page. Number between 1 and the 100.
         :param return_json: Type for returned data. If you set True JSON data will be returned.
         :return:
             - data: data for the spaces
@@ -1724,8 +1824,10 @@ class Api:
                 value=space_fields,
             ),
             "expansions": enf_comma_separated(name="expansions", value=expansions),
+            "topic.fields": enf_comma_separated(
+                name="topic_fields", value=topic_fields
+            ),
             "user.fields": enf_comma_separated(name="user_fields", value=user_fields),
-            "max_results": max_results,
         }
 
         return self._get(
