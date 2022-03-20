@@ -1,5 +1,7 @@
 """
-    Twitter API Rate Limit
+    Twitter API Rate Limit.
+
+    Refer: https://developer.twitter.com/en/docs/twitter-api/rate-limits
 """
 import logging
 import re
@@ -85,6 +87,12 @@ TWEET_RETWEET_USER = Endpoint(
     regex=re.compile(r"/tweets/\d+/retweeted_by"),
     LIMIT_APP_GET=75,
     LIMIT_USER_GET=75,
+)
+TWEET_QUOTE_TWEETS = Endpoint(
+    resource="/tweets/:id/quote_tweets",
+    regex=re.compile(r"/tweets/\d+/quote_tweets"),
+    LIMIT_USER_GET=75,
+    LIMIT_APP_GET=75,
 )
 USER_TWEET_RETWEET = Endpoint(
     resource="/users/:id/retweets",
@@ -312,6 +320,7 @@ PATH_VAR_ENDPOINTS = [
     TWEET_SEARCH_ALL,
     TWEET_COUNTS,
     TWEET_RETWEET_USER,
+    TWEET_QUOTE_TWEETS,
     USER_TWEET_RETWEET,
     USER_TWEET_RETWEET_REMOVE,
     TWEET_LIKING_USER,

@@ -126,6 +126,36 @@ def test_tweet_liking_users(api, helpers):
 
 
 @responses.activate
+def test_get_tweet_quote_tweets(api, helpers):
+    tweets_data = helpers.load_json_data(
+        "testdata/apis/tweet/tweet_quote_tweets_resp.json"
+    )
+    tweet_id = "1409931481552543749"
+    responses.add(
+        responses.GET,
+        url=f"https://api.twitter.com/2/tweets/{tweet_id}/quote_tweets",
+        json=tweets_data,
+    )
+
+    resp = api.get_tweet_quote_tweets(
+        tweet_id=tweet_id,
+        expansions=["author_id"],
+        tweet_fields=[
+            "created_at",
+            "author_id",
+            "conversation_id",
+            "public_metrics",
+            "context_annotations",
+        ],
+        user_fields=["username"],
+        max_results=15,
+    )
+    assert len(resp.data) == 15
+    assert resp.data[0].id == "1495979553889697792"
+    assert resp.includes.users[0].id == "29757971"
+
+
+@responses.activate
 def test_get_tweets_count(api, helpers):
     recent_counts_data = helpers.load_json_data(
         "testdata/apis/tweet/tweets_counts_recent_resp.json"
