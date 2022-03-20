@@ -37,6 +37,7 @@ nav:
       - Tweets:
           - Tweet Lookup: usage/tweets/tweet-lookup.md
           - Manage Tweets: usage/tweets/tweet-manage.md
+          - Quote Tweets: usage/tweets/qutoe_tweets.md
           - Timelines: usage/tweets/timelines.md
           - Search Tweets: usage/tweets/search_tweets.md
           - Tweet counts: usage/tweets/tweets_counts.md
