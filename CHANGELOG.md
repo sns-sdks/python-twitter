@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.7.5](https://github.com/sns-sdks/python-twitter/v0.7.4) (2021-02-17)
+
+### Features
+
+- New api for get tweet quote tweets. [docs](https://twittercommunity.com/t/introducing-the-quote-tweets-lookup-endpoint-to-the-twitter-api-v2/168370)
+- New update for spaces api. [docs](https://twittercommunity.com/t/bringing-tweets-shared-in-a-space-and-rsvp-count-to-the-spaces-endpoints/166746)
+
 ## [0.7.4](https://github.com/sns-sdks/python-twitter/v0.7.4) (2021-02-17)
 
 ### Features
