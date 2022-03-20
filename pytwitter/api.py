@@ -944,7 +944,7 @@ class Api:
         :param tweet_id: Unique identifier of the Tweet to request.
         :param expansions: Fields for the expansions.
         :param pagination_token: Token for the pagination.
-        :param max_results: The maximum number of results to be returned per page. Number between 1 and the 1000.
+        :param max_results: The maximum number of results to be returned per page. Number between 10 and the 1000.
         By default, each page will return 100 results.
         :param tweet_fields: Fields for the tweet object.
         :param user_fields: Fields for the user object, Expansion required.

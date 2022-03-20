@@ -87,6 +87,7 @@ Now cover features:
 - Tweets
     - Tweet lookup
     - Manage Tweets
+    - Quote Tweets
     - Timelines
     - Search Tweets
     - Tweet counts

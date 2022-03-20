@@ -5,7 +5,7 @@ For this endpoint group, there are two methods available POST and DELETE. The PO
 You can get more information for this at [docs](https://developer.twitter.com/en/docs/twitter-api/tweets/retweets/introduction)
 
 
-# Retweets
+## Retweets
 
 Retweet a tweet
 
