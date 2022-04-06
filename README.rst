@@ -95,6 +95,7 @@ Now cover features:
     - Volume streams
     - Retweets
     - Likes
+    - Bookmarks
     - Hide replies
 
 - Users

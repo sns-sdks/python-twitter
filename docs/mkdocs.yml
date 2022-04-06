@@ -37,13 +37,14 @@ nav:
       - Tweets:
           - Tweet Lookup: usage/tweets/tweet-lookup.md
           - Manage Tweets: usage/tweets/tweet-manage.md
-          - Quote Tweets: usage/tweets/qutoe_tweets.md
           - Timelines: usage/tweets/timelines.md
           - Search Tweets: usage/tweets/search_tweets.md
           - Tweet counts: usage/tweets/tweets_counts.md
-          - Hide replies: usage/tweets/hide_reply.md
           - Retweets: usage/tweets/retweet.md
+          - Quote Tweets: usage/tweets/qutoe_tweets.md
           - Likes: usage/tweets/likes.md
+          - Bookmarks: usage/tweets/bookmarks.md
+          - Hide replies: usage/tweets/hide_reply.md
       - Users:
           - Users Lookup: usage/users/user-lookup.md
           - Follows: usage/users/follows.md
@@ -51,7 +52,7 @@ nav:
           - Mutes: usage/users/mutes.md
       - Spaces:
           - Spaces Lookup: usage/spaces/spaces-lookup.md
-          - Spaces Search: usage/spaces/search.md
+          - Search Spaces: usage/spaces/search.md
       - Lists:
           - List lookup: usage/lists/list-lookup.md
           - Manage Lists: usage/lists/manage-lists.md
