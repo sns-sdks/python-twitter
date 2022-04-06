@@ -70,7 +70,7 @@ def test_get_tweets(api, helpers):
 
 
 @responses.activate
-def test_like_and_unlike_tweet(api_with_user, helpers):
+def test_like_and_unlike_tweet(api_with_user):
     user_id, tweet_id = "123456", "10987654321"
 
     responses.add(
@@ -123,6 +123,51 @@ def test_tweet_liking_users(api, helpers):
     )
     assert resp_json["data"][0]["id"] == "1000247636354461697"
     assert resp_json["includes"]["tweets"][0]["id"] == "1383963809702846470"
+
+
+@responses.activate
+def test_get_user_bookmarks(api_with_user, helpers):
+    user_id = "2244994945"
+    tweets_data = helpers.load_json_data(
+        "testdata/apis/tweet/tweets_by_user_bookmark.json"
+    )
+    responses.add(
+        responses.GET,
+        url=f"https://api.twitter.com/2/users/{user_id}/bookmarks",
+        json=tweets_data,
+    )
+
+    resp = api_with_user.get_bookmark_tweets(
+        user_id=user_id,
+        max_results=5,
+        expansions="attachments.media_keys",
+        media_fields="type,duration_ms",
+    )
+    assert len(resp.data) == 5
+    assert resp.data[0].id == "1362449997430542337"
+
+
+@responses.activate
+def test_user_bookmark_tweet_or_remove_tweet(api_with_user):
+    user_id, tweet_id = "2244994945", "1228393702244134912"
+
+    responses.add(
+        responses.POST,
+        url=f"https://api.twitter.com/2/users/{user_id}/bookmarks",
+        json={"data": {"bookmarked": True}},
+    )
+
+    resp = api_with_user.bookmark_tweet(user_id=user_id, tweet_id=tweet_id)
+    assert resp["data"]["bookmarked"]
+
+    responses.add(
+        responses.DELETE,
+        url=f"https://api.twitter.com/2/users/{user_id}/bookmarks/{tweet_id}",
+        json={"data": {"bookmarked": False}},
+    )
+
+    resp = api_with_user.bookmark_tweet_remove(user_id=user_id, tweet_id=tweet_id)
+    assert not resp["data"]["bookmarked"]
 
 
 @responses.activate

@@ -126,6 +126,17 @@ USER_TWEET_LIKE_REMOVE = Endpoint(
     regex=re.compile(r"/users/\d+/likes/\d+"),
     LIMIT_USER_POST=50,
 )
+USER_BOOKMARK_TWEET = Endpoint(
+    resource="/users/:id/bookmarks",
+    regex=re.compile(r"/users/\d+/bookmarks"),
+    LIMIT_USER_GET=180,
+    LIMIT_USER_POST=50,
+)
+USER_BOOKMARK_TWEET_REMOVE = Endpoint(
+    resource="/users/:id/bookmarks/:tweet_id",
+    regex=re.compile(r"/users/\d+/bookmarks/\d+"),
+    LIMIT_USER_DELETE=50,
+)
 TWEET_HIDDEN = Endpoint(
     resource="/tweets/:id/hidden",
     regex=re.compile(r"/tweets/\d+/hidden"),

@@ -1194,6 +1194,97 @@ class Api:
         data = self._parse_response(resp=resp)
         return data
 
+    def get_bookmark_tweets(
+        self,
+        user_id: str,
+        *,
+        pagination_token: Optional[str] = None,
+        max_results: Optional[int] = None,
+        tweet_fields: Optional[Union[str, List, Tuple]] = None,
+        expansions: Optional[Union[str, List, Tuple]] = None,
+        user_fields: Optional[Union[str, List, Tuple]] = None,
+        media_fields: Optional[Union[str, List, Tuple]] = None,
+        place_fields: Optional[Union[str, List, Tuple]] = None,
+        poll_fields: Optional[Union[str, List, Tuple]] = None,
+        return_json: bool = False,
+    ) -> Union[dict, md.Response]:
+        """
+        Allows you to get information about an authenticated user’s 800 most recent bookmarked Tweets.
+
+        :param user_id: The user ID whose bookmark tweets you would like to retrieve.
+        :param expansions: Fields for the expansions.
+        :param pagination_token: Token for the pagination.
+        :param max_results: The maximum number of results to be returned per page. Number between 1 and the 1000.
+        By default, each page will return 100 results.
+        :param tweet_fields: Fields for the tweet object.
+        :param user_fields: Fields for the user object, Expansion required.
+        :param media_fields: Fields for the media object, Expansion required.
+        :param place_fields: Fields for the place object, Expansion required.
+        :param poll_fields: Fields for the poll object, Expansion required.
+        :param return_json: Type for returned data. If you set True JSON data will be returned.
+        :return:
+            - data: data for the tweets.
+            - includes: expansions data.
+            - meta: pagination details
+        """
+        args = {
+            "expansions": enf_comma_separated(name="expansions", value=expansions),
+            "tweet.fields": enf_comma_separated(
+                name="tweet_fields", value=tweet_fields
+            ),
+            "user.fields": enf_comma_separated(name="user_fields", value=user_fields),
+            "media.fields": enf_comma_separated(
+                name="media_fields", value=media_fields
+            ),
+            "place.fields": enf_comma_separated(
+                name="place_fields", value=place_fields
+            ),
+            "poll.fields": enf_comma_separated(name="poll_fields", value=poll_fields),
+            "max_results": max_results,
+            "pagination_token": pagination_token,
+        }
+        return self._get(
+            url=f"{self.BASE_URL_V2}/users/{user_id}/bookmarks",
+            params=args,
+            cls=md.Tweet,
+            multi=True,
+            return_json=return_json,
+        )
+
+    def bookmark_tweet(self, user_id, tweet_id: str) -> dict:
+        """
+        Causes the user ID of an authenticated user identified in the path parameter to Bookmark the target Tweet provided in the request body.
+
+        :param user_id: The user ID who you are liking a Tweet on behalf of.
+                It must match your user ID which authorize with the access token.
+        :param tweet_id: The ID of the Tweet that you would to bookmark.
+        :return: bookmark status data
+        """
+        resp = self._request(
+            url=f"{self.BASE_URL_V2}/users/{user_id}/bookmarks",
+            verb="POST",
+            json={"tweet_id": tweet_id},
+        )
+        data = self._parse_response(resp=resp)
+        return data
+
+    def bookmark_tweet_remove(self, user_id, tweet_id: str) -> dict:
+        """
+        Allows a user or authenticated user ID to remove a Bookmark of a Tweet.
+
+        :param user_id: The user ID who you are removing a Like of a Tweet on behalf of.
+                It must match your user ID which authorize with the access token.
+        :param tweet_id: The ID of the Tweet that you would remove bookmark.
+        :return: bookmark status data
+        """
+
+        resp = self._request(
+            url=f"{self.BASE_URL_V2}/users/{user_id}/bookmarks/{tweet_id}",
+            verb="DELETE",
+        )
+        data = self._parse_response(resp=resp)
+        return data
+
     def hidden_reply(self, tweet_id: str, hidden: Optional[bool] = True) -> dict:
         """
         Hide or un-hide a reply to a Tweet.
