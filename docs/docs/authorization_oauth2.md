@@ -19,6 +19,15 @@ from pytwitter import Api
 api = Api(client_id='your client id', oauth_flow=True)
 ```
 
+!!! tip "Tips"
+
+    If your app is belong to `Confidential clients`. You need also provide `Client Secret`. 
+
+```python
+from pytwitter import Api
+api = Api(client_id='your client id', client_secret="your client secret", oauth_flow=True)
+```
+
 By default, The callback uri is `https://localhost/`, You need add this url to App's `Authentication settings`.
 
 ### Get authorization url

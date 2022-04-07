@@ -2,7 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
-## [0.7.5](https://github.com/sns-sdks/python-twitter/v0.7.4) (2021-02-17)
+## [0.7.6](https://github.com/sns-sdks/python-twitter/v0.7.6) (2021-04-07)
+
+### Features
+
+- New apis for bookmarks.
+- New initial parameters `client secret` for `Confidential Clients`.
+
+## [0.7.5](https://github.com/sns-sdks/python-twitter/v0.7.5) (2021-02-17)
 
 ### Features
 
