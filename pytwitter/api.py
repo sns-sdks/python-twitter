@@ -43,6 +43,7 @@ class Api:
         access_token: Optional[str] = None,
         access_secret: Optional[str] = None,
         client_id: Optional[str] = None,
+        client_secret: Optional[str] = None,
         application_only_auth: bool = False,
         oauth_flow: bool = False,  # provide access with authorize
         sleep_on_rate_limit: bool = False,
@@ -60,6 +61,8 @@ class Api:
         :param access_token: Access token for the authenticated user.
         :param access_secret: Access token secret for the authenticated user.
         :param client_id: Client ID for app with OAuth2.0
+        :param client_secret: Client Secret for app with OAuth2.0.
+            When your app are confidential clients, You need provide this.
         :param application_only_auth: If set this, with auto exchange app bearer token with consumer credentials.
         :param oauth_flow: If set this, You need generate access token with user by OAuth1.1 or OAuth2.0
         :param sleep_on_rate_limit: If token reach the limit, will sleep.
@@ -74,6 +77,7 @@ class Api:
         self.consumer_key = consumer_key
         self.consumer_secret = consumer_secret
         self.client_id = client_id
+        self.client_secret = client_secret
         self.timeout = timeout
         self.proxies = proxies
         self.rate_limit = RateLimit()
@@ -321,6 +325,7 @@ class Api:
 
         session = OAuth2Session(
             client_id=self.client_id,
+            client_secret=self.client_secret,
             scope=scope,
             redirect_uri=redirect_uri,
             code_challenge_method="S256",
