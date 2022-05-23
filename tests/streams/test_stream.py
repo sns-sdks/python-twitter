@@ -7,6 +7,7 @@ from unittest.mock import patch
 
 import pytest
 import responses
+from responses import matchers
 
 from pytwitter import StreamApi, PyTwitterError
 
@@ -70,35 +71,37 @@ def test_stream_connect():
         else:
             return 200, {}, "\r\n"
 
+    req_kwargs = {"stream": True}
     responses.add(
         responses.CallbackResponse(
             responses.GET,
             url="https://api.twitter.com/2/tweets/sample/stream",
             callback=callback,
-            stream=True,
             content_type="application/json",
-        )
+        ),
+        match=[matchers.request_kwargs_matcher(req_kwargs)],
     )
 
     stream_api = MyStreamApi(bearer_token="bearer token")
 
     stream_api.sample_stream(backfill_minutes=1)
 
-    assert stream_api.running == False
+    assert not stream_api.running
     assert stream_api.tweet_max_count == 10
 
 
 @responses.activate
 @patch("time.sleep", return_value=None)
 def test_stream_error(patched_time_sleep):
+    req_kwargs = {"stream": True}
     responses.add(
         responses.Response(
             responses.GET,
             url="https://api.twitter.com/2/tweets/search/stream",
-            stream=True,
             content_type="application/json",
             status=400,
-        )
+        ),
+        match=[matchers.request_kwargs_matcher(req_kwargs)],
     )
 
     api = StreamApi(bearer_token="bearer token", max_retries=10)
