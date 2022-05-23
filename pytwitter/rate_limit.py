@@ -60,6 +60,11 @@ USER_TIMELINE = Endpoint(
     LIMIT_APP_GET=1500,
     LIMIT_USER_GET=900,
 )
+USER_TIMELINE_REVERSE = Endpoint(
+    resource="/users/:id/timelines/reverse_chronological",
+    regex=re.compile(r"/users/\d+/timelines/reverse_chronological"),
+    LIMIT_USER_GET=180,
+)
 USER_MENTIONS = Endpoint(
     resource="/users/:id/mentions",
     regex=re.compile(r"/users/\d+/mentions"),
@@ -326,6 +331,7 @@ PATH_VAR_ENDPOINTS = [
     TWEET_BY_ID,
     TWEETS_BY_ID,
     USER_TIMELINE,
+    USER_TIMELINE_REVERSE,
     USER_MENTIONS,
     TWEET_SEARCH_RECENT,
     TWEET_SEARCH_ALL,
