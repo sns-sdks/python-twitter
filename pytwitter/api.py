@@ -718,6 +718,76 @@ class Api:
             return_json=return_json,
         )
 
+    def get_timelines_reverse_chronological(
+        self,
+        user_id: str,
+        *,
+        start_time: Optional[str] = None,
+        end_time: Optional[str] = None,
+        since_id: Optional[str] = None,
+        until_id: Optional[str] = None,
+        max_results: Optional[int] = None,
+        pagination_token: Optional[str] = None,
+        exclude: Optional[Union[str, List, Tuple]] = None,
+        tweet_fields: Optional[Union[str, List, Tuple]] = None,
+        expansions: Optional[Union[str, List, Tuple]] = None,
+        user_fields: Optional[Union[str, List, Tuple]] = None,
+        media_fields: Optional[Union[str, List, Tuple]] = None,
+        place_fields: Optional[Union[str, List, Tuple]] = None,
+        poll_fields: Optional[Union[str, List, Tuple]] = None,
+        return_json: bool = False,
+    ) -> Union[dict, md.Response]:
+        """
+        Allows you to retrieve a collection of the most recent Tweets and Retweets posted by you and users you follow.
+        This endpoint returns up to the last 3200 Tweets.
+
+        :param user_id: Unique identifier of the user that is requesting their chronological home timeline.
+        :param start_time: Oldest or earliest UTC timestamp for tweets, format YYYY-MM-DDTHH:mm:ssZ.
+        :param end_time: Newest or most recent UTC timestamp for tweets, format YYYY-MM-DDTHH:mm:ssZ.
+        :param since_id: Greater than (that is, more recent than) tweet id for response. Exclude this since_id.
+        :param until_id: Less than (that is, older than) tweet id for response. Exclude this until_id.
+        :param max_results: The maximum number of results to be returned per page. Number between 5 and the 100.
+        By default, each page will return 10 results.
+        :param pagination_token: Token for the pagination.
+        :param exclude: Fields for types of Tweets to exclude from the response.
+        :param tweet_fields: Fields for the tweet object.
+        :param expansions: Fields for the expansions.
+        :param user_fields: Fields for the user object, Expansion required.
+        :param media_fields: Fields for the media object, Expansion required.
+        :param place_fields: Fields for the place object, Expansion required.
+        :param poll_fields: Fields for the poll object, Expansion required.
+        :param return_json: Type for returned data. If you set True JSON data will be returned.
+        :return: Response instance or json.
+        """
+        args = {
+            "start_time": start_time,
+            "end_time": end_time,
+            "since_id": since_id,
+            "until_id": until_id,
+            "exclude": enf_comma_separated(name="exclude", value=exclude),
+            "tweet.fields": enf_comma_separated(
+                name="tweet_fields", value=tweet_fields
+            ),
+            "expansions": enf_comma_separated(name="expansions", value=expansions),
+            "user.fields": enf_comma_separated(name="user_fields", value=user_fields),
+            "media.fields": enf_comma_separated(
+                name="media_fields", value=media_fields
+            ),
+            "place.fields": enf_comma_separated(
+                name="place_fields", value=place_fields
+            ),
+            "poll.fields": enf_comma_separated(name="poll_fields", value=poll_fields),
+            "max_results": max_results,
+            "pagination_token": pagination_token,
+        }
+        return self._get(
+            url=f"{self.BASE_URL_V2}/users/{user_id}/timelines/reverse_chronological",
+            params=args,
+            cls=md.Tweet,
+            multi=True,
+            return_json=return_json,
+        )
+
     def get_mentions(
         self,
         user_id: str,
