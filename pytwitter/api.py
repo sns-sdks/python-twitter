@@ -2229,6 +2229,9 @@ class Api:
         tweet_fields: Optional[Union[str, List, Tuple]] = None,
         expansions: Optional[Union[str, List, Tuple]] = None,
         user_fields: Optional[Union[str, List, Tuple]] = None,
+        media_fields: Optional[Union[str, List, Tuple]] = None,
+        place_fields: Optional[Union[str, List, Tuple]] = None,
+        poll_fields: Optional[Union[str, List, Tuple]] = None,
         pagination_token: Optional[str] = None,
         max_results: Optional[int] = None,
         return_json: bool = False,
@@ -2240,6 +2243,9 @@ class Api:
         :param tweet_fields: Fields for the tweet object.
         :param expansions: Fields for the expansions.
         :param user_fields: Fields for the user object, Expansion required.
+        :param media_fields: Fields for the media object, Expansion required.
+        :param place_fields: Fields for the place object, Expansion required.
+        :param poll_fields: Fields for the poll object, Expansion required.
         :param max_results: The maximum number of results to be returned per page. Number between 1 and the 100.
             By default, each page will return 100 results.
         :param pagination_token: Token for the pagination.
@@ -2256,6 +2262,13 @@ class Api:
                 name="tweet_fields", value=tweet_fields
             ),
             "user.fields": enf_comma_separated(name="user_fields", value=user_fields),
+            "media.fields": enf_comma_separated(
+                name="media_fields", value=media_fields
+            ),
+            "place.fields": enf_comma_separated(
+                name="place_fields", value=place_fields
+            ),
+            "poll.fields": enf_comma_separated(name="poll_fields", value=poll_fields),
             "max_results": max_results,
             "pagination_token": pagination_token,
         }
