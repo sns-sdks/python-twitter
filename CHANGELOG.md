@@ -2,12 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.7.8](https://github.com/sns-sdks/python-twitter/v0.7.8) (2021-07-22)
+
+### Features
+
+- Support new query fields for get list tweets [#117](https://github.com/sns-sdks/python-twitter/issues/117)
+
+
 ## [0.7.7](https://github.com/sns-sdks/python-twitter/v0.7.7) (2021-05-23)
 
 ### Features
 
 - New apis for get user timelines by reverse chronological.
-
 
 ## [0.7.6](https://github.com/sns-sdks/python-twitter/v0.7.6) (2021-04-07)
 
