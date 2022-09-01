@@ -5,7 +5,7 @@ import base64
 import json
 import logging
 import time
-from typing import Dict, List, Optional, Set, Tuple, Union
+from typing import Dict, List, Optional, Tuple, Union
 
 import requests
 import pytwitter.models as md
@@ -22,23 +22,33 @@ class StreamApi:
 
     def __init__(
         self,
-        bearer_token=None,
-        consumer_key=None,
-        consumer_secret=None,
-        proxies=None,
-        max_retries=3,
-        timeout=None,
-        chunk_size=1024,
-    ):
-        self.running = False
-        self._auth = None
+        bearer_token: Optional[str] = None,
+        consumer_key: Optional[str] = None,
+        consumer_secret: Optional[str] = None,
+        proxies: Optional[dict] = None,
+        max_retries: int = 3,
+        timeout: Optional[int] = None,
+        chunk_size: int = 1024,
+    ) -> None:
+        """
+        :param bearer_token: Access token for app or user.
+        :param consumer_key: App consumer key.
+        :param consumer_secret: App consumer secret.
+        :param proxies: Proxies for request.
+        :param max_retries: Request max retry times.
+        :param timeout: Timeout for request.
+        :param chunk_size: Chunk size for read data.
+        """
         self.consumer_key = consumer_key
         self.consumer_secret = consumer_secret
         self.proxies = proxies
-        self.session = requests.Session()
         self.max_retries = max_retries
         self.timeout = timeout
         self.chunk_size = chunk_size
+
+        self.session = requests.Session()
+        self._auth = None
+        self.running = False
 
         if bearer_token:
             self._auth = OAuth2Auth(
@@ -86,12 +96,10 @@ class StreamApi:
         """
         # make sure only one running connect
         self.running = True
-        retries = 0
-        http_error_wait = 5
-        http_error_wait_max = 320
+        retries, retry_interval, retry_wait = 1, 2, 2
 
         try:
-            while self.running and retries < self.max_retries:
+            while self.running and retries <= self.max_retries:
                 with self.session.get(
                     url=url,
                     params=params,
@@ -114,17 +122,20 @@ class StreamApi:
                             self.on_closed(resp)
                     else:
                         self.on_request_error(resp)
-                        retries += 1
-                        time.sleep(http_error_wait)
+                        logger.debug(
+                            f"Request connection failed. "
+                            f"Trying again in {retry_wait} seconds... ({retries}/{self.max_retries})"
+                        )
+                        time.sleep(retry_wait)
 
-                        http_error_wait *= 2
-                        if http_error_wait > http_error_wait_max:
-                            break
+                        retries += 1
+                        retry_wait = retry_interval * retries
         except Exception as exc:
             logger.exception(f"Exception in request, exc: {exc}")
         finally:
+            logger.debug("Request connection exited")
             self.session.close()
-            self.running = False
+            self.disconnect()
 
     def disconnect(self):
         self.running = False
