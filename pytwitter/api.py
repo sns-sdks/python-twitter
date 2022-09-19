@@ -371,7 +371,7 @@ class Api:
             authorization_response=response,
             code_verifier=code_verifier,
         )
-        self._auth = OAuth2Auth(token=token["access_token"])
+        self._auth = OAuth2Auth(token=token)
         return token
 
     @staticmethod
