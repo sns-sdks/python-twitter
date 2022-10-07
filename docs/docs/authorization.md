@@ -1,4 +1,4 @@
-At Twitter api, many endpoints use OAuth 1.0a method to act, or make API requests, on behalf of a Twitter account. For example, if you have a Twitter developer app, you can make API requests on behalf of any Twitter account as long as that user authenticates your app.
+Many endpoints currently use OAuth 1.0a method to act, or make API requests, on behalf of a Twitter account (but OAuth 2.0 with fine-grained scopes is preferred). For example, if you have a Twitter developer app, you can make API requests on behalf of any Twitter account as long as that user authenticates your app.
 
 So, This will show you how to obtain user access tokens through the 3-legged OAuth flow.
 
@@ -51,5 +51,5 @@ Now the api instance will have the user authorization. You can use this to manag
 
 !!! tip "Note"
 
-    If you have some confuse. you need to read the [Get user access token](https://developer.twitter.com/en/docs/authentication/oauth-1-0a/obtaining-user-access-tokens) first.
+    If you have any confusion, you need to read the [Get user access token](https://developer.twitter.com/en/docs/authentication/oauth-1-0a/obtaining-user-access-tokens) first.
     
