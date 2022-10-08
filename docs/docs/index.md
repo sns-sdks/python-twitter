@@ -11,7 +11,7 @@ So this library provides a Python interface for this version API. Library work o
 
 !!! tip "Tips"
 
-    This library only have apis for v2, not contains api for v1.1
+    This library only has apis for v2, and does not contain api for v1.1
 
 
 ## Thanks

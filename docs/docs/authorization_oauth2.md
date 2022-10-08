@@ -1,12 +1,8 @@
-After `Sep 10, 2021`, Twitter has released a publicly available beta of our new OAuth 2.0 authorization protocol and fine-grained permission scopes.
-
-If you are interested in shaping the future of OAuth 2.0 on the Twitter Developer Platform, can [request access](https://docs.google.com/forms/d/e/1FAIpQLSdUHe0KP5S05EAHLZooUL6Ze5TEBL4RNMUQcTauXKK-xuHMpQ/viewform) to the OAuth 2.0 beta.
-
 ### Prerequisite
 
 Once you have got the request access for `OAuth2.0`, your app will have the `Client ID` to do `authorization` for `OAuth2.0`.
 
-You can get more information at the [documentation](https://developer.twitter.com/en/docs/twitter-api/oauth2) and the [community content](https://twittercommunity.com/t/announcing-oauth-2-0-beta/159189).
+You can get more information at the [documentation](https://developer.twitter.com/en/docs/twitter-api/oauth2) and the [community content](https://twittercommunity.com/t/announcing-oauth-2-0-general-availability/163555).
 
 If you're ready, now let's get started do a simple example with this library.
 
@@ -21,7 +17,7 @@ api = Api(client_id='your client id', oauth_flow=True)
 
 !!! tip "Tips"
 
-    If your app is belong to `Confidential clients`. You need also provide `Client Secret`. 
+    If your app is a `Confidential client`, you need also provide `Client Secret`. 
 
 ```python
 from pytwitter import Api
@@ -54,4 +50,4 @@ api.generate_oauth2_access_token(response="response", code_verifier="code_verifi
 # {'token_type':'bearer','expires_in':7200,'access_token':'access_token','scope':'users.read tweet.read','expires_at':1632852223}
 ```
 
-Now the api instance will have the user authorization. You can use this to manage apis need user authorization.
+Now the api instance will have the user authorization. You can use this to manage apis needing user authorization.

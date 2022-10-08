@@ -1,6 +1,6 @@
 python-twitter
 
-A simple Python wrapper around for Twitter API v2 :sparkles: :cake: :sparkles:.
+A simple Python wrapper for Twitter API v2 :sparkles: :cake: :sparkles:.
 
 .. image:: https://img.shields.io/endpoint?url=https%3A%2F%2Ftwbadges.glitch.me%2Fbadges%2Fv2
    :target: https://developer.twitter.com/en/docs/twitter-api
@@ -32,9 +32,9 @@ This library provides a service to easily use this new version Twitter API.
 Documentation
 =============
 
-You can get all api description and update at `Twitter API v2: Early Access <https://developer.twitter.com/en/docs/twitter-api/early-access>`_.
+You can get all API descriptions `Twitter API v2 Documentation <https://developer.twitter.com/en/docs/twitter-api>`_.
 
-Library docs site on `here <https://sns-sdks.github.io/python-twitter/>`_
+Docs for this library on `here <https://sns-sdks.github.io/python-twitter/>`_
 
 
 ==========
@@ -82,7 +82,7 @@ Using
 
 The API is exposed via the ``pytwitter.Api`` class.
 
-Now cover features:
+Now covers these features:
 
 - Tweets
     - Tweet lookup
@@ -130,7 +130,7 @@ You can initialize with an bearer token:
     >>> from pytwitter import Api
     >>> api = Api(bearer_token="Your bearer token")
 
-With user context token:
+With OAuth 1.0A user context token:
 
 .. code-block:: python
 
@@ -141,7 +141,7 @@ With user context token:
             access_secret="access secret"
         )
 
-Or with authorize by user:
+Or with authorization done by user:
 
 .. code-block:: python
 
@@ -155,7 +155,7 @@ Or with authorize by user:
      'user_id': '123456',
      'screen_name': 'screen name'}
 
-Twitter has `announcing OAuth 2.0 beta <https://twittercommunity.com/t/announcing-oauth-2-0-beta/159189>`_
+Twitter has `announced OAuth 2.0 user authentication support with fine-grained scopes <https://twittercommunity.com/t/announcing-oauth-2-0-general-availability/163555>`_
 
 Now if you have app with ``OAuth2.0`` client ID. you can do authorize with ``OAuth2``.
 
@@ -218,7 +218,7 @@ Get user followers:
     Response(data=[User(id='715131097332518912', name='Daniel', username='RGIDaniel'), User(id='1176323137757048832', name='Joyce Wang', username='joycew67')...])
 
 
-You can follow or unfollow user if you have OAuth 1.0a User context.
+You can follow or unfollow user if you have User context.
 
 follow user:
 
@@ -259,7 +259,7 @@ Get group of tweets:
 Streaming API
 -------------
 
-For Streaming, this provide `StreamApi` independent. Same as main `Api`, You need initial it first.
+For Streaming, this provide `StreamApi` independent. Same as main `Api`, You need initialize it first.
 
 .. code-block:: python
 
@@ -269,13 +269,13 @@ For Streaming, this provide `StreamApi` independent. Same as main `Api`, You nee
     >>> stream_api = StreamApi(consumer_key="consumer key", consumer_secret="consumer secret")
 
 
-For Sample Stream tweets, You can use `sample_stream` function to build a connection.
+For Sample Stream tweets, you can use the `sample_stream` function to build a connection.
 
 .. code-block:: python
 
     >>> stream_api.sample_stream()
 
-For Search Stream, You can point your rules.
+For Filtered Stream, you can create rules.
 
 Get your current rules.
 
@@ -284,7 +284,7 @@ Get your current rules.
     >>> stream_api.get_rules()
     Response(data=[StreamRule(id='1369580714056843266', value='twitter api ')])
 
-Delete You rules.
+Delete your rules.
 
 .. code-block:: python
 
@@ -304,7 +304,7 @@ Add new rules. If you set `dry_run` to True, will only validate rules, and not c
     >>> stream_api.manage_rules(rules=np, dry_run=True)
     Response(data=[StreamRule(id='1370406958721732610', value='cat has:media -grumpy'), StreamRule(id='1370406958721732609', value='cat has:media')])
 
-Then you can use `search_stream` to get tweets match your rules.
+Then you can use `search_stream` to get tweets matching your rules.
 
 .. code-block:: python
 
