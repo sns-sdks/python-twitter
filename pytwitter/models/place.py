@@ -44,6 +44,7 @@ class Place(BaseModel):
 
     id: Optional[str] = field(default=None)
     full_name: Optional[str] = field(default=None)
+    contained_within: Optional[List] = field(default=None, repr=False)
     country: Optional[str] = field(default=None, repr=False)
     country_code: Optional[str] = field(default=None, repr=False)
     geo: Optional[PlaceGeo] = field(default=None, repr=False)

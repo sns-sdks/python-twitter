@@ -25,6 +25,7 @@ class Space(BaseModel):
     is_ticketed: Optional[bool] = field(default=None, repr=False)
     invited_user_ids: Optional[List[str]] = field(default=None, repr=False)
     participant_count: Optional[int] = field(default=None, repr=False)
+    subscriber_count: Optional[int] = field(default=None, repr=False)
     scheduled_start: Optional[str] = field(default=None, repr=False)
     speaker_ids: Optional[List[str]] = field(default=None, repr=False)
     started_at: Optional[str] = field(default=None, repr=False)

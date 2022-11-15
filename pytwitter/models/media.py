@@ -5,7 +5,7 @@
 """
 
 from dataclasses import dataclass, field
-from typing import Optional
+from typing import Optional, List
 
 from .base import BaseModel
 
@@ -35,6 +35,13 @@ class MediaPublicMetrics(BaseModel):
 
 
 @dataclass
+class MediaVariant(BaseModel):
+    bit_rate: Optional[int] = field(default=None)
+    content_type: Optional[str] = field(default=None)
+    url: Optional[str] = field(default=None)
+
+
+@dataclass
 class Media(BaseModel):
     """
     A class representing the media object.
@@ -54,3 +61,4 @@ class Media(BaseModel):
     public_metrics: Optional[MediaPublicMetrics] = field(default=None, repr=False)
     width: Optional[int] = field(default=None, repr=False)
     alt_text: Optional[str] = field(default=None, repr=False)
+    variants: Optional[List[MediaVariant]] = field(default=None, repr=False)
