@@ -31,6 +31,13 @@ class TweetContextAnnotationEntity(BaseModel):
 
 
 @dataclass
+class TweetEditControls(BaseModel):
+    edits_remaining: Optional[int] = field(default=None)
+    is_edit_eligible: Optional[bool] = field(default=None)
+    editable_until: Optional[str] = field(default=None)
+
+
+@dataclass
 class TweetContextAnnotation(BaseModel):
     """
     Refer https://developer.twitter.com/en/docs/twitter-api/annotations
@@ -159,6 +166,7 @@ class Tweet(BaseModel):
 
     id: Optional[str] = field(default=None)
     text: Optional[str] = field(default=None)
+    edit_history_tweet_ids: Optional[List[str]] = field(default=None)
     attachments: Optional[TweetAttachments] = field(
         default=None, repr=False, compare=False
     )
@@ -168,6 +176,9 @@ class Tweet(BaseModel):
     )
     conversation_id: Optional[str] = field(default=None, repr=False, compare=False)
     created_at: Optional[str] = field(default=None, repr=False, compare=False)
+    edit_controls: Optional[TweetEditControls] = field(
+        default=None, repr=False, compare=False
+    )
     entities: Optional[TweetEntities] = field(default=None, repr=False, compare=False)
     geo: Optional[TweetGeo] = field(default=None, repr=False, compare=False)
     in_reply_to_user_id: Optional[str] = field(default=None, repr=False, compare=False)
