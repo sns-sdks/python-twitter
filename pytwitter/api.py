@@ -370,6 +370,7 @@ class Api:
             url=self.BASE_OAUTH2_ACCESS_TOKEN_URL,
             authorization_response=response,
             code_verifier=code_verifier,
+            proxies=self.proxies,
         )
         self._auth = OAuth2Auth(token=token)
         return token
