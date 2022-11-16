@@ -15,6 +15,7 @@ from . import (
     User,
     Space,
     Topic,
+    DirectMessageEvent,
     ComplianceJob,
     StreamRule,
     TwitterList,
@@ -108,6 +109,7 @@ class Response:
             Space,
             ComplianceJob,
             TwitterList,
+            DirectMessageEvent,
             List[User],
             List[Tweet],
             List[Media],
@@ -118,6 +120,7 @@ class Response:
             List[TwitterList],
             List[Space],
             List[ComplianceJob],
+            List[DirectMessageEvent],
         ]
     ]
     includes: Optional[Includes] = field(default=None, repr=False)
