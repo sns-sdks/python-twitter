@@ -2767,7 +2767,7 @@ class Api:
             return_json=return_json,
         )
 
-    def get_dm_events_by_conversation_id(
+    def get_dm_events_by_conversation(
         self,
         dm_conversation_id: str,
         *,
@@ -2872,7 +2872,7 @@ class Api:
             "pagination_token": pagination_token,
         }
         return self._get(
-            url=f"{self.BASE_URL_V2}/dm_events",
+            url=f"{self.BASE_URL_V2}/dm_conversations/dm_events",
             params=args,
             cls=md.DirectMessageEvent,
             multi=True,
