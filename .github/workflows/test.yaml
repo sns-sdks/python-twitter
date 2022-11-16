@@ -43,10 +43,12 @@ jobs:
           pytest
       - name: Upload coverage to Codecov
         if: ${{ matrix.update-coverage }}
-        uses: codecov/codecov-action@v1
+        uses: codecov/codecov-action@v3
         with:
-          file: ./coverage.xml
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: ./coverage.xml
           fail_ci_if_error: true
+          verbose: true
 
   lint:
     name: black
