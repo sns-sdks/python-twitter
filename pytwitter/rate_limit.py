@@ -326,6 +326,37 @@ COMPLIANCE_JOBS = Endpoint(
     LIMIT_APP_GET=150,
     LIMIT_APP_POST=150,
 )
+DM_EVENTS_BY_PARTICIPANT = Endpoint(
+    resource="/dm_conversations/with/:participant_id/dm_events",
+    regex=re.compile(r"/dm_conversations/with/\d+/dm_events"),
+    LIMIT_APP_GET=300,
+)
+DM_EVENTS_BY_CONVERSATION = Endpoint(
+    resource="/dm_conversations/:dm_conversation_id/dm_events",
+    regex=re.compile(r"/dm_conversations/\d+/dm_events"),
+    LIMIT_APP_GET=300,
+)
+DM_EVENTS = Endpoint(
+    resource="/dm_events",
+    regex=re.compile(r"/dm_events"),
+    LIMIT_APP_GET=300,
+)
+
+DM_MESSAGE_TO_PARTICIPANT = Endpoint(
+    resource="/dm_conversations/with/:participant_id/messages",
+    regex=re.compile(r"/dm_conversations/with/\d+/messages"),
+    LIMIT_APP_GET=200,
+)
+DM_MESSAGE_TO_CONVERSATION = Endpoint(
+    resource="/dm_conversations/:dm_conversation_id/messages",
+    regex=re.compile(r"/dm_conversations/\d+/messages"),
+    LIMIT_APP_GET=200,
+)
+DM_CONVERSATIONS = Endpoint(
+    resource="/dm_conversations",
+    regex=re.compile(r"/dm_conversations"),
+    LIMIT_APP_GET=200,
+)
 
 PATH_VAR_ENDPOINTS = [
     TWEET_BY_ID,
@@ -376,6 +407,12 @@ PATH_VAR_ENDPOINTS = [
     USER_PINNED_LISTS_BY_ID,
     COMPLIANCE_JOB_BY_ID,
     COMPLIANCE_JOBS,
+    DM_EVENTS_BY_PARTICIPANT,
+    DM_EVENTS_BY_CONVERSATION,
+    DM_EVENTS,
+    DM_MESSAGE_TO_PARTICIPANT,
+    DM_MESSAGE_TO_CONVERSATION,
+    DM_CONVERSATIONS,
 ]
 
 
