@@ -50,7 +50,7 @@ def test_get_dm_events(api_with_user, helpers):
 
     responses.add(
         responses.GET,
-        url=f"https://api.twitter.com/2/dm_conversations/dm_events",
+        url=f"https://api.twitter.com/2/dm_events",
         json=events_data,
     )
 

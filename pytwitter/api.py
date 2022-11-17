@@ -2872,7 +2872,7 @@ class Api:
             "pagination_token": pagination_token,
         }
         return self._get(
-            url=f"{self.BASE_URL_V2}/dm_conversations/dm_events",
+            url=f"{self.BASE_URL_V2}/dm_events",
             params=args,
             cls=md.DirectMessageEvent,
             multi=True,
