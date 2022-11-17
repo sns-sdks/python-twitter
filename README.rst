@@ -119,6 +119,10 @@ Now covers these features:
     - List follows
     - Pinned Lists
 
+- Direct Messages
+    - Direct Messages lookup
+    - Manage Direct Messages
+
 -----------
 INSTANTIATE
 -----------
