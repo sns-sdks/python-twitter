@@ -2878,3 +2878,110 @@ class Api:
             multi=True,
             return_json=return_json,
         )
+
+    def create_message_to_participant(
+        self,
+        participant_id: str,
+        *,
+        attachments: Optional[List[dict]] = None,
+        text: Optional[str] = None,
+        return_json: bool = False,
+    ) -> Union[dict, md.DirectMessageCreateResponse]:
+        """
+        Creates a one-to-one Direct Message and adds it to the one-to-one conversation.
+
+        :param participant_id: The User ID of the account this one-to-one Direct Message is to be sent to.
+        :param attachments: A single Media ID being attached to the Direct Message.
+        This field is required if text is not present. Only 1 attachment is supported.
+        :param text: Text of the Direct Message being created. This field is required if attachments is not present.
+        Text messages support up to 10,000 characters.
+        :param return_json: Type for returned data. If you set True JSON data will be returned.
+        :return: Response instance or json.
+        """
+        data = {}
+        if attachments is not None:
+            data["attachments"] = attachments
+        if text is not None:
+            data["text"] = text
+        resp = self._request(
+            url=f"{self.BASE_URL_V2}/dm_conversations/with/{participant_id}/messages",
+            verb="POST",
+            json=data,
+        )
+        data = self._parse_response(resp=resp)
+        return (
+            data
+            if return_json
+            else md.DirectMessageCreateResponse.new_from_json_dict(data["data"])
+        )
+
+    def create_message_to_conversation(
+        self,
+        dm_conversation_id: str,
+        *,
+        attachments: Optional[List[dict]] = None,
+        text: Optional[str] = None,
+        return_json: bool = False,
+    ) -> Union[dict, md.DirectMessageCreateResponse]:
+        """
+        Creates a Direct Message on behalf of an authenticated user, and adds it to the specified conversation.
+
+        :param dm_conversation_id: ID of the conversation to add the Direct Message to.
+        Supports both 1-1 and group conversations.
+        :param attachments: A single Media ID being attached to the Direct Message.
+        This field is required if text is not present. Only 1 attachment is supported.
+        :param text: Text of the Direct Message being created. This field is required if attachments is not present.
+        Text messages support up to 10,000 characters.
+        :param return_json: Type for returned data. If you set True JSON data will be returned.
+        :return: Response instance or json.
+        """
+        data = {}
+        if attachments is not None:
+            data["attachments"] = attachments
+        if text is not None:
+            data["text"] = text
+        resp = self._request(
+            url=f"{self.BASE_URL_V2}/dm_conversations/{dm_conversation_id}/messages",
+            verb="POST",
+            json=data,
+        )
+        data = self._parse_response(resp=resp)
+        return (
+            data
+            if return_json
+            else md.DirectMessageCreateResponse.new_from_json_dict(data["data"])
+        )
+
+    def create_conversation(
+        self,
+        conversation_type: Optional[str],
+        message: Optional[dict],
+        participant_ids: Optional[List[str]],
+        *,
+        return_json: bool = False,
+    ) -> Union[dict, md.DirectMessageCreateResponse]:
+        """
+        Creates a new group conversation and adds a Direct Message to it on behalf of an authenticated user.
+
+        :param conversation_type: Must be set to "Group" (case sensitive).
+        :param message: A JSON object that contains either or both the text and attachments parameters.
+        :param participant_ids: An array of User IDs that the conversation is created with.
+        Conversations can have up to 50 participants.
+        :param return_json: Type for returned data. If you set True JSON data will be returned.
+        :return: Response instance or json.
+        """
+        resp = self._request(
+            url=f"{self.BASE_URL_V2}/dm_conversations",
+            verb="POST",
+            json={
+                "conversation_type": conversation_type,
+                "message": message,
+                "participant_ids": participant_ids,
+            },
+        )
+        data = self._parse_response(resp=resp)
+        return (
+            data
+            if return_json
+            else md.DirectMessageCreateResponse.new_from_json_dict(data["data"])
+        )

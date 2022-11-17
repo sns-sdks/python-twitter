@@ -36,3 +36,9 @@ class DirectMessageEvent(BaseModel):
     referenced_tweets: Optional[List[DMEReferencedTweet]] = field(
         default=None, repr=False
     )
+
+
+@dataclass
+class DirectMessageCreateResponse(BaseModel):
+    dm_conversation_id: Optional[str] = field(default=None)
+    dm_event_id: Optional[str] = field(default=None)
