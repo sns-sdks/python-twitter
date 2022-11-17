@@ -7,4 +7,5 @@ from .compliance import *  # noqa
 from .space import *  # noqa
 from .list import *  # noqa
 from .stream import *  # noqa
+from .dm_event import *  # noqa
 from .ext import *  # noqa

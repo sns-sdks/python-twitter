@@ -62,6 +62,9 @@ nav:
           - Pinned Lists: usage/lists/pinned-lists.md
       - Compliance:
           - Batch compliance: usage/compliance/batch_compliance.md
+      - Direct Messages:
+          - Direct Messages lookup: usage/direct-messages/direct-messages-lookup.md
+          - Manage Direct Messages: usage/direct-messages/manage-direct-messages.md
       - Steaming: usage/streaming.md
   - Changelog: CHANGELOG.md
 

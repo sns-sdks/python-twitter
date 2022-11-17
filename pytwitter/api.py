@@ -370,6 +370,7 @@ class Api:
             url=self.BASE_OAUTH2_ACCESS_TOKEN_URL,
             authorization_response=response,
             code_verifier=code_verifier,
+            proxies=self.proxies,
         )
         self._auth = OAuth2Auth(token=token)
         return token
@@ -2707,3 +2708,280 @@ class Api:
             return data
         else:
             return md.ComplianceJob.new_from_json_dict(data["data"])
+
+    def get_dm_events_by_participant(
+        self,
+        participant_id: str,
+        *,
+        dm_event_fields: Optional[Union[str, List, Tuple]] = None,
+        event_types: Optional[str] = None,
+        expansions: Optional[Union[str, List, Tuple]] = None,
+        media_fields: Optional[Union[str, List, Tuple]] = None,
+        user_fields: Optional[Union[str, List, Tuple]] = None,
+        tweet_fields: Optional[Union[str, List, Tuple]] = None,
+        pagination_token: Optional[str] = None,
+        max_results: Optional[int] = None,
+        return_json: bool = False,
+    ) -> Union[dict, md.Response]:
+        """
+        Returns a list of Direct Messages (DM) events within a 1-1 conversation with the user
+        specified in the participant_id path parameter.
+
+        :param participant_id: The participant_id of the user is having a 1-1 conversation with.
+        :param dm_event_fields: Fields for the direct message events.
+        :param event_types: Type of Direct Message event to return. In the context of one-to-one conversations,
+        only `MessageCreate` is relevant.
+        :param expansions: Fields for the expansions.
+        :param media_fields: Fields for the media object, Expansion required.
+        :param user_fields: Fields for the user object, Expansion required.
+        :param tweet_fields: Fields for the tweet object, Expansion required.
+        :param pagination_token: Token for the pagination.
+        :param max_results: The maximum number of results to be returned per page. Number between 1 and up to 100.
+        By default, each page will return 100 results.
+        :param return_json: Type for returned data. If you set True JSON data will be returned.
+        :return: Response instance or json.
+        """
+
+        args = {
+            "dm_event.fields": enf_comma_separated(
+                name="dm_event_fields",
+                value=dm_event_fields,
+            ),
+            "event_types": event_types,
+            "expansions": enf_comma_separated(name="expansions", value=expansions),
+            "media.fields": enf_comma_separated(
+                name="media_fields", value=media_fields
+            ),
+            "user.fields": enf_comma_separated(name="user_fields", value=user_fields),
+            "tweet.fields": enf_comma_separated(
+                name="tweet_fields", value=tweet_fields
+            ),
+            "max_results": max_results,
+            "pagination_token": pagination_token,
+        }
+        return self._get(
+            url=f"{self.BASE_URL_V2}/dm_conversations/with/{participant_id}/dm_events",
+            params=args,
+            cls=md.DirectMessageEvent,
+            multi=True,
+            return_json=return_json,
+        )
+
+    def get_dm_events_by_conversation(
+        self,
+        dm_conversation_id: str,
+        *,
+        dm_event_fields: Optional[Union[str, List, Tuple]] = None,
+        event_types: Optional[str] = None,
+        expansions: Optional[Union[str, List, Tuple]] = None,
+        media_fields: Optional[Union[str, List, Tuple]] = None,
+        user_fields: Optional[Union[str, List, Tuple]] = None,
+        tweet_fields: Optional[Union[str, List, Tuple]] = None,
+        pagination_token: Optional[str] = None,
+        max_results: Optional[int] = None,
+        return_json: bool = False,
+    ) -> Union[dict, md.Response]:
+        """
+        Returns a list of Direct Messages within a conversation specified in the `dm_conversation_id` path parameter.
+
+        :param dm_conversation_id: The `id` of the Direct Message conversation for which events are being retrieved.
+        :param dm_event_fields: Fields for the direct message events.
+        :param event_types: Type of Direct Message event to return. In the context of one-to-one conversations,
+        only `MessageCreate` is relevant.
+        :param expansions: Fields for the expansions.
+        :param media_fields: Fields for the media object, Expansion required.
+        :param user_fields: Fields for the user object, Expansion required.
+        :param tweet_fields: Fields for the tweet object, Expansion required.
+        :param pagination_token: Token for the pagination.
+        :param max_results: The maximum number of results to be returned per page. Number between 1 and up to 100.
+        By default, each page will return 100 results.
+        :param return_json: Type for returned data. If you set True JSON data will be returned.
+        :return: Response instance or json.
+        """
+
+        args = {
+            "dm_event.fields": enf_comma_separated(
+                name="dm_event_fields",
+                value=dm_event_fields,
+            ),
+            "event_types": event_types,
+            "expansions": enf_comma_separated(name="expansions", value=expansions),
+            "media.fields": enf_comma_separated(
+                name="media_fields", value=media_fields
+            ),
+            "user.fields": enf_comma_separated(name="user_fields", value=user_fields),
+            "tweet.fields": enf_comma_separated(
+                name="tweet_fields", value=tweet_fields
+            ),
+            "max_results": max_results,
+            "pagination_token": pagination_token,
+        }
+        return self._get(
+            url=f"{self.BASE_URL_V2}/dm_conversations/{dm_conversation_id}/dm_events",
+            params=args,
+            cls=md.DirectMessageEvent,
+            multi=True,
+            return_json=return_json,
+        )
+
+    def get_dm_events(
+        self,
+        *,
+        dm_event_fields: Optional[Union[str, List, Tuple]] = None,
+        event_types: Optional[str] = None,
+        expansions: Optional[Union[str, List, Tuple]] = None,
+        media_fields: Optional[Union[str, List, Tuple]] = None,
+        user_fields: Optional[Union[str, List, Tuple]] = None,
+        tweet_fields: Optional[Union[str, List, Tuple]] = None,
+        pagination_token: Optional[str] = None,
+        max_results: Optional[int] = None,
+        return_json: bool = False,
+    ) -> Union[dict, md.Response]:
+        """
+        Returns a list of Direct Messages for the authenticated user, both sent and received.
+        Supports retrieving events from the previous 30 days.
+
+        :param dm_event_fields: Fields for the direct message events.
+        :param event_types: Type of Direct Message event to return. In the context of one-to-one conversations,
+        only `MessageCreate` is relevant.
+        :param expansions: Fields for the expansions.
+        :param media_fields: Fields for the media object, Expansion required.
+        :param user_fields: Fields for the user object, Expansion required.
+        :param tweet_fields: Fields for the tweet object, Expansion required.
+        :param pagination_token: Token for the pagination.
+        :param max_results: The maximum number of results to be returned per page. Number between 1 and up to 100.
+        By default, each page will return 100 results.
+        :param return_json: Type for returned data. If you set True JSON data will be returned.
+        :return: Response instance or json.
+        """
+        args = {
+            "dm_event.fields": enf_comma_separated(
+                name="dm_event_fields",
+                value=dm_event_fields,
+            ),
+            "event_types": event_types,
+            "expansions": enf_comma_separated(name="expansions", value=expansions),
+            "media.fields": enf_comma_separated(
+                name="media_fields", value=media_fields
+            ),
+            "user.fields": enf_comma_separated(name="user_fields", value=user_fields),
+            "tweet.fields": enf_comma_separated(
+                name="tweet_fields", value=tweet_fields
+            ),
+            "max_results": max_results,
+            "pagination_token": pagination_token,
+        }
+        return self._get(
+            url=f"{self.BASE_URL_V2}/dm_events",
+            params=args,
+            cls=md.DirectMessageEvent,
+            multi=True,
+            return_json=return_json,
+        )
+
+    def create_message_to_participant(
+        self,
+        participant_id: str,
+        *,
+        attachments: Optional[List[dict]] = None,
+        text: Optional[str] = None,
+        return_json: bool = False,
+    ) -> Union[dict, md.DirectMessageCreateResponse]:
+        """
+        Creates a one-to-one Direct Message and adds it to the one-to-one conversation.
+
+        :param participant_id: The User ID of the account this one-to-one Direct Message is to be sent to.
+        :param attachments: A single Media ID being attached to the Direct Message.
+        This field is required if text is not present. Only 1 attachment is supported.
+        :param text: Text of the Direct Message being created. This field is required if attachments is not present.
+        Text messages support up to 10,000 characters.
+        :param return_json: Type for returned data. If you set True JSON data will be returned.
+        :return: Response instance or json.
+        """
+        data = {}
+        if attachments is not None:
+            data["attachments"] = attachments
+        if text is not None:
+            data["text"] = text
+        resp = self._request(
+            url=f"{self.BASE_URL_V2}/dm_conversations/with/{participant_id}/messages",
+            verb="POST",
+            json=data,
+        )
+        data = self._parse_response(resp=resp)
+        return (
+            data
+            if return_json
+            else md.DirectMessageCreateResponse.new_from_json_dict(data["data"])
+        )
+
+    def create_message_to_conversation(
+        self,
+        dm_conversation_id: str,
+        *,
+        attachments: Optional[List[dict]] = None,
+        text: Optional[str] = None,
+        return_json: bool = False,
+    ) -> Union[dict, md.DirectMessageCreateResponse]:
+        """
+        Creates a Direct Message on behalf of an authenticated user, and adds it to the specified conversation.
+
+        :param dm_conversation_id: ID of the conversation to add the Direct Message to.
+        Supports both 1-1 and group conversations.
+        :param attachments: A single Media ID being attached to the Direct Message.
+        This field is required if text is not present. Only 1 attachment is supported.
+        :param text: Text of the Direct Message being created. This field is required if attachments is not present.
+        Text messages support up to 10,000 characters.
+        :param return_json: Type for returned data. If you set True JSON data will be returned.
+        :return: Response instance or json.
+        """
+        data = {}
+        if attachments is not None:
+            data["attachments"] = attachments
+        if text is not None:
+            data["text"] = text
+        resp = self._request(
+            url=f"{self.BASE_URL_V2}/dm_conversations/{dm_conversation_id}/messages",
+            verb="POST",
+            json=data,
+        )
+        data = self._parse_response(resp=resp)
+        return (
+            data
+            if return_json
+            else md.DirectMessageCreateResponse.new_from_json_dict(data["data"])
+        )
+
+    def create_conversation(
+        self,
+        conversation_type: Optional[str],
+        message: Optional[dict],
+        participant_ids: Optional[List[str]],
+        *,
+        return_json: bool = False,
+    ) -> Union[dict, md.DirectMessageCreateResponse]:
+        """
+        Creates a new group conversation and adds a Direct Message to it on behalf of an authenticated user.
+
+        :param conversation_type: Must be set to "Group" (case sensitive).
+        :param message: A JSON object that contains either or both the text and attachments parameters.
+        :param participant_ids: An array of User IDs that the conversation is created with.
+        Conversations can have up to 50 participants.
+        :param return_json: Type for returned data. If you set True JSON data will be returned.
+        :return: Response instance or json.
+        """
+        resp = self._request(
+            url=f"{self.BASE_URL_V2}/dm_conversations",
+            verb="POST",
+            json={
+                "conversation_type": conversation_type,
+                "message": message,
+                "participant_ids": participant_ids,
+            },
+        )
+        data = self._parse_response(resp=resp)
+        return (
+            data
+            if return_json
+            else md.DirectMessageCreateResponse.new_from_json_dict(data["data"])
+        )
