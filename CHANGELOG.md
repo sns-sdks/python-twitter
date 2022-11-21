@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.8.0](https://github.com/sns-sdks/python-twitter/v0.8.0) (2021-11-21)
+
+### Features
+
+- Add new fields for object update recently
+- Add new apis for manage direct messages
+
 ## [0.7.9](https://github.com/sns-sdks/python-twitter/v0.7.9) (2021-09-20)
 
 ### Features
