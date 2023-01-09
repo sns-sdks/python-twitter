@@ -2,14 +2,20 @@
 
 All notable changes to this project will be documented in this file.
 
-## [0.8.0](https://github.com/sns-sdks/python-twitter/v0.8.0) (2021-11-21)
+## [0.8.1](https://github.com/sns-sdks/python-twitter/v0.8.1) (2023-01-09)
+
+### Features
+
+- Add new fields for object update recently
+
+## [0.8.0](https://github.com/sns-sdks/python-twitter/v0.8.0) (2022-11-21)
 
 ### Features
 
 - Add new fields for object update recently
 - Add new apis for manage direct messages
 
-## [0.7.9](https://github.com/sns-sdks/python-twitter/v0.7.9) (2021-09-20)
+## [0.7.9](https://github.com/sns-sdks/python-twitter/v0.7.9) (2022-09-20)
 
 ### Features
 
@@ -20,39 +26,39 @@ All notable changes to this project will be documented in this file.
 - Fix set error token after generate access token.
 
 
-## [0.7.8](https://github.com/sns-sdks/python-twitter/v0.7.8) (2021-07-22)
+## [0.7.8](https://github.com/sns-sdks/python-twitter/v0.7.8) (2022-07-22)
 
 ### Features
 
 - Support new query fields for get list tweets [#117](https://github.com/sns-sdks/python-twitter/issues/117)
 
-## [0.7.7](https://github.com/sns-sdks/python-twitter/v0.7.7) (2021-05-23)
+## [0.7.7](https://github.com/sns-sdks/python-twitter/v0.7.7) (2022-05-23)
 
 ### Features
 
 - New apis for get user timelines by reverse chronological.
 
-## [0.7.6](https://github.com/sns-sdks/python-twitter/v0.7.6) (2021-04-07)
+## [0.7.6](https://github.com/sns-sdks/python-twitter/v0.7.6) (2022-04-07)
 
 ### Features
 
 - New apis for bookmarks.
 - New initial parameters `client secret` for `Confidential Clients`.
 
-## [0.7.5](https://github.com/sns-sdks/python-twitter/v0.7.5) (2021-02-17)
+## [0.7.5](https://github.com/sns-sdks/python-twitter/v0.7.5) (2022-02-17)
 
 ### Features
 
 - New api for get tweet quote tweets. [docs](https://twittercommunity.com/t/introducing-the-quote-tweets-lookup-endpoint-to-the-twitter-api-v2/168370)
 - New update for spaces api. [docs](https://twittercommunity.com/t/bringing-tweets-shared-in-a-space-and-rsvp-count-to-the-spaces-endpoints/166746)
 
-## [0.7.4](https://github.com/sns-sdks/python-twitter/v0.7.4) (2021-02-17)
+## [0.7.4](https://github.com/sns-sdks/python-twitter/v0.7.4) (2022-02-17)
 
 ### Features
 
 - Add sort parameter for search tweets, [docs](https://twittercommunity.com/t/introducing-the-sort-order-parameter-for-search-endpoints-in-the-twitter-api-v2/166377)
 
-## [0.7.3](https://github.com/sns-sdks/python-twitter/v0.7.3) (2021-01-24)
+## [0.7.3](https://github.com/sns-sdks/python-twitter/v0.7.3) (2022-01-24)
 
 ### Features
 
