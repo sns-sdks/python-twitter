@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "python-twitter-v2"
-version = "0.8.0"
+version = "0.8.1"
 description = "A simple Python wrapper for Twitter API v2 ✨ 🍰 ✨"
 authors = ["ikaroskun <merle.liukun@gmail.com>"]
 license = "MIT"
