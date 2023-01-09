@@ -85,6 +85,7 @@ class User(BaseModel):
     protected: Optional[bool] = field(default=None, repr=False, compare=False)
     url: Optional[str] = field(default=None, repr=False, compare=False)
     verified: Optional[bool] = field(default=None, repr=False, compare=False)
+    verified_type: Optional[str] = field(default=None, repr=False, compare=False)
     entities: Optional[UserEntities] = field(default=None, repr=False, compare=False)
     public_metrics: Optional[PublicMetrics] = field(
         default=None, repr=False, compare=False
