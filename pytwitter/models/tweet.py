@@ -140,6 +140,7 @@ class TweetPublicMetrics(BaseModel):
     quote_count: Optional[int] = field(default=None, repr=False)
     reply_count: Optional[int] = field(default=None, repr=False)
     like_count: Optional[int] = field(default=None)
+    impression_count: Optional[int] = field(default=None, repr=False)
 
 
 @dataclass
