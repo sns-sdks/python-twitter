@@ -179,6 +179,7 @@ class Api:
                 limit = self.rate_limit.get_limit(url=url, method=verb)
                 if limit.remaining == 0:
                     s_time = max((limit.reset - time.time()), 0) + 10.0
+                    print(F'Rate limit threshold encountered. Connection entering sleep period.')
                     self.rate_limit_countdown(s_time)
                     logger.debug(
                         f"Rate limited requesting [{url}], sleeping for [{s_time}]"
