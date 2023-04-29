@@ -144,15 +144,16 @@ class Api:
         time.process_time()
         elapsed = 0
         while elapsed < seconds:
-            elapsed = time.time() - start
-            current_time = seconds - int("%02d" % (elapsed))
-            if int('%02d' % (current_time)) == 0:
-                return None
-            elif (int("%02d" % (current_time)) % 20 == 0) and int("%02d" % (current_time)) < int("%02d" % (seconds)):
-                print(f"Remaining time until rate limit threshold resets: {int('%02d' % (current_time))} seconds")
-                time.sleep(1)
-            else:
-                time.sleep(1)
+          elapsed = time.time() - start
+          current_time = seconds - int("%02d" % (elapsed))
+          if int('%02d' % (current_time)) == 0:
+            return None
+          elif (int("%02d" % (current_time)) % 60 == 0) and int("%02d" % (current_time)) < int("%02d" % (seconds)):
+            minutes_remaining = int("%02d" % (current_time)) / 60
+            print(f"Remaining time until rate limit threshold resets in: {'%g' % minutes_remaining} minutes")
+            time.sleep(1)
+          else:
+            time.sleep(1)
 
     def _request(
         self, url, verb="GET", params=None, data=None, json=None, enforce_auth=True
@@ -178,7 +179,6 @@ class Api:
                 limit = self.rate_limit.get_limit(url=url, method=verb)
                 if limit.remaining == 0:
                     s_time = max((limit.reset - time.time()), 0) + 10.0
-                    print(F'Rate limit threshold encountered. Connection sleeping for {s_time}')
                     self.rate_limit_countdown(s_time)
                     logger.debug(
                         f"Rate limited requesting [{url}], sleeping for [{s_time}]"
