@@ -150,7 +150,7 @@ class Api:
             return None
           elif (int("%02d" % (current_time)) % 60 == 0) and int("%02d" % (current_time)) < int("%02d" % (seconds)):
             minutes_remaining = int("%02d" % (current_time)) / 60
-            print(f"Remaining time until rate limit threshold resets in: {'%g' % minutes_remaining} minutes")
+            print(f"Remaining time until rate limit threshold resets is: {'%g' % minutes_remaining} minutes")
             time.sleep(1)
           else:
             time.sleep(1)
