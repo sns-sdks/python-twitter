@@ -23,6 +23,9 @@ from pytwitter.rate_limit import RateLimit
 from pytwitter.utils.validators import enf_comma_separated
 
 logger = logging.getLogger(__name__)
+logging.basicConfig(level=logging.INFO,
+                    format='%(asctime)s:%(name)s:%(levelname)s: %(message)s',
+                    datefmt='%Y-%m-%d %H:%M:%S')
 
 
 class Api:
@@ -140,6 +143,10 @@ class Api:
         :param seconds: number of seconds to sleep
         :return: None
         """
+        logger.info('Twitter Rate Limit threshold encountered.')
+        sleeping_period = int("%02d" % (seconds)) / 60
+        logger.info(f"API connection sleeping for {'%g' % sleeping_period} minutes")
+        
         start = time.time()
         time.process_time()
         elapsed = 0
@@ -150,7 +157,7 @@ class Api:
             return None
           elif (int("%02d" % (current_time)) % 60 == 0) and int("%02d" % (current_time)) < int("%02d" % (seconds)):
             minutes_remaining = int("%02d" % (current_time)) / 60
-            print(f"Remaining time until rate limit threshold resets is: {'%g' % minutes_remaining} minutes")
+            logger.info(f"Remaining time until rate limit threshold resets is: {'%g' % minutes_remaining} minutes")
             time.sleep(1)
           else:
             time.sleep(1)
@@ -179,7 +186,6 @@ class Api:
                 limit = self.rate_limit.get_limit(url=url, method=verb)
                 if limit.remaining == 0:
                     s_time = max((limit.reset - time.time()), 0) + 10.0
-                    print(F'Rate limit threshold encountered. Connection entering sleep period.')
                     self.rate_limit_countdown(s_time)
                     logger.debug(
                         f"Rate limited requesting [{url}], sleeping for [{s_time}]"
