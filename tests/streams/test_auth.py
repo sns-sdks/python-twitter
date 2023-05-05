@@ -26,7 +26,6 @@ def test_initial_api(helpers):
 
 @responses.activate
 def test_generate_token():
-
     responses.add(
         responses.POST,
         url="https://api.twitter.com/oauth2/token",

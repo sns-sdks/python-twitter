@@ -238,7 +238,6 @@ class StreamApi:
         poll_fields: Optional[Union[str, List, Tuple]] = None,
         return_json: bool = False,
     ):
-
         """
         Streams Tweets in real-time based on a specific set of filter rules.
 

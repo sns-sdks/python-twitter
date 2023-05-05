@@ -10,7 +10,6 @@ import pytwitter
 
 @responses.activate
 def test_search_tweets(api, helpers):
-
     with pytest.raises(pytwitter.PyTwitterError):
         api.search_tweets(query="error", query_type="error")
 
