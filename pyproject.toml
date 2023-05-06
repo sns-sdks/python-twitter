@@ -22,7 +22,7 @@ packages = [
 
 [tool.poetry.dependencies]
 python = "^3.6"
-requests = "^2.24"
+requests = ">=2.24,<2.30"
 dataclasses-json = "^0.5.2"
 Authlib = "^0.15.4"
 
