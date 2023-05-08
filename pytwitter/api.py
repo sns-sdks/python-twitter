@@ -146,7 +146,7 @@ class Api:
         :param seconds: number of seconds to sleep
         :return: None
         """
-        print('Rate limit threshold encountered.')
+        print('Twitter rate limit threshold encountered.')
         sleeping_period = int("%02d" % (seconds)) / 60
         print(f"Connection sleeping for {'%g' % sleeping_period} minutes")
         start = time.time()
@@ -187,17 +187,14 @@ class Api:
             if url and self.sleep_on_rate_limit:
                 limit = self.rate_limit.get_limit(url=url, method=verb)
                 if limit.remaining == 0:
-                    s_time = max((limit.reset - time.time()), 0) + 10.0
-                    if self.notify_on_rate_limit == True:
+                    if self.notify_on_rate_limit:
+                        s_time = max((limit.reset - time.time()), 0) + 10.0
+                        logger.debug(f"Rate limited requesting [{url}], sleeping for [{s_time}]")
                         self.rate_limit_countdown(s_time)
-                        logger.debug(
-                            f"Rate limited requesting [{url}], sleeping for [{s_time}]"
-                        )
                         time.sleep(s_time)
-                    elif self.notify_on_rate_limit == False:
-                        logger.debug(
-                            f"Rate limited requesting [{url}], sleeping for [{s_time}]"
-                        )
+                    else:
+                        s_time = max((limit.reset - time.time()), 0) + 10.0
+                        logger.debug(f"Rate limited requesting [{url}], sleeping for [{s_time}]")
                         time.sleep(s_time)
 
         resp = self.session.request(
