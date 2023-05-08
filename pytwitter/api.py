@@ -50,6 +50,7 @@ class Api:
         application_only_auth: bool = False,
         oauth_flow: bool = False,  # provide access with authorize
         sleep_on_rate_limit: bool = False,
+        notify_on_rate_limit: bool = False,
         timeout: Optional[int] = None,
         proxies: Optional[dict] = None,
         callback_uri: Optional[str] = None,
@@ -69,6 +70,7 @@ class Api:
         :param application_only_auth: If set this, with auto exchange app bearer token with consumer credentials.
         :param oauth_flow: If set this, You need generate access token with user by OAuth1.1 or OAuth2.0
         :param sleep_on_rate_limit: If token reach the limit, will sleep.
+        :param notify_on_rate_limit: Provides visual feedback on remaining rate limit sleep period.
         :param timeout: Timeout for requests.
         :param proxies: Proxies for requests.
         :param callback_uri: Your callback URL. This value must correspond to one of the Callback URLs defined in your App settings.
@@ -85,6 +87,7 @@ class Api:
         self.proxies = proxies
         self.rate_limit = RateLimit()
         self.sleep_on_rate_limit = sleep_on_rate_limit
+        self.notify_on_rate_limit = notify_on_rate_limit
         self.auth_user_id = None  # Note: use this keep uid for auth user
         self.callback_uri = (
             callback_uri if callback_uri is not None else self.DEFAULT_CALLBACK_URI
@@ -143,24 +146,23 @@ class Api:
         :param seconds: number of seconds to sleep
         :return: None
         """
-        logger.info('Twitter Rate Limit threshold encountered.')
+        print('Rate limit threshold encountered.')
         sleeping_period = int("%02d" % (seconds)) / 60
-        logger.info(f"API connection sleeping for {'%g' % sleeping_period} minutes")
-        
+        print(f"Connection sleeping for {'%g' % sleeping_period} minutes")
         start = time.time()
         time.process_time()
         elapsed = 0
         while elapsed < seconds:
-          elapsed = time.time() - start
-          current_time = seconds - int("%02d" % (elapsed))
-          if int('%02d' % (current_time)) == 0:
-            return None
-          elif (int("%02d" % (current_time)) % 60 == 0) and int("%02d" % (current_time)) < int("%02d" % (seconds)):
-            minutes_remaining = int("%02d" % (current_time)) / 60
-            logger.info(f"Remaining time until rate limit threshold resets is: {'%g' % minutes_remaining} minutes")
-            time.sleep(1)
-          else:
-            time.sleep(1)
+            elapsed = time.time() - start
+            current_time = seconds - int("%02d" % (elapsed))
+            if int('%02d' % (current_time)) == 0:
+                return None
+            elif (int("%02d" % (current_time)) % 60 == 0) and int("%02d" % (current_time)) < int("%02d" % (seconds)):
+                minutes_remaining = int("%02d" % (current_time)) / 60
+                print(f"Remaining time until rate limit threshold resets is: {'%g' % minutes_remaining} minutes")
+                time.sleep(1)
+            else:
+                time.sleep(1)
 
     def _request(
         self, url, verb="GET", params=None, data=None, json=None, enforce_auth=True
@@ -186,11 +188,17 @@ class Api:
                 limit = self.rate_limit.get_limit(url=url, method=verb)
                 if limit.remaining == 0:
                     s_time = max((limit.reset - time.time()), 0) + 10.0
-                    self.rate_limit_countdown(s_time)
-                    logger.debug(
-                        f"Rate limited requesting [{url}], sleeping for [{s_time}]"
-                    )
-                    time.sleep(s_time)
+                    if self.notify_on_rate_limit == True:
+                        self.rate_limit_countdown(s_time)
+                        logger.debug(
+                            f"Rate limited requesting [{url}], sleeping for [{s_time}]"
+                        )
+                        time.sleep(s_time)
+                    elif self.notify_on_rate_limit == False:
+                        logger.debug(
+                            f"Rate limited requesting [{url}], sleeping for [{s_time}]"
+                        )
+                        time.sleep(s_time)
 
         resp = self.session.request(
             url=url,
