@@ -41,7 +41,7 @@ jobs:
       - name: Test with pytest
         run: |
           source .venv/bin/activate
-          pytest
+          poetry run pytest
       - name: Upload coverage to Codecov
         if: ${{ matrix.update-coverage }}
         uses: codecov/codecov-action@v3
