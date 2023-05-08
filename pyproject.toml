@@ -29,7 +29,7 @@ urllib3 = "^1.26"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2.5"
-pytest-cov = "^3.0.0"
+pytest-cov = "^4.0.0"
 responses = "^0.17.0"
 
 [build-system]
