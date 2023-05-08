@@ -632,24 +632,27 @@ class Api:
         args = {}
         if geo_place_id is not None:
             args["geo"] = {"place_id": geo_place_id}
-        if media_media_ids is not None or media_tagged_user_ids is not None:
-            args["media"] = {
-                "media_ids": media_media_ids,
-                "tagged_user_ids": media_tagged_user_ids,
-            }
-        if poll_duration_minutes is not None or poll_options is not None:
-            args["poll"] = {
-                "duration_minutes": poll_duration_minutes,
-                "options": poll_options,
-            }
-        if (
-            reply_in_reply_to_tweet_id is not None
-            or reply_exclude_reply_user_ids is not None
-        ):
-            args["reply"] = {
-                "exclude_reply_user_ids": reply_exclude_reply_user_ids,
-                "in_reply_to_tweet_id": reply_in_reply_to_tweet_id,
-            }
+        media_params = {}
+        if media_media_ids is not None:
+            media_params["media_ids"] = media_media_ids
+        if media_tagged_user_ids is not None:
+            media_params["tagged_user_ids"] = media_tagged_user_ids
+        if media_params:
+            args["media"] = media_params
+        poll_params = {}
+        if poll_duration_minutes is not None:
+            poll_params["duration_minutes"] = poll_duration_minutes
+        if poll_options is not None:
+            poll_params["options"] = poll_options
+        if poll_params:
+            args["poll"] = poll_params
+        reply_params = {}
+        if reply_in_reply_to_tweet_id is not None:
+            reply_params["in_reply_to_tweet_id"] = reply_in_reply_to_tweet_id
+        if reply_exclude_reply_user_ids is not None:
+            reply_params["exclude_reply_user_ids"] = reply_exclude_reply_user_ids
+        if reply_params:
+            args["reply"] = reply_params
         if direct_message_deep_link is not None:
             args["direct_message_deep_link"] = direct_message_deep_link
         if for_super_followers_only is not None:
