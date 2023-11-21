@@ -1272,7 +1272,7 @@ class Api:
             return_json=return_json,
         )
 
-    def get_tweet_retweet_tweets(
+    def get_tweet_retweeted_tweets(
         self,
         tweet_id: str,
         *,

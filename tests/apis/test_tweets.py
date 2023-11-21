@@ -201,6 +201,40 @@ def test_get_tweet_quote_tweets(api, helpers):
 
 
 @responses.activate
+def test_get_tweet_retweeted_tweets(api, helpers):
+    tweets_data = helpers.load_json_data(
+        "testdata/apis/tweet/tweet_retweet_tweets_resp.json"
+    )
+    tweet_id = "1720506615714213927"
+    responses.add(
+        responses.GET,
+        url=f"https://api.twitter.com/2/tweets/{tweet_id}/retweets",
+        json=tweets_data,
+    )
+
+    resp = api.get_tweet_retweeted_tweets(
+        tweet_id=tweet_id,
+        expansions=["author_id"],
+        tweet_fields=[
+            "created_at",
+            "author_id",
+            "conversation_id",
+            "public_metrics",
+        ],
+        user_fields=[
+            "id",
+            "name",
+            "username",
+            "created_at",
+        ],
+        max_results=10,
+    )
+    assert len(resp.data) == 8
+    assert resp.data[0].id == "1724975633908789418"
+    assert resp.includes.users[0].id == "1220870789794353155"
+
+
+@responses.activate
 def test_get_tweets_count(api, helpers):
     recent_counts_data = helpers.load_json_data(
         "testdata/apis/tweet/tweets_counts_recent_resp.json"
