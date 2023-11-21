@@ -6,7 +6,7 @@ import logging
 import os
 import re
 import time
-from typing import List, Optional, Tuple, Union
+from typing import List, Optional, Tuple, Union, IO
 
 import requests
 from requests.models import Response
@@ -33,6 +33,7 @@ class Api:
     DEFAULT_CALLBACK_URI = "https://localhost/"
     BASE_OAUTH2_AUTHORIZE_URL = "https://twitter.com/i/oauth2/authorize"
     BASE_OAUTH2_ACCESS_TOKEN_URL = "https://api.twitter.com/2/oauth2/token"
+    BASE_UPLOAD_URL = "https://upload.twitter.com/1.1"
     DEFAULT_SCOPES = ["users.read", "tweet.read"]
 
     def __init__(
@@ -132,16 +133,23 @@ class Api:
         return uid
 
     def _request(
-        self, url, verb="GET", params=None, data=None, json=None, enforce_auth=True
+        self,
+        url,
+        verb="GET",
+        params=None,
+        data=None,
+        json=None,
+        files=None,
+        enforce_auth=True,
     ) -> Response:
         """
-        Request for twitter api url
+        Request for Twitter api url
         :param url: The api location for twitter
         :param verb: HTTP Method, like GET,POST,PUT.
         :param params: The url params to send in the body of the request.
         :param data: The form data to send in the body of the request.
         :param json: The json data to send in the body of the request.
-        :param enforce_auth: Whether need auth
+        :param enforce_auth: Whether api need auth
         :return: A json object
         """
         auth = None
@@ -167,6 +175,7 @@ class Api:
             data=data,
             auth=auth,
             json=json,
+            files=files,
             timeout=self.timeout,
             proxies=self.proxies,
         )
@@ -545,6 +554,209 @@ class Api:
             cls=md.Tweet,
             return_json=return_json,
         )
+
+    def upload_media_simple(
+        self,
+        media: Optional[IO] = None,
+        media_data: Optional[str] = None,
+        media_category: Optional[str] = None,
+        additional_owners: Optional[List[str]] = None,
+        return_json: bool = False,
+    ) -> Union[dict, md.MediaUploadResponse]:
+        """
+        Simple Upload, Use this endpoint to upload images to Twitter.
+
+        Note: The simple upload endpoint can only be used to upload images.
+
+        :param media: The raw binary file content being uploaded. Cannot be used with `media_data`.
+        :param media_data: The base64-encoded file content being uploaded. Cannot be used with `media`.
+        :param media_category: The category that represents how the media will be used.
+            This field is required when using the media with the Ads API.
+            Possible values:
+                - tweet_image
+                - tweet_gif
+                - tweet_video
+                - amplify_video
+        :param additional_owners: A comma-separated list of user IDs to set as additional owners
+            allowed to use the returned media_id in Tweets or Cards.
+            Up to 100 additional owners may be specified.
+        :param return_json: Type for returned data. If you set True JSON data will be returned.
+        :return: Media upload response.
+        """
+
+        files, args = {}, {}
+        if media:
+            files["media"] = media
+        elif media_data:
+            args["media_data"] = media_data
+        else:
+            raise PyTwitterError("Need media or media_data")
+        if media_category:
+            args["media_category"] = media_category
+        if additional_owners:
+            args["additional_owners"] = enf_comma_separated(
+                name="additional_owners", value=additional_owners
+            )
+
+        resp = self._request(
+            url=f"{self.BASE_UPLOAD_URL}/media/upload.json",
+            verb="POST",
+            data=args,
+            files=files,
+        )
+        data = self._parse_response(resp=resp)
+        if return_json:
+            return data
+        else:
+            return md.MediaUploadResponse.new_from_json_dict(data=data)
+
+    def upload_media_chunked_init(
+        self,
+        total_bytes: int,
+        media_type: str,
+        media_category: Optional[str] = None,
+        additional_owners: Optional[List[str]] = None,
+        return_json: bool = False,
+    ) -> Union[dict, md.MediaUploadResponse]:
+        """
+        Chunked Upload, Use this endpoint to upload videos and images to Twitter.
+
+        Note: The chunked upload endpoint can be used to upload both images and videos.
+        Videos must be sent as chunked media containers, which means that you must send the
+        raw chunked media data and the media category separately.
+
+        :param total_bytes: The total size of the media being uploaded in bytes.
+        :param media_type: The MIME type of the media being uploaded. example: image/jpeg, image/gif, and video/mp4.
+        :param media_category: The category that represents how the media will be used.
+            This field is required when using the media with the Ads API.
+            Possible values:
+                - tweet_image
+                - tweet_gif
+                - tweet_video
+                - amplify_video
+        :param additional_owners: A comma-separated list of user IDs to set as additional owners
+            allowed to use the returned media_id in Tweets or Cards.
+            Up to 100 additional owners may be specified.
+        :param return_json: Type for returned data. If you set True JSON data will be returned.
+        :return: Media upload response.
+        """
+
+        args = {
+            "command": "INIT",
+            "total_bytes": total_bytes,
+            "media_type": media_type,
+        }
+        if media_category:
+            args["media_category"] = media_category
+        if additional_owners:
+            args["additional_owners"] = enf_comma_separated(
+                name="additional_owners", value=additional_owners
+            )
+
+        resp = self._request(
+            url=f"{self.BASE_UPLOAD_URL}/media/upload.json",
+            verb="POST",
+            data=args,
+        )
+        data = self._parse_response(resp=resp)
+        if return_json:
+            return data
+        else:
+            return md.MediaUploadResponse.new_from_json_dict(data=data)
+
+    def upload_media_chunked_append(
+        self,
+        media_id: str,
+        segment_index: int,
+        media: Optional[IO] = None,
+        media_data: Optional[str] = None,
+    ) -> bool:
+        """
+        Used to upload a chunk (consecutive byte range) of the media file.
+
+        :param media_id: The `media_id` returned from the INIT step.
+        :param segment_index: An ordered index of file chunk. It must be between 0-999 inclusive.
+            The first segment has index 0, second segment has index 1, and so on.
+        :param media: The raw binary file content being uploaded. Cannot be used with `media_data`.
+        :param media_data: The base64-encoded file content being uploaded. Cannot be used with `media`.
+        :return: True if upload success.
+        """
+        args = {
+            "command": "APPEND",
+            "media_id": media_id,
+            "segment_index": segment_index,
+        }
+        files = {}
+        if media:
+            files["media"] = media
+        elif media_data:
+            args["media_data"] = media_data
+        else:
+            raise PyTwitterError("Need media or media_data")
+
+        resp = self._request(
+            url=f"{self.BASE_UPLOAD_URL}/media/upload.json",
+            verb="POST",
+            data=args,
+            files=files,
+        )
+        if resp.ok:
+            return True
+        raise PyTwitterError(resp.json())
+
+    def upload_media_chunked_finalize(
+        self,
+        media_id: str,
+        return_json: bool = False,
+    ) -> Union[dict, md.MediaUploadResponse]:
+        """
+        Finalize the chunk upload.
+        :param media_id: The `media_id` returned from the INIT step.
+        :param return_json: Type for returned data. If you set True JSON data will be returned.
+        :return: Media upload response.
+        """
+
+        resp = self._request(
+            url=f"{self.BASE_UPLOAD_URL}/media/upload.json",
+            verb="POST",
+            data={
+                "command": "FINALIZE",
+                "media_id": media_id,
+            },
+        )
+        data = self._parse_response(resp=resp)
+        if return_json:
+            return data
+        else:
+            return md.MediaUploadResponse.new_from_json_dict(data=data)
+
+    def upload_media_chunked_status(
+        self,
+        media_id: str,
+        return_json: bool = False,
+    ) -> Union[dict, md.MediaUploadResponse]:
+        """
+        Check the status of the chunk upload.
+
+        Note: Can only call after the FINALIZE step. If chunked upload not sync mode will return error.
+
+        :param media_id: The `media_id` returned from the INIT step.
+        :param return_json: Type for returned data. If you set True JSON data will be returned.
+        :return: Media upload response.
+        """
+        resp = self._request(
+            url=f"{self.BASE_UPLOAD_URL}/media/upload.json",
+            verb="GET",
+            params={
+                "command": "STATUS",
+                "media_id": media_id,
+            },
+        )
+        data = self._parse_response(resp=resp)
+        if return_json:
+            return data
+        else:
+            return md.MediaUploadResponse.new_from_json_dict(data=data)
 
     def create_tweet(
         self,

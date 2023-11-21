@@ -34,6 +34,9 @@ nav:
   - Authorization OAuth2.0: authorization_oauth2.md
   - Usage:
       - Preparation: usage/preparation.md
+      - Media Upload:
+          - Simple Upload: usage/media-upload/simple-upload.md
+          - Chunked Upload: usage/media-upload/chunked-upload.md
       - Tweets:
           - Tweet Lookup: usage/tweets/tweet-lookup.md
           - Manage Tweets: usage/tweets/tweet-manage.md
