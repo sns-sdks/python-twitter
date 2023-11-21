@@ -88,6 +88,7 @@ Now covers these features:
     - Tweet lookup
     - Manage Tweets
     - Quote Tweets
+    - Retweet Tweets
     - Timelines
     - Search Tweets
     - Tweet counts
