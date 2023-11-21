@@ -1272,6 +1272,63 @@ class Api:
             return_json=return_json,
         )
 
+    def get_tweet_retweet_tweets(
+        self,
+        tweet_id: str,
+        *,
+        pagination_token: Optional[str] = None,
+        max_results: Optional[int] = None,
+        expansions: Optional[Union[str, List, Tuple]] = None,
+        tweet_fields: Optional[Union[str, List, Tuple]] = None,
+        media_fields: Optional[Union[str, List, Tuple]] = None,
+        place_fields: Optional[Union[str, List, Tuple]] = None,
+        poll_fields: Optional[Union[str, List, Tuple]] = None,
+        user_fields: Optional[Union[str, List, Tuple]] = None,
+        return_json: bool = False,
+    ) -> Union[dict, md.Response]:
+        """
+        Returns the Retweets for a given Tweet ID.
+
+        :param tweet_id: Unique identifier of the Tweet to request.
+        :param pagination_token: Token for the pagination.
+        :param max_results: The maximum number of results to be returned per page. Number between 5 and the 100.
+            By default, each page will return 100 results.
+        :param expansions: Fields for the expansions.
+        :param tweet_fields: Fields for the tweet object.
+        :param media_fields: Fields for the media object, Expansion required.
+        :param place_fields: Fields for the place object, Expansion required.
+        :param poll_fields: Fields for the poll object, Expansion required.
+        :param user_fields: Fields for the user object, Expansion required.
+        :param return_json: Type for returned data. If you set True JSON data will be returned.
+        :return:
+            - data: data for the target tweets.
+            - includes: expansions data.
+            - meta: pagination details
+        """
+        args = {
+            "expansions": enf_comma_separated(name="expansions", value=expansions),
+            "tweet.fields": enf_comma_separated(
+                name="tweet_fields", value=tweet_fields
+            ),
+            "user.fields": enf_comma_separated(name="user_fields", value=user_fields),
+            "media.fields": enf_comma_separated(
+                name="media_fields", value=media_fields
+            ),
+            "place.fields": enf_comma_separated(
+                name="place_fields", value=place_fields
+            ),
+            "poll.fields": enf_comma_separated(name="poll_fields", value=poll_fields),
+            "max_results": max_results,
+            "pagination_token": pagination_token,
+        }
+        return self._get(
+            url=f"{self.BASE_URL_V2}/tweets/{tweet_id}/retweets",
+            params=args,
+            cls=md.Tweet,
+            multi=True,
+            return_json=return_json,
+        )
+
     def get_tweet_retweeted_users(
         self,
         tweet_id: str,
