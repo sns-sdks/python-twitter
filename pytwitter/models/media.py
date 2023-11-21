@@ -62,19 +62,3 @@ class Media(BaseModel):
     width: Optional[int] = field(default=None, repr=False)
     alt_text: Optional[str] = field(default=None, repr=False)
     variants: Optional[List[MediaVariant]] = field(default=None, repr=False)
-
-
-@dataclass
-class MediaUploadResponse(BaseModel):
-    """
-    A class representing the media upload response object.
-    """
-
-    media_id: Optional[int] = field(default=None)
-    media_id_string: Optional[str] = field(default=None)
-    media_key: Optional[str] = field(default=None, repr=False)
-    size: Optional[int] = field(default=None, repr=False)
-    expires_after_secs: Optional[int] = field(default=None, repr=False)
-    processing_info: Optional[dict] = field(default=None)
-    image: Optional[dict] = field(default=None)
-    video: Optional[dict] = field(default=None)
