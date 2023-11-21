@@ -123,6 +123,10 @@ Now covers these features:
     - Direct Messages lookup
     - Manage Direct Messages
 
+- Media Upload
+    - Media Simple upload
+    - Media Chunked upload
+
 -----------
 INSTANTIATE
 -----------
