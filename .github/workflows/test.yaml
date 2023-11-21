@@ -33,7 +33,7 @@ jobs:
           poetry install
       - name: Test with pytest
         run: |
-          make test
+          poetry run pytest
       - name: Upload coverage to Codecov
         if: ${{ matrix.update-coverage }}
         uses: codecov/codecov-action@v3
