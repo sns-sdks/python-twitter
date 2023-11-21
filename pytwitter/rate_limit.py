@@ -161,8 +161,8 @@ USERS_BY_ID = Endpoint(
     LIMIT_USER_GET=900,
 )
 USER_BY_USERNAME = Endpoint(
-    resource="/users/by/:username",
-    regex=re.compile(r"/users/by/\w+"),
+    resource="/users/by/username/:username",
+    regex=re.compile(r"/users/by/username/\w+"),
     LIMIT_APP_GET=300,
     LIMIT_USER_GET=900,
 )
@@ -357,6 +357,11 @@ DM_CONVERSATIONS = Endpoint(
     regex=re.compile(r"/dm_conversations"),
     LIMIT_APP_GET=200,
 )
+MEDIA_UPLOAD = Endpoint(
+    resource="/media/upload.json",
+    regex=re.compile(r"/media/upload.json"),
+    LIMIT_USER_POST=415,
+)
 
 PATH_VAR_ENDPOINTS = [
     TWEET_BY_ID,
@@ -413,6 +418,7 @@ PATH_VAR_ENDPOINTS = [
     DM_MESSAGE_TO_PARTICIPANT,
     DM_MESSAGE_TO_CONVERSATION,
     DM_CONVERSATIONS,
+    MEDIA_UPLOAD,
 ]
 
 
@@ -440,7 +446,9 @@ class RateLimit:
 
     @staticmethod
     def url_to_endpoint(url) -> Endpoint:
-        resource = urlparse(url).path.replace("/2", "", 1)  # only replace api version
+        resource = (
+            urlparse(url).path.replace("/2", "", 1).replace("/1.1", "", 1)
+        )  # only replace api version
         for endpoint in PATH_VAR_ENDPOINTS:
             if re.fullmatch(endpoint.regex, resource):
                 return endpoint
