@@ -27,3 +27,10 @@ my_api.remove_retweet_tweet(user_id=my_api.auth_user_id, tweet_id="target tweet 
 api.get_tweet_retweeted_users(tweet_id="target tweet id")
 # Response(data=[User(id='1301152652357595137', name='realllkk520', username='realllkk520')])
 ```
+
+## Tweet retweeted tweets
+
+```python
+api.get_tweet_retweeted_tweets(tweet_id="target tweet id")
+# Response(data=[Tweet(id=1724975633908789418, text=RT @XDevelopers: You can now monitor your usage...), Tweet(id=1724805194280730931, text=RT @XDevelopers: You can now monitor your usage...)]) 
+```

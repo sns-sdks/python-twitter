@@ -99,6 +99,12 @@ TWEET_QUOTE_TWEETS = Endpoint(
     LIMIT_USER_GET=75,
     LIMIT_APP_GET=75,
 )
+TWEET_RETWEET_TWEETS = Endpoint(
+    resource="/tweets/:id/retweets",
+    regex=re.compile(r"/tweets/\d+/retweets"),
+    LIMIT_USER_GET=75,
+    LIMIT_APP_GET=75,
+)
 USER_TWEET_RETWEET = Endpoint(
     resource="/users/:id/retweets",
     regex=re.compile(r"/users/\d+/retweets"),
@@ -357,6 +363,7 @@ DM_CONVERSATIONS = Endpoint(
     regex=re.compile(r"/dm_conversations"),
     LIMIT_APP_GET=200,
 )
+
 MEDIA_UPLOAD = Endpoint(
     resource="/media/upload.json",
     regex=re.compile(r"/media/upload.json"),
