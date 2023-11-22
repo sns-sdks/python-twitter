@@ -91,3 +91,4 @@ class User(BaseModel):
         default=None, repr=False, compare=False
     )
     withheld: Optional[UserWithheld] = field(default=None, repr=False, compare=False)
+    subscription_type: Optional[str] = field(default=None, repr=False, compare=False)
