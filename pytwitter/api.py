@@ -451,6 +451,7 @@ class Api:
                 errors=[md.Error.new_from_json_dict(err) for err in errors]
                 if errors is not None
                 else None,
+                _json=resp_json,
             )
             return res
 
