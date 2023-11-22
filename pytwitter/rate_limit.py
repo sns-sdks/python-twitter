@@ -364,6 +364,12 @@ DM_CONVERSATIONS = Endpoint(
     LIMIT_APP_GET=200,
 )
 
+USAGE_TWEETS = Endpoint(
+    resource="/usage/tweets",
+    regex=re.compile(r"/usage/tweets"),
+    LIMIT_APP_GET=50,
+)
+
 MEDIA_UPLOAD = Endpoint(
     resource="/media/upload.json",
     regex=re.compile(r"/media/upload.json"),
@@ -425,6 +431,7 @@ PATH_VAR_ENDPOINTS = [
     DM_MESSAGE_TO_PARTICIPANT,
     DM_MESSAGE_TO_CONVERSATION,
     DM_CONVERSATIONS,
+    USAGE_TWEETS,
     MEDIA_UPLOAD,
 ]
 

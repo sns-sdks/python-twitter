@@ -124,6 +124,9 @@ Now covers these features:
     - Direct Messages lookup
     - Manage Direct Messages
 
+- Usage
+    - Tweets
+
 - Media Upload
     - Media Simple upload
     - Media Chunked upload

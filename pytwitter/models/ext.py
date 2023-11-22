@@ -19,6 +19,7 @@ from . import (
     ComplianceJob,
     StreamRule,
     TwitterList,
+    Usage,
 )
 
 
@@ -110,6 +111,7 @@ class Response:
             ComplianceJob,
             TwitterList,
             DirectMessageEvent,
+            Usage,
             List[User],
             List[Tweet],
             List[Media],
@@ -126,3 +128,5 @@ class Response:
     includes: Optional[Includes] = field(default=None, repr=False)
     meta: Optional[Meta] = field(default=None, repr=False)
     errors: Optional[List[Error]] = field(default=None, repr=False)
+    # inline field to keep origin response json data
+    _json: Optional[dict] = field(default=None, repr=False)

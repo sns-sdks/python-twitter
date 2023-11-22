@@ -451,6 +451,7 @@ class Api:
                 errors=[md.Error.new_from_json_dict(err) for err in errors]
                 if errors is not None
                 else None,
+                _json=resp_json,
             )
             return res
 
@@ -3256,4 +3257,35 @@ class Api:
             data
             if return_json
             else md.DirectMessageCreateResponse.new_from_json_dict(data["data"])
+        )
+
+    def get_usage_tweets(
+        self,
+        *,
+        days: Optional[int] = None,
+        usage_fields: Optional[Union[str, List, Tuple]] = None,
+        return_json: bool = False,
+    ) -> Union[dict, md.Response]:
+        """
+        Get the Tweet usage within the context of a project
+
+        Note: This need OAuth2.0 App-only auth.
+
+        :param days: The number of days for which you need the Tweet usage for. Up to 90 days.
+        :param usage_fields: Fields for the usage.
+        :param return_json: Type for returned data. If you set True JSON data will be returned.
+        :return: Usage data response.
+        """
+        args = {
+            "days": days,
+            "usage.fields": enf_comma_separated(
+                name="usage_fields",
+                value=usage_fields,
+            ),
+        }
+        return self._get(
+            url=f"{self.BASE_URL_V2}/usage/tweets",
+            params=args,
+            cls=md.Usage,
+            return_json=return_json,
         )

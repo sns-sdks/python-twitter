@@ -29,5 +29,5 @@ class BaseModel(DataClassJsonMixin):
             return None
         c = cls.from_dict(data, infer_missing=infer_missing)
         # save origin data
-        cls._json = data
+        c._json = data
         return c
