@@ -68,6 +68,8 @@ nav:
       - Direct Messages:
           - Direct Messages lookup: usage/direct-messages/direct-messages-lookup.md
           - Manage Direct Messages: usage/direct-messages/manage-direct-messages.md
+      - Usage:
+          - Tweets: usage/usage/tweets.md
       - Steaming: usage/streaming.md
   - Changelog: CHANGELOG.md
 
