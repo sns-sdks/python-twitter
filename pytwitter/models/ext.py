@@ -19,6 +19,7 @@ from . import (
     ComplianceJob,
     StreamRule,
     TwitterList,
+    Usage,
 )
 
 
@@ -110,6 +111,7 @@ class Response:
             ComplianceJob,
             TwitterList,
             DirectMessageEvent,
+            Usage,
             List[User],
             List[Tweet],
             List[Media],
