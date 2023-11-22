@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.9.0](https://github.com/sns-sdks/python-twitter/v0.9.0) (2023-11-22)
+
+### Features
+
+- Add basic support for Media Upload V1.1
+- Add new apis for get tweet retweets, usage tweets and so on
+- Add new fields for some model.
+
+### Fix
+
+- Fix when create tweet with media
+- Fix ratelimit for users by api.
+
+
 ## [0.8.1](https://github.com/sns-sdks/python-twitter/v0.8.1) (2023-01-09)
 
 ### Features
