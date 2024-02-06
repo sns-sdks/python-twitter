@@ -92,3 +92,6 @@ class User(BaseModel):
     withheld: Optional[UserWithheld] = field(default=None, repr=False, compare=False)
     subscription_type: Optional[str] = field(default=None, repr=False, compare=False)
     receives_your_dm: Optional[bool] = field(default=None, repr=False, compare=False)
+    connection_status: Optional[List[str]] = field(
+        default=None, repr=False, compare=False
+    )
