@@ -1,6 +1,7 @@
 """
     Api Impl
 """
+
 import base64
 import logging
 import os
@@ -448,9 +449,11 @@ class Api:
                 data=data,
                 includes=md.Includes.new_from_json_dict(includes),
                 meta=md.Meta.new_from_json_dict(meta),
-                errors=[md.Error.new_from_json_dict(err) for err in errors]
-                if errors is not None
-                else None,
+                errors=(
+                    [md.Error.new_from_json_dict(err) for err in errors]
+                    if errors is not None
+                    else None
+                ),
                 _json=resp_json,
             )
             return res

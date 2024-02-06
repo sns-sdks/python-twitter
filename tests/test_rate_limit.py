@@ -1,6 +1,7 @@
 """
     tests for rate limit.
 """
+
 import time
 from unittest.mock import patch
 

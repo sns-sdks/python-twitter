@@ -25,8 +25,7 @@ class MediaOrganicMetrics(MediaNonPublicMetrics):
 
 
 @dataclass
-class MediaPromotedMetrics(MediaOrganicMetrics):
-    ...
+class MediaPromotedMetrics(MediaOrganicMetrics): ...
 
 
 @dataclass

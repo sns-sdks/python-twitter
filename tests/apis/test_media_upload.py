@@ -1,6 +1,7 @@
 """
     Tests for media upload API
 """
+
 import base64
 
 import pytest

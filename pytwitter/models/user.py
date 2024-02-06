@@ -27,8 +27,7 @@ class UserEntitiesHashtag(BaseModel):
 
 
 @dataclass
-class UserEntitiesMention(UserEntitiesHashtag):
-    ...
+class UserEntitiesMention(UserEntitiesHashtag): ...
 
 
 @dataclass

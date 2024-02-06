@@ -1,6 +1,7 @@
 """
     Parameters validators
 """
+
 from typing import List, Tuple, Union
 
 from pytwitter.error import PyTwitterError

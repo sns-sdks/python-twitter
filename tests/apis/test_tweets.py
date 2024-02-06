@@ -1,6 +1,7 @@
 """
     tests for tweet api
 """
+
 import pytest
 import responses
 from pytwitter import PyTwitterError

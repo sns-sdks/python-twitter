@@ -3,6 +3,7 @@
 
     Refer: https://developer.twitter.com/en/docs/twitter-api/data-dictionary/object-model/tweet
 """
+
 import textwrap
 from dataclasses import dataclass, field
 from typing import Optional, List
@@ -68,8 +69,7 @@ class TweetEntitiesHashtag(BaseModel):
 
 
 @dataclass
-class TweetEntitiesCashtag(TweetEntitiesHashtag):
-    ...
+class TweetEntitiesCashtag(TweetEntitiesHashtag): ...
 
 
 @dataclass
@@ -130,8 +130,7 @@ class TweetOrganicMetrics(TweetNonPublicMetrics):
 
 
 @dataclass
-class TweetPromotedMetrics(TweetOrganicMetrics):
-    ...
+class TweetPromotedMetrics(TweetOrganicMetrics): ...
 
 
 @dataclass
