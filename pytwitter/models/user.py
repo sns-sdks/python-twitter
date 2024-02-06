@@ -27,8 +27,7 @@ class UserEntitiesHashtag(BaseModel):
 
 
 @dataclass
-class UserEntitiesMention(UserEntitiesHashtag):
-    ...
+class UserEntitiesMention(UserEntitiesHashtag): ...
 
 
 @dataclass
@@ -92,3 +91,4 @@ class User(BaseModel):
     )
     withheld: Optional[UserWithheld] = field(default=None, repr=False, compare=False)
     subscription_type: Optional[str] = field(default=None, repr=False, compare=False)
+    receives_your_dm: Optional[bool] = field(default=None, repr=False, compare=False)

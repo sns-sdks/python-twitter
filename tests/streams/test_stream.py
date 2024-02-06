@@ -1,6 +1,7 @@
 """
     tests for stream
 """
+
 import json
 import random
 from unittest.mock import patch

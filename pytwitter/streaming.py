@@ -1,6 +1,7 @@
 """
     Api for streaming.
 """
+
 import base64
 import json
 import logging
@@ -378,7 +379,9 @@ class StreamApi:
                     for item in resp_json.get("data", [])
                 ],
                 meta=md.Meta.new_from_json_dict(resp_json.get("meta")),
-                errors=[md.Error.new_from_json_dict(err) for err in errors]
-                if errors
-                else None,
+                errors=(
+                    [md.Error.new_from_json_dict(err) for err in errors]
+                    if errors
+                    else None
+                ),
             )

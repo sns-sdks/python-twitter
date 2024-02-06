@@ -1,6 +1,7 @@
 """
     Utils tests
 """
+
 import pytest
 
 from pytwitter.error import PyTwitterError

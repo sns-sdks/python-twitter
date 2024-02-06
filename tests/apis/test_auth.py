@@ -1,6 +1,7 @@
 """
     tests for auth
 """
+
 import pytest
 import responses
 
