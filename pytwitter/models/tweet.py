@@ -70,7 +70,7 @@ class TweetEntitiesHashtag(BaseModel):
 
 @dataclass
 class TweetEntitiesCashtag(TweetEntitiesHashtag):
-    ...
+    pass
 
 
 @dataclass
@@ -132,7 +132,7 @@ class TweetOrganicMetrics(TweetNonPublicMetrics):
 
 @dataclass
 class TweetPromotedMetrics(TweetOrganicMetrics):
-    ...
+    pass
 
 
 @dataclass

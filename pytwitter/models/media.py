@@ -26,7 +26,7 @@ class MediaOrganicMetrics(MediaNonPublicMetrics):
 
 @dataclass
 class MediaPromotedMetrics(MediaOrganicMetrics):
-    ...
+    pass
 
 
 @dataclass
