@@ -69,7 +69,8 @@ class TweetEntitiesHashtag(BaseModel):
 
 
 @dataclass
-class TweetEntitiesCashtag(TweetEntitiesHashtag): ...
+class TweetEntitiesCashtag(TweetEntitiesHashtag):
+    pass
 
 
 @dataclass
@@ -130,7 +131,8 @@ class TweetOrganicMetrics(TweetNonPublicMetrics):
 
 
 @dataclass
-class TweetPromotedMetrics(TweetOrganicMetrics): ...
+class TweetPromotedMetrics(TweetOrganicMetrics):
+    pass
 
 
 @dataclass
@@ -157,6 +159,12 @@ class TweetWithheld(BaseModel):
 class TweetReferencedTweet(BaseModel):
     type: Optional[str] = field(default=None, repr=False, compare=False)
     id: Optional[str] = field(default=None, repr=False, compare=False)
+
+
+@dataclass
+class TweetNoteTweet(BaseModel):
+    text: Optional[str] = field(default=None, repr=False, compare=False)
+    entities: Optional[TweetEntities] = field(default=None, repr=False, compare=False)
 
 
 @dataclass
@@ -203,6 +211,9 @@ class Tweet(BaseModel):
     reply_settings: Optional[str] = field(default=None, repr=False, compare=False)
     source: Optional[str] = field(default=None, repr=False, compare=False)
     withheld: Optional[TweetWithheld] = field(default=None, repr=False, compare=False)
+    note_tweet: Optional[TweetNoteTweet] = field(
+        default=None, repr=False, compare=False
+    )
 
     # Note: this field only for stream tweet
     matching_rules: Optional[List[StreamRule]] = field(
