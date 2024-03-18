@@ -96,3 +96,4 @@ class User(BaseModel):
     connection_status: Optional[List[str]] = field(
         default=None, repr=False, compare=False
     )
+    most_recent_tweet_id: Optional[str] = field(default=None, repr=False, compare=False)
