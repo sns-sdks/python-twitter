@@ -56,6 +56,8 @@ nav:
       - Spaces:
           - Spaces Lookup: usage/spaces/spaces-lookup.md
           - Search Spaces: usage/spaces/search.md
+      - Trends:
+          - Trends: usage/trends/trends.md
       - Lists:
           - List lookup: usage/lists/list-lookup.md
           - Manage Lists: usage/lists/manage-lists.md

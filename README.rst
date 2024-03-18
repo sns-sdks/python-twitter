@@ -105,12 +105,18 @@ Now covers these features:
     - Blocks
     - Mutes
 
+- Usage
+    - Tweets
+
+- Trends
+
 - Spaces
     - Spaces lookup
     - Search Spaces
 
-- Compliance
-    - Batch compliance
+- Direct Messages
+    - Direct Messages lookup
+    - Manage Direct Messages
 
 - Lists
     - List lookup
@@ -120,12 +126,8 @@ Now covers these features:
     - List follows
     - Pinned Lists
 
-- Direct Messages
-    - Direct Messages lookup
-    - Manage Direct Messages
-
-- Usage
-    - Tweets
+- Compliance
+    - Batch compliance
 
 - Media Upload
     - Media Simple upload
