@@ -206,7 +206,7 @@ class Api:
         session = OAuth1Session(
             client_id=self.consumer_key,
             client_secret=self.consumer_secret,
-            callback_uri=callback_uri,
+            redirect_uri=callback_uri,
             **kwargs,
         )
         return session
