@@ -53,6 +53,7 @@ nav:
           - Follows: usage/users/follows.md
           - Blocks: usage/users/blocks.md
           - Mutes: usage/users/mutes.md
+          - Search: usage/users/search.md
       - Spaces:
           - Spaces Lookup: usage/spaces/spaces-lookup.md
           - Search Spaces: usage/spaces/search.md
