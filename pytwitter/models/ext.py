@@ -21,6 +21,7 @@ from . import (
     StreamRule,
     TwitterList,
     Usage,
+    Trend,
 )
 
 
@@ -113,6 +114,7 @@ class Response:
             TwitterList,
             DirectMessageEvent,
             Usage,
+            Trend,
             List[User],
             List[Tweet],
             List[Media],
@@ -124,6 +126,7 @@ class Response:
             List[Space],
             List[ComplianceJob],
             List[DirectMessageEvent],
+            List[Trend],
         ]
     ]
     includes: Optional[Includes] = field(default=None, repr=False)

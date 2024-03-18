@@ -2068,6 +2068,26 @@ class Api:
         data = self._parse_response(resp)
         return data
 
+    def get_trends_by_woeid(
+        self, woeid: int, return_json: bool = False
+    ) -> Union[dict, md.Response]:
+        """
+        Get the trends for a location.
+
+        :param woeid: The where-on-earth ID (woeid) for a location.
+        :param return_json: Type for returned data. If you set True JSON data will be returned.
+        :return:
+            - data: data for trends
+        """
+
+        return self._get(
+            url=f"{self.BASE_URL_V2}/trends/by/woeid/{woeid}",
+            params=None,
+            cls=md.Trend,
+            multi=True,
+            return_json=return_json,
+        )
+
     def get_space(
         self,
         space_id: str,
