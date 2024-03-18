@@ -16,7 +16,9 @@ from .stream import StreamRule
 class TweetAttachments(BaseModel):
     poll_ids: Optional[List[str]] = field(default=None, repr=False, compare=False)
     media_keys: Optional[List[str]] = field(default=None, repr=False, compare=False)
-    media_source_tweet_id: Optional[List[str]] = field(default=None, repr=False, compare=False)
+    media_source_tweet_id: Optional[List[str]] = field(
+        default=None, repr=False, compare=False
+    )
 
 
 @dataclass

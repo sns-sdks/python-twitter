@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file.
 
+
+## [0.9.1](https://github.com/sns-sdks/python-twitter/v0.9.1) (2024-03-18)
+
+### Features
+
+- Add new apis for users search, trends.
+- Add new fields for User object and Tweet object.
+
+### Fix
+
+- Fix oauth1.0 redirect url parameter.
+
+
 ## [0.9.0](https://github.com/sns-sdks/python-twitter/v0.9.0) (2023-11-22)
 
 ### Features
