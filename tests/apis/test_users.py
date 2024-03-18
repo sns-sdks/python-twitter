@@ -104,7 +104,7 @@ def test_get_me(api_with_user, helpers):
 
     responses.add(
         responses.GET,
-        url=f"https://api.twitter.com/2/users/me",
+        url="https://api.twitter.com/2/users/me",
         json=me_data,
     )
 
@@ -114,6 +114,20 @@ def test_get_me(api_with_user, helpers):
         tweet_fields="created_at",
     )
     assert me_resp.data.id == "2244994945"
+
+
+@responses.activate
+def test_search_users(api_with_user, helpers):
+    responses.add(
+        responses.GET,
+        url="https://api.twitter.com/2/users/search",
+        json=helpers.load_json_data("testdata/apis/user/search_users_resp.json"),
+    )
+    search_resp = api_with_user.search_users(
+        query="developers",
+        user_fields="id,name,username,description,location",
+    )
+    assert search_resp.data[0].name == "Developers"
 
 
 @responses.activate

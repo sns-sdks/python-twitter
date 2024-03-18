@@ -179,6 +179,11 @@ USERS_BY_USERNAME = Endpoint(
     LIMIT_APP_GET=300,
     LIMIT_USER_GET=900,
 )
+USERS_SEARCH = Endpoint(
+    resource="/users/search",
+    regex=re.compile(r"/users/search"),
+    LIMIT_USER_GET=900,
+)
 USER_FOLLOWING = Endpoint(
     resource="/users/:id/following",
     regex=re.compile(r"/users/\d+/following"),
@@ -371,6 +376,12 @@ USAGE_TWEETS = Endpoint(
     LIMIT_APP_GET=50,
 )
 
+TRENDS = Endpoint(
+    resource="/trends/by/woeid/:woeid",
+    regex=re.compile(r"/trends/by/woeid/\d+"),
+    LIMIT_APP_GET=75,
+)
+
 MEDIA_UPLOAD = Endpoint(
     resource="/media/upload.json",
     regex=re.compile(r"/media/upload.json"),
@@ -399,6 +410,7 @@ PATH_VAR_ENDPOINTS = [
     USERS_BY_ID,
     USER_BY_USERNAME,
     USERS_BY_USERNAME,
+    USERS_SEARCH,
     USER_FOLLOWING,
     USER_REMOVE_FOLLOWING,
     USER_FOLLOWER,
@@ -433,6 +445,7 @@ PATH_VAR_ENDPOINTS = [
     DM_MESSAGE_TO_CONVERSATION,
     DM_CONVERSATIONS,
     USAGE_TWEETS,
+    TRENDS,
     MEDIA_UPLOAD,
 ]
 

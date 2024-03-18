@@ -1786,6 +1786,47 @@ class Api:
             return_json=return_json,
         )
 
+    def search_users(
+        self,
+        query: str,
+        *,
+        max_results: Optional[int] = None,
+        next_token: Optional[str] = None,
+        user_fields: Optional[Union[str, List, Tuple]] = None,
+        expansions: Optional[Union[str, List, Tuple]] = None,
+        tweet_fields: Optional[Union[str, List, Tuple]] = None,
+        return_json: bool = False,
+    ) -> Union[dict, md.Response]:
+        """
+        returns Users that match a search query.
+        :param query: One query for matching Users.
+        :param max_results: The maximum number of search results to be returned by a request. A number between 1 and 1000. By default, a request response will return 100 results.
+        :param next_token: Token for the pagination.
+        :param user_fields: Fields for the user object.
+        :param expansions: Fields for the expansions.
+        :param tweet_fields: Fields for the tweet object, Expansion required.
+        :param return_json: Type for returned data. If you set True JSON data will be returned.
+        :return: Response instance or json.
+        """
+
+        args = {
+            "query": query,
+            "max_results": max_results,
+            "next_token": next_token,
+            "user.fields": enf_comma_separated(name="user_fields", value=user_fields),
+            "expansions": enf_comma_separated(name="expansions", value=expansions),
+            "tweet.fields": enf_comma_separated(
+                name="tweet_fields", value=tweet_fields
+            ),
+        }
+        return self._get(
+            url="https://api.twitter.com/2/users/search",
+            params=args,
+            cls=md.User,
+            multi=True,
+            return_json=return_json,
+        )
+
     def get_following(
         self,
         user_id: str,
