@@ -28,7 +28,7 @@ packages = [
 [tool.poetry.dependencies]
 python = "^3.7"
 requests = "^2.28"
-dataclasses-json = "^0.5.7"
+dataclasses-json = ">=0.5.7"
 Authlib = "^1.0.0"
 
 [tool.poetry.dev-dependencies]
