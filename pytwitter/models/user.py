@@ -106,4 +106,6 @@ class User(BaseModel):
         default=None, repr=False, compare=False
     )
     most_recent_tweet_id: Optional[str] = field(default=None, repr=False, compare=False)
-    affiliation: Optional[UserAffiliation] = field(default=None, repr=False, compare=False)
+    affiliation: Optional[UserAffiliation] = field(
+        default=None, repr=False, compare=False
+    )
