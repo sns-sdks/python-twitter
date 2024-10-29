@@ -2035,6 +2035,34 @@ class Api:
         data = self._parse_response(resp)
         return data
 
+    def block_user_dm(self, target_user_id: str):
+        """
+        Allows the authenticated user to block direct messages (DMs) from the target user.
+        :param target_user_id: target user id
+        :return: blocked status
+        """
+        resp = self._request(
+            url=f"{self.BASE_URL_V2}/users/{target_user_id}/dm/block",
+            verb="POST",
+        )
+        data = self._parse_response(resp)
+        return data
+
+
+    def unblock_user_dm(self, target_user_id: str):
+        """
+        Allows the authenticated user to unblock direct messages (DMs) from the target user.
+        :param target_user_id: target user id
+        :return: unblocked status
+        """
+        resp = self._request(
+            url=f"{self.BASE_URL_V2}/users/{target_user_id}/dm/unblock",
+            verb="POST",
+        )
+        data = self._parse_response(resp)
+        return data
+
+
     def get_user_muting(
         self,
         user_id: str,
