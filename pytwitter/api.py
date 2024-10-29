@@ -2048,7 +2048,6 @@ class Api:
         data = self._parse_response(resp)
         return data
 
-
     def unblock_user_dm(self, target_user_id: str):
         """
         Allows the authenticated user to unblock direct messages (DMs) from the target user.
@@ -2061,7 +2060,6 @@ class Api:
         )
         data = self._parse_response(resp)
         return data
-
 
     def get_user_muting(
         self,
