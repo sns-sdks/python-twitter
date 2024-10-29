@@ -154,6 +154,27 @@ def test_block_and_unblock_user(api_with_user):
 
 
 @responses.activate
+def test_block_and_unblock_user_dm(api_with_user):
+    target_user_id = "123456"
+
+    responses.add(
+        method=responses.POST,
+        url=f"https://api.twitter.com/2/users/{target_user_id}/dm/block",
+        json={"data": {"blocked": True}},
+    )
+    resp = api_with_user.block_user_dm(target_user_id=target_user_id)
+    assert resp["data"]["blocked"]
+
+    responses.add(
+        method=responses.POST,
+        url=f"https://api.twitter.com/2/users/{target_user_id}/dm/unblock",
+        json={"data": {"blocked": False}},
+    )
+    resp = api_with_user.unblock_user_dm(target_user_id=target_user_id)
+    assert not resp["data"]["blocked"]
+
+
+@responses.activate
 def test_get_blocking_users(api_with_user, helpers):
     users_data = helpers.load_json_data(
         "testdata/apis/user/blocking_users_list_resp.json"
