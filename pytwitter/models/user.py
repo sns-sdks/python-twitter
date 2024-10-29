@@ -69,6 +69,14 @@ class UserWithheld(BaseModel):
 
 
 @dataclass
+class UserAffiliation(BaseModel):
+    user_id: Optional[str] = field(default=None)
+    url: Optional[str] = field(default=None)
+    badge_url: Optional[str] = field(default=None, repr=False, compare=False)
+    description: Optional[str] = field(default=None, repr=False, compare=False)
+
+
+@dataclass
 class User(BaseModel):
     """
     A class representing the user object.
@@ -82,6 +90,7 @@ class User(BaseModel):
     location: Optional[str] = field(default=None, repr=False, compare=False)
     pinned_tweet_id: Optional[str] = field(default=None, repr=False, compare=False)
     profile_image_url: Optional[str] = field(default=None, repr=False, compare=False)
+    profile_banner_url: Optional[str] = field(default=None, repr=False, compare=False)
     protected: Optional[bool] = field(default=None, repr=False, compare=False)
     url: Optional[str] = field(default=None, repr=False, compare=False)
     verified: Optional[bool] = field(default=None, repr=False, compare=False)
@@ -97,3 +106,4 @@ class User(BaseModel):
         default=None, repr=False, compare=False
     )
     most_recent_tweet_id: Optional[str] = field(default=None, repr=False, compare=False)
+    affiliation: Optional[UserAffiliation] = field(default=None, repr=False, compare=False)
