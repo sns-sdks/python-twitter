@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.9.2](https://github.com/sns-sdks/python-twitter/v0.9.2) (2024-10-29)
+
+### Features
+
+- Add new apis for user block dm.
+- Add new fields for user model
+- update dependency.
+
 
 ## [0.9.1](https://github.com/sns-sdks/python-twitter/v0.9.1) (2024-03-18)
 
@@ -13,7 +21,6 @@ All notable changes to this project will be documented in this file.
 ### Fix
 
 - Fix oauth1.0 redirect url parameter.
-
 
 ## [0.9.0](https://github.com/sns-sdks/python-twitter/v0.9.0) (2023-11-22)
 
@@ -27,7 +34,6 @@ All notable changes to this project will be documented in this file.
 
 - Fix when create tweet with media
 - Fix ratelimit for users by api.
-
 
 ## [0.8.1](https://github.com/sns-sdks/python-twitter/v0.8.1) (2023-01-09)
 
