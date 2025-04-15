@@ -768,7 +768,7 @@ class Api:
 
     def upload_media_simple_v2(
         self,
-        media: Optional[IO] = None,
+        media: Optional[bytes] = None,
         media_category: Optional[str] = None,
         additional_owners: Optional[List[str]] = None,
         return_json: bool = False,
@@ -779,16 +779,19 @@ class Api:
         Note: The simple upload endpoint can only be used to upload images.
 
         :param media: The raw binary file content being uploaded.
-        :param media_category: The category that represents how the media will be used.
-            This field is required when using the media with the Ads API.
+        :param media_category: A string enum value which identifies a media use-case.
+            This identifier is used to enforce use-case specific constraints (e.g. file size, video duration) and enable advanced features.
             Possible values:
                 - tweet_image
                 - tweet_gif
                 - tweet_video
                 - amplify_video
-        :param additional_owners: A comma-separated list of user IDs to set as additional owners
-            allowed to use the returned media_id in Tweets or Cards.
-            Up to 100 additional owners may be specified.
+                - dm_video
+                - subtitles
+        :param additional_owners: A comma-separated list of user IDs to set as additional owners allowed to use the
+            returned media_id in Tweets or Cards. Up to 100 additional owners may be specified.
+            Unique identifier of this User. This is returned as a string in order to avoid complications with
+            languages and tools that cannot handle large integers.
         :param return_json: Type for returned data. If you set True JSON data will be returned.
         :return: Media upload response.
         """
@@ -834,8 +837,8 @@ class Api:
 
         :param total_bytes: The total size of the media being uploaded in bytes.
         :param media_type: The MIME type of the media being uploaded. example: image/jpeg, image/gif, and video/mp4.
-        :param media_category: The category that represents how the media will be used.
-            This field is required when using the media with the Ads API.
+        :param media_category: A string enum value which identifies a media use-case.
+            This identifier is used to enforce use-case specific constraints (e.g. file size, video duration) and enable advanced features.
             Possible values:
                 - tweet_image
                 - tweet_gif
@@ -843,9 +846,10 @@ class Api:
                 - amplify_video
                 - dm_video
                 - subtitles
-        :param additional_owners: A comma-separated list of user IDs to set as additional owners
-            allowed to use the returned media_id in Tweets or Cards.
-            Up to 100 additional owners may be specified.
+        :param additional_owners: A comma-separated list of user IDs to set as additional owners allowed to use the
+            returned media_id in Tweets or Cards. Up to 100 additional owners may be specified.
+            Unique identifier of this User. This is returned as a string in order to avoid complications with
+            languages and tools that cannot handle large integers.
         :param return_json: Type for returned data. If you set True JSON data will be returned.
         :return: Media upload response.
         """
@@ -877,7 +881,7 @@ class Api:
         self,
         media_id: str,
         segment_index: int,
-        media: Optional[IO],
+        media: Optional[bytes],
     ) -> bool:
         """
         Used to upload a chunk (consecutive byte range) of the media file.
@@ -885,7 +889,7 @@ class Api:
         :param media_id: The `media_id` returned from the INIT step.
         :param segment_index: An ordered index of file chunk. It must be between 0-999 inclusive.
             The first segment has index 0, second segment has index 1, and so on.
-        :param media: The raw binary file content being uploaded. Cannot be used with `media_data`.
+        :param media: The raw binary file content being uploaded.
         :return: True if upload success.
         """
         resp = self._request(
