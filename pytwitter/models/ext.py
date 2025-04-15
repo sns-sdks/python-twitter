@@ -10,6 +10,7 @@ from typing import List, Optional, Union
 from . import (
     BaseModel,
     Media,
+    MediaUpload,
     Place,
     Poll,
     Tweet,
@@ -107,6 +108,7 @@ class Response:
             User,
             Tweet,
             Media,
+            MediaUpload,
             Poll,
             Place,
             Space,
