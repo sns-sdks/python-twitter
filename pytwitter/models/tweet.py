@@ -217,6 +217,7 @@ class Tweet(BaseModel):
     note_tweet: Optional[TweetNoteTweet] = field(
         default=None, repr=False, compare=False
     )
+    community_id: Optional[str] = field(default=None, repr=False, compare=False)
 
     # Note: this field only for stream tweet
     matching_rules: Optional[List[StreamRule]] = field(
