@@ -7,9 +7,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
     - name: Build and publish to pypi
-      uses: JRubics/poetry-publish@v1.17
+      uses: JRubics/poetry-publish@v2.1
       with:
         pypi_token: ${{ secrets.PYPI_TOKEN }}
 
@@ -19,7 +19,7 @@ jobs:
         .github/hack/changelog.sh $VERSION > NEW-VERSION-CHANGELOG.md
 
     - name: Publish
-      uses: softprops/action-gh-release@v1
+      uses: softprops/action-gh-release@v2
       with:
         body_path: NEW-VERSION-CHANGELOG.md
         files: 'python-twitter-*'

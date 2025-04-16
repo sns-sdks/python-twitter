@@ -67,3 +67,22 @@ class MediaUploadResponse(BaseModel):
     processing_info: Optional[MediaUploadResponseProcessingInfo] = field(default=None)
     image: Optional[MediaUploadResponseImage] = field(default=None)
     video: Optional[MediaUploadResponseVideo] = field(default=None)
+
+
+@dataclass
+class MediaUploadImage(MediaUploadResponseImage): ...
+
+
+@dataclass
+class MediaUploadVideo(MediaUploadResponseVideo): ...
+
+
+@dataclass
+class MediaUpload(BaseModel):
+    id: Optional[str] = field(default=None)
+    media_key: Optional[str] = field(default=None)
+    expires_after_secs: Optional[int] = field(default=None, repr=False)
+    processing_info: Optional[MediaUploadResponseProcessingInfo] = field(default=None)
+    size: Optional[int] = field(default=None, repr=False)
+    image: Optional[MediaUploadImage] = field(default=None)
+    video: Optional[MediaUploadVideo] = field(default=None)
