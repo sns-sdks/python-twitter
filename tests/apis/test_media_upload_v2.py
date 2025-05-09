@@ -40,7 +40,7 @@ def test_media_upload_simple_v2(api_with_user, helpers):
 def test_upload_media_chunked_init_v2(api_with_user, helpers):
     responses.add(
         responses.POST,
-        url="https://api.twitter.com/2/media/upload",
+        url="https://api.twitter.com/2/media/upload/initialize",
         json=helpers.load_json_data(
             "testdata/apis/media_upload_v2/upload_chunk_init_resp.json"
         ),
@@ -68,7 +68,7 @@ def test_upload_media_chunked_append_v2(api_with_user, helpers):
 
     responses.add(
         responses.POST,
-        url="https://api.twitter.com/2/media/upload",
+        url=f"https://api.twitter.com/2/media/upload/{media_id}/append",
     )
 
     with open("testdata/apis/media_upload/x-logo.png", "rb") as media:
@@ -88,7 +88,7 @@ def test_upload_media_chunked_append_v2(api_with_user, helpers):
 
     responses.add(
         responses.POST,
-        url="https://api.twitter.com/2/media/upload",
+        url=f"https://api.twitter.com/2/media/upload/{media_id}/append",
         status=401,
         json={"errors": [{"code": 32, "message": "Could not authenticate you."}]},
     )
@@ -106,7 +106,7 @@ def test_upload_media_chunked_finalize_v2(api_with_user, helpers):
 
     responses.add(
         responses.POST,
-        url="https://api.twitter.com/2/media/upload",
+        url=f"https://api.twitter.com/2/media/upload/{media_id}/finalize",
         json=helpers.load_json_data(
             "testdata/apis/media_upload_v2/upload_chunk_finalize_resp.json"
         ),
