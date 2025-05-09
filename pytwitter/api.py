@@ -855,7 +855,6 @@ class Api:
         """
 
         args = {
-            "command": "INIT",
             "total_bytes": total_bytes,
             "media_type": media_type,
         }
@@ -867,9 +866,9 @@ class Api:
             )
 
         resp = self._request(
-            url=f"{self.BASE_URL_V2}/media/upload",
+            url=f"{self.BASE_URL_V2}/media/upload/initialize",
             verb="POST",
-            data=args,
+            json=args,
         )
         data = self._parse_response(resp=resp)
         if return_json:
@@ -893,13 +892,9 @@ class Api:
         :return: True if upload success.
         """
         resp = self._request(
-            url=f"{self.BASE_URL_V2}/media/upload",
+            url=f"{self.BASE_URL_V2}/media/upload/{media_id}/append",
             verb="POST",
-            params={
-                "command": "APPEND",
-                "media_id": media_id,
-            },
-            data={"segment_index": segment_index},
+            json={"segment_index": segment_index},
             files={"media": media},
         )
         if resp.ok:
@@ -921,12 +916,8 @@ class Api:
         :return: Media upload response.
         """
         resp = self._request(
-            url=f"{self.BASE_URL_V2}/media/upload",
+            url=f"{self.BASE_URL_V2}/media/upload/{media_id}/finalize",
             verb="POST",
-            params={
-                "command": "FINALIZE",
-                "media_id": media_id,
-            },
         )
         data = self._parse_response(resp=resp)
         if return_json:
