@@ -14,7 +14,7 @@ def test_get_rules(stream_api, helpers):
 
     responses.add(
         responses.GET,
-        url="https://api.twitter.com/2/tweets/search/stream/rules",
+        url="https://api.x.com/2/tweets/search/stream/rules",
         json=rules_data,
     )
 
@@ -37,25 +37,25 @@ def test_manage_rules(stream_api, helpers):
     # add rules
     responses.add(
         responses.POST,
-        url="https://api.twitter.com/2/tweets/search/stream/rules",
+        url="https://api.x.com/2/tweets/search/stream/rules",
         json=add_rules_data,
         status=201,
     )
     responses.add(
         responses.POST,
-        url="https://api.twitter.com/2/tweets/search/stream/rules",
+        url="https://api.x.com/2/tweets/search/stream/rules",
         json=delete_rules_data,
         status=200,
     )
     responses.add(
         responses.POST,
-        url="https://api.twitter.com/2/tweets/search/stream/rules",
+        url="https://api.x.com/2/tweets/search/stream/rules",
         json=delete_error_data,
         status=400,
     )
     responses.add(
         responses.POST,
-        url="https://api.twitter.com/2/tweets/search/stream/rules",
+        url="https://api.x.com/2/tweets/search/stream/rules",
         json=None,
         status=200,
     )

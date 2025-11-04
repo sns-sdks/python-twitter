@@ -1,6 +1,6 @@
 These batch compliance endpoints allow you to upload large datasets of Tweet or user IDs to retrieve their compliance status in order to determine what data requires action in order to bring your datasets into compliance. Please note, use of the batch compliance endpoints is restricted to aforementioned use cases, and any other purpose is prohibited and may result in enforcement action.
 
-You can get more information at [batch compliance docs](https://developer.twitter.com/en/docs/twitter-api/compliance/batch-compliance/introduction).
+You can get more information at [batch compliance docs](https://developer.x.com/en/docs/twitter-api/compliance/batch-compliance/introduction).
 
 Typically, there are 4 steps involved in working with this endpoint:
 

@@ -1,7 +1,7 @@
 """
     Media upload response object:
 
-    Refer: https://developer.twitter.com/en/docs/twitter-api/v1/media/upload-media/api-reference/post-media-upload
+    Refer: https://developer.x.com/en/docs/twitter-api/v1/media/upload-media/api-reference/post-media-upload
 """
 
 from dataclasses import dataclass, field

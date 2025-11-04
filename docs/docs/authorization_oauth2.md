@@ -2,7 +2,7 @@
 
 Once you have got the request access for `OAuth2.0`, your app will have the `Client ID` to do `authorization` for `OAuth2.0`.
 
-You can get more information at the [documentation](https://developer.twitter.com/en/docs/twitter-api/oauth2) and the [community content](https://twittercommunity.com/t/announcing-oauth-2-0-general-availability/163555).
+You can get more information at the [documentation](https://developer.x.com/en/docs/twitter-api/oauth2) and the [community content](https://twittercommunity.com/t/announcing-oauth-2-0-general-availability/163555).
 
 If you're ready, now let's get started do a simple example with this library.
 
@@ -32,7 +32,7 @@ You need save the `code_verifier` for generate access token.
 
 ```python
 authorization_url, code_verifier, state = api.get_oauth2_authorize_url()
-#('https://twitter.com/i/oauth2/authorize?response_type=code&client_id=client_id&redirect_uri=https%3A%2F%2Flocalhost%2F&scope=users.read+tweet.read&state=HVLpccax4G57jMJu1yddJtP55HYMQA&code_challenge=jntz4xjHJ0XHzWA7_Wa6rrA8zHwu4qPZt2MQsv6&code_challenge_method=S256',
+#('https://x.com/i/oauth2/authorize?response_type=code&client_id=client_id&redirect_uri=https%3A%2F%2Flocalhost%2F&scope=users.read+tweet.read&state=HVLpccax4G57jMJu1yddJtP55HYMQA&code_challenge=jntz4xjHJ0XHzWA7_Wa6rrA8zHwu4qPZt2MQsv6&code_challenge_method=S256',
 # '01wNLFIFeh310NpRLt837gcrvK1JqFrFvoYFU0DnH',
 # 'HVLpccax4G57jMJu1yddJtP55HYMQA')
 ```

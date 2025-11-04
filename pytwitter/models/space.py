@@ -1,7 +1,7 @@
 """
     Space object.
 
-    Refer: https://developer.twitter.com/en/docs/twitter-api/data-dictionary/object-model/space
+    Refer: https://developer.x.com/en/docs/twitter-api/data-dictionary/object-model/space
 """
 
 from dataclasses import dataclass, field

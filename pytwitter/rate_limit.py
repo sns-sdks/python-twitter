@@ -1,7 +1,7 @@
 """
     Twitter API Rate Limit.
 
-    Refer: https://developer.twitter.com/en/docs/twitter-api/rate-limits
+    Refer: https://developer.x.com/en/docs/twitter-api/rate-limits
 """
 
 import logging
@@ -453,7 +453,7 @@ PATH_VAR_ENDPOINTS = [
 class RateLimit:
     """
     API rate limit.
-    Refer: https://developer.twitter.com/en/docs/twitter-api/rate-limits
+    Refer: https://developer.x.com/en/docs/twitter-api/rate-limits
     """
 
     def __init__(self, auth_type="app"):

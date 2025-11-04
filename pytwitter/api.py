@@ -27,14 +27,14 @@ logger = logging.getLogger(__name__)
 
 
 class Api:
-    BASE_URL_V2 = "https://api.twitter.com/2"
-    BASE_REQUEST_TOKEN_URL = "https://api.twitter.com/oauth/request_token"
-    BASE_AUTHORIZE_URL = "https://api.twitter.com/oauth/authorize"
-    BASE_ACCESS_TOKEN_URL = "https://api.twitter.com/oauth/access_token"
+    BASE_URL_V2 = "https://api.x.com/2"
+    BASE_REQUEST_TOKEN_URL = "https://api.x.com/oauth/request_token"
+    BASE_AUTHORIZE_URL = "https://api.x.com/oauth/authorize"
+    BASE_ACCESS_TOKEN_URL = "https://api.x.com/oauth/access_token"
     DEFAULT_CALLBACK_URI = "https://localhost/"
-    BASE_OAUTH2_AUTHORIZE_URL = "https://twitter.com/i/oauth2/authorize"
-    BASE_OAUTH2_ACCESS_TOKEN_URL = "https://api.twitter.com/2/oauth2/token"
-    BASE_UPLOAD_URL = "https://upload.twitter.com/1.1"
+    BASE_OAUTH2_AUTHORIZE_URL = "https://x.com/i/oauth2/authorize"
+    BASE_OAUTH2_ACCESS_TOKEN_URL = "https://api.x.com/2/oauth2/token"
+    BASE_UPLOAD_URL = "https://upload.x.com/1.1"
     DEFAULT_SCOPES = ["users.read", "tweet.read"]
 
     def __init__(
@@ -264,7 +264,7 @@ class Api:
             raise PyTwitterError("Can only revoke oauth1 token")
 
         resp = requests.post(
-            url="https://api.twitter.com/1.1/oauth/invalidate_token",
+            url="https://api.x.com/1.1/oauth/invalidate_token",
         )
         data = self._parse_response(resp=resp)
         return data
@@ -281,7 +281,7 @@ class Api:
             "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
         }
         resp = requests.post(
-            url="https://api.twitter.com/oauth2/token",
+            url="https://api.x.com/oauth2/token",
             data={"grant_type": "client_credentials"},
             headers=headers,
         )
@@ -305,7 +305,7 @@ class Api:
             "Content-Type": "application/x-www-form-urlencoded",
         }
         resp = requests.post(
-            url="https://api.twitter.com/oauth2/invalidate_token",
+            url="https://api.x.com/oauth2/invalidate_token",
             data={"access_token": access_token},
             headers=headers,
         )
@@ -2014,7 +2014,7 @@ class Api:
             ),
         }
         return self._get(
-            url="https://api.twitter.com/2/users/search",
+            url=f"{self.BASE_URL_V2}/users/search",
             params=args,
             cls=md.User,
             multi=True,

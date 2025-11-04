@@ -2,7 +2,7 @@ The manage Likes endpoints enable you to like or unlike a specified Tweet on beh
 
 For this endpoint group, there are two methods available POST and DELETE. The POST method allows you to like a Tweet, and the DELETE method will enable you to unlike a Tweet.
 
-You can get more information for this at [docs](https://developer.twitter.com/en/docs/twitter-api/tweets/likes/introduction)
+You can get more information for this at [docs](https://developer.x.com/en/docs/twitter-api/tweets/likes/introduction)
 
 ## likes
 

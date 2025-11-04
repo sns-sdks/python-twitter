@@ -17,7 +17,7 @@ def test_media_upload_simple(api_with_user, helpers):
 
     responses.add(
         responses.POST,
-        url="https://upload.twitter.com/1.1/media/upload.json",
+        url="https://upload.x.com/1.1/media/upload.json",
         json=helpers.load_json_data(
             "testdata/apis/media_upload/upload_simple_resp.json"
         ),
@@ -44,7 +44,7 @@ def test_media_upload_simple(api_with_user, helpers):
 def test_upload_media_chunked_init(api_with_user, helpers):
     responses.add(
         responses.POST,
-        url="https://upload.twitter.com/1.1/media/upload.json",
+        url="https://upload.x.com/1.1/media/upload.json",
         json=helpers.load_json_data(
             "testdata/apis/media_upload/upload_chunk_init_resp.json"
         ),
@@ -75,7 +75,7 @@ def test_upload_media_chunked_append(api_with_user, helpers):
 
     responses.add(
         responses.POST,
-        url="https://upload.twitter.com/1.1/media/upload.json",
+        url="https://upload.x.com/1.1/media/upload.json",
     )
 
     with open("testdata/apis/media_upload/xaa", "rb") as media:
@@ -97,7 +97,7 @@ def test_upload_media_chunked_append(api_with_user, helpers):
 
     responses.add(
         responses.POST,
-        url="https://upload.twitter.com/1.1/media/upload.json",
+        url="https://upload.x.com/1.1/media/upload.json",
         status=401,
         json={"errors": [{"code": 32, "message": "Could not authenticate you."}]},
     )
@@ -115,7 +115,7 @@ def test_upload_media_chunked_finalize(api_with_user, helpers):
 
     responses.add(
         responses.POST,
-        url="https://upload.twitter.com/1.1/media/upload.json",
+        url="https://upload.x.com/1.1/media/upload.json",
         json=helpers.load_json_data(
             "testdata/apis/media_upload/upload_chunk_finalize_resp.json"
         ),
@@ -139,7 +139,7 @@ def test_upload_media_chunked_status(api_with_user, helpers):
 
     responses.add(
         responses.GET,
-        url="https://upload.twitter.com/1.1/media/upload.json",
+        url="https://upload.x.com/1.1/media/upload.json",
         json=helpers.load_json_data(
             "testdata/apis/media_upload/upload_chunk_status_resp.json"
         ),

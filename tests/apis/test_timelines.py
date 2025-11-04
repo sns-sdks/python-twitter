@@ -14,7 +14,7 @@ def test_get_timelines(api, helpers):
 
     responses.add(
         responses.GET,
-        url=f"https://api.twitter.com/2/users/{user_id}/tweets",
+        url=f"https://api.x.com/2/users/{user_id}/tweets",
         json=timelines_data,
     )
 
@@ -39,7 +39,7 @@ def test_get_timelines_reverse_chronological(api_with_user, helpers):
 
     responses.add(
         responses.GET,
-        url=f"https://api.twitter.com/2/users/{user_id}/timelines/reverse_chronological",
+        url=f"https://api.x.com/2/users/{user_id}/timelines/reverse_chronological",
         json=timelines_data,
     )
 
@@ -65,7 +65,7 @@ def test_get_mentions(api, helpers):
 
     responses.add(
         responses.GET,
-        url=f"https://api.twitter.com/2/users/{user_id}/mentions",
+        url=f"https://api.x.com/2/users/{user_id}/mentions",
         json=mentions_data,
     )
 

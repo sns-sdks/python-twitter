@@ -1,6 +1,6 @@
 The Users Search endpoint provides a simple, relevance-based search interface to public user accounts on X. Try querying by topical interest, full name, company name, location, or other criteria.
 
-You can get more information for this at [docs](https://developer.twitter.com/en/docs/twitter-api/users/search/introduction)
+You can get more information for this at [docs](https://developer.x.com/en/docs/twitter-api/users/search/introduction)
 
 ## Search Users
 

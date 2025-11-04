@@ -76,7 +76,7 @@ def test_stream_connect():
     responses.add(
         responses.CallbackResponse(
             responses.GET,
-            url="https://api.twitter.com/2/tweets/sample/stream",
+            url="https://api.x.com/2/tweets/sample/stream",
             callback=callback,
             content_type="application/json",
         ),
@@ -98,7 +98,7 @@ def test_stream_error(patched_time_sleep):
     responses.add(
         responses.Response(
             responses.GET,
-            url="https://api.twitter.com/2/tweets/search/stream",
+            url="https://api.x.com/2/tweets/search/stream",
             content_type="application/json",
             status=400,
         ),

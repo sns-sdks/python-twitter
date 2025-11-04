@@ -2,7 +2,7 @@ The manage Retweets endpoints enable you to Retweet or undo a Retweet of a speci
 
 For this endpoint group, there are two methods available POST and DELETE. The POST method allows you to Retweet a Tweet, and the DELETE method will enable you to undo a Retweet of a given Tweet.
 
-You can get more information for this at [docs](https://developer.twitter.com/en/docs/twitter-api/tweets/retweets/introduction)
+You can get more information for this at [docs](https://developer.x.com/en/docs/twitter-api/tweets/retweets/introduction)
 
 
 ## Retweets

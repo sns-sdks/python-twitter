@@ -17,9 +17,7 @@ def test_initial_api(helpers):
     api = StreamApi(bearer_token="bearer token")
 
     token_data = helpers.load_json_data("testdata/apis/authflow/bearer_token.json")
-    responses.add(
-        responses.POST, url="https://api.twitter.com/oauth2/token", json=token_data
-    )
+    responses.add(responses.POST, url="https://api.x.com/oauth2/token", json=token_data)
 
     api = StreamApi(consumer_key="consumer key", consumer_secret="consumer secret")
 
@@ -28,7 +26,7 @@ def test_initial_api(helpers):
 def test_generate_token():
     responses.add(
         responses.POST,
-        url="https://api.twitter.com/oauth2/token",
+        url="https://api.x.com/oauth2/token",
         json={
             "errors": [
                 {

@@ -7,7 +7,7 @@ So, This will show you how to obtain user access tokens through the 3-legged OAu
 
 At the beginning, You need a Twitter app, and enable the `3-legged OAuth`.
 
-You can get more information at the [official Documentation](https://developer.twitter.com/en/docs/authentication/oauth-1-0a/obtaining-user-access-tokens).
+You can get more information at the [official Documentation](https://developer.x.com/en/docs/authentication/oauth-1-0a/obtaining-user-access-tokens).
 
 If you're ready, now let's get started do a simple example with this library.
 
@@ -30,7 +30,7 @@ Now you can get the url for user to do authenticate,
 
 ```python
 api.get_authorize_url()
-# https://api.twitter.com/oauth/authorize?oauth_token=NPcudxy0yU5T3tBzho7iCotZ3cnetKwcTIRlX0iwRl0
+# https://api.x.com/oauth/authorize?oauth_token=NPcudxy0yU5T3tBzho7iCotZ3cnetKwcTIRlX0iwRl0
 ```
 Upon successful authentication, your callback_url would receive a request containing the oauth_token and oauth_verifier parameters.
 
@@ -51,5 +51,5 @@ Now the api instance will have the user authorization. You can use this to manag
 
 !!! tip "Note"
 
-    If you have any confusion, you need to read the [Get user access token](https://developer.twitter.com/en/docs/authentication/oauth-1-0a/obtaining-user-access-tokens) first.
+    If you have any confusion, you need to read the [Get user access token](https://developer.x.com/en/docs/authentication/oauth-1-0a/obtaining-user-access-tokens) first.
     

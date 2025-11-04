@@ -1,6 +1,6 @@
 Chunked upload is the recommended method for uploading media files. It allows you to upload media files up to 512MB. The chunked upload endpoint can be used to upload both images and videos. 
 
-You can get more information for this at [docs](https://developer.twitter.com/en/docs/twitter-api/v1/media/upload-media/api-reference/post-media-upload-init).
+You can get more information for this at [docs](https://developer.x.com/en/docs/twitter-api/v1/media/upload-media/api-reference/post-media-upload-init).
 
 follow the steps below to upload a video by chunked upload:
 

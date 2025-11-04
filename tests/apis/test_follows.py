@@ -12,7 +12,7 @@ def test_get_followings(api, helpers):
 
     responses.add(
         responses.GET,
-        url=f"https://api.twitter.com/2/users/{user_id}/following",
+        url=f"https://api.x.com/2/users/{user_id}/following",
         json=following_data,
     )
 
@@ -34,7 +34,7 @@ def test_get_followers(api, helpers):
 
     responses.add(
         responses.GET,
-        url=f"https://api.twitter.com/2/users/{user_id}/followers",
+        url=f"https://api.x.com/2/users/{user_id}/followers",
         json=followers_data,
     )
 
@@ -56,7 +56,7 @@ def test_follow_user(api_with_user):
 
     responses.add(
         responses.POST,
-        url=f"https://api.twitter.com/2/users/{user_id}/following",
+        url=f"https://api.x.com/2/users/{user_id}/following",
         json={"data": {"following": True, "pending_follow": False}},
     )
 
@@ -71,7 +71,7 @@ def test_unfollow_user(api_with_user):
 
     responses.add(
         responses.DELETE,
-        url=f"https://api.twitter.com/2/users/{user_id}/following/{target_user_id}",
+        url=f"https://api.x.com/2/users/{user_id}/following/{target_user_id}",
         json={"data": {"following": False}},
     )
 

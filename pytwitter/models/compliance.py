@@ -13,7 +13,7 @@ class ComplianceJob(BaseModel):
     """
     A class representing the job for compliance.
 
-    Refer: https://developer.twitter.com/en/docs/twitter-api/compliance/batch-compliance/api-reference/get-compliance-jobs-id
+    Refer: https://developer.x.com/en/docs/twitter-api/compliance/batch-compliance/api-reference/get-compliance-jobs-id
     """
 
     id: Optional[str] = field(default=None)

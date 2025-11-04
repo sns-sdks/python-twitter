@@ -14,12 +14,12 @@ def test_get_users(api, helpers):
 
     responses.add(
         responses.GET,
-        url="https://api.twitter.com/2/users",
+        url="https://api.x.com/2/users",
         json=users_data,
     )
     responses.add(
         responses.GET,
-        url="https://api.twitter.com/2/users/by",
+        url="https://api.x.com/2/users/by",
         json=users_data,
     )
 
@@ -69,12 +69,12 @@ def test_get_user(api, helpers):
     username = "TwitterDev"
     responses.add(
         responses.GET,
-        url=f"https://api.twitter.com/2/users/{user_id}",
+        url=f"https://api.x.com/2/users/{user_id}",
         json=users_data,
     )
     responses.add(
         responses.GET,
-        url=f"https://api.twitter.com/2/users/by/username/{username}",
+        url=f"https://api.x.com/2/users/by/username/{username}",
         json=users_data,
     )
 
@@ -104,7 +104,7 @@ def test_get_me(api_with_user, helpers):
 
     responses.add(
         responses.GET,
-        url="https://api.twitter.com/2/users/me",
+        url="https://api.x.com/2/users/me",
         json=me_data,
     )
 
@@ -120,7 +120,7 @@ def test_get_me(api_with_user, helpers):
 def test_search_users(api_with_user, helpers):
     responses.add(
         responses.GET,
-        url="https://api.twitter.com/2/users/search",
+        url="https://api.x.com/2/users/search",
         json=helpers.load_json_data("testdata/apis/user/search_users_resp.json"),
     )
     search_resp = api_with_user.search_users(
@@ -136,7 +136,7 @@ def test_block_and_unblock_user(api_with_user):
 
     responses.add(
         responses.POST,
-        url=f"https://api.twitter.com/2/users/{user_id}/blocking",
+        url=f"https://api.x.com/2/users/{user_id}/blocking",
         json={"data": {"blocking": True}},
     )
 
@@ -145,7 +145,7 @@ def test_block_and_unblock_user(api_with_user):
 
     responses.add(
         responses.DELETE,
-        url=f"https://api.twitter.com/2/users/{user_id}/blocking/{target_user_id}",
+        url=f"https://api.x.com/2/users/{user_id}/blocking/{target_user_id}",
         json={"data": {"blocking": False}},
     )
 
@@ -159,7 +159,7 @@ def test_block_and_unblock_user_dm(api_with_user):
 
     responses.add(
         method=responses.POST,
-        url=f"https://api.twitter.com/2/users/{target_user_id}/dm/block",
+        url=f"https://api.x.com/2/users/{target_user_id}/dm/block",
         json={"data": {"blocked": True}},
     )
     resp = api_with_user.block_user_dm(target_user_id=target_user_id)
@@ -167,7 +167,7 @@ def test_block_and_unblock_user_dm(api_with_user):
 
     responses.add(
         method=responses.POST,
-        url=f"https://api.twitter.com/2/users/{target_user_id}/dm/unblock",
+        url=f"https://api.x.com/2/users/{target_user_id}/dm/unblock",
         json={"data": {"blocked": False}},
     )
     resp = api_with_user.unblock_user_dm(target_user_id=target_user_id)
@@ -183,7 +183,7 @@ def test_get_blocking_users(api_with_user, helpers):
     user_id = "2244994945"
     responses.add(
         responses.GET,
-        url=f"https://api.twitter.com/2/users/{user_id}/blocking",
+        url=f"https://api.x.com/2/users/{user_id}/blocking",
         json=users_data,
     )
 
@@ -214,7 +214,7 @@ def test_get_user_liked_tweets(api_with_user, helpers):
     user_id = "1301152652357595137"
     responses.add(
         responses.GET,
-        url=f"https://api.twitter.com/2/users/{user_id}/liked_tweets",
+        url=f"https://api.x.com/2/users/{user_id}/liked_tweets",
         json=tweets_data,
     )
 
@@ -244,7 +244,7 @@ def test_get_muting(api_with_user, helpers):
     user_id = "1324848235714736129"
     responses.add(
         responses.GET,
-        url=f"https://api.twitter.com/2/users/{user_id}/muting",
+        url=f"https://api.x.com/2/users/{user_id}/muting",
         json=muting_data,
     )
 
@@ -274,7 +274,7 @@ def test_mute_and_unmute_user(api_with_user):
 
     responses.add(
         responses.POST,
-        url=f"https://api.twitter.com/2/users/{user_id}/muting",
+        url=f"https://api.x.com/2/users/{user_id}/muting",
         json={"data": {"muting": True}},
     )
 
@@ -283,7 +283,7 @@ def test_mute_and_unmute_user(api_with_user):
 
     responses.add(
         responses.DELETE,
-        url=f"https://api.twitter.com/2/users/{user_id}/muting/{target_user_id}",
+        url=f"https://api.x.com/2/users/{user_id}/muting/{target_user_id}",
         json={"data": {"muting": False}},
     )
 

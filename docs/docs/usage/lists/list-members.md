@@ -1,9 +1,9 @@
 ## List members lookup
 Members lookup group has two available endpoints. You are able to retrieve details on members of a specified List and see which Lists a user is a member of. These endpoints can be used to enable people to curate and organize new Lists based on the membership information.
 
-You can use either [OAuth 1.0a User Context](https://developer.twitter.com/en/docs/authentication/oauth-1-0a) or [OAuth 2.0 Bearer Token](https://developer.twitter.com/en/docs/authentication/oauth-2-0) to authenticate to these endpoints.
+You can use either [OAuth 1.0a User Context](https://developer.x.com/en/docs/authentication/oauth-1-0a) or [OAuth 2.0 Bearer Token](https://developer.x.com/en/docs/authentication/oauth-2-0) to authenticate to these endpoints.
 
-You can get more information for this at [docs](https://developer.twitter.com/en/docs/twitter-api/lists/list-members/introduction)
+You can get more information for this at [docs](https://developer.x.com/en/docs/twitter-api/lists/list-members/introduction)
 
 ### Get list's members	
 
@@ -30,7 +30,7 @@ The manage List members endpoints allow you to add and remove members to a List 
 
 For these endpoints, there are two methods available: POST and DELETE. The POST method allows you to add a member to a List, and the DELETE method allows you to remove a member from a List.
 
-You can get more information for this at [docs](https://developer.twitter.com/en/docs/twitter-api/lists/list-members/introduction)
+You can get more information for this at [docs](https://developer.x.com/en/docs/twitter-api/lists/list-members/introduction)
 
 ### Add member to a list
 

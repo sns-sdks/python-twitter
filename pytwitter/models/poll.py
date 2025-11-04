@@ -1,7 +1,7 @@
 """
     Poll object
 
-    Refer: https://developer.twitter.com/en/docs/twitter-api/data-dictionary/object-model/poll
+    Refer: https://developer.x.com/en/docs/twitter-api/data-dictionary/object-model/poll
 """
 
 from dataclasses import dataclass, field

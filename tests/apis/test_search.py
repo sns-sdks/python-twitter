@@ -18,7 +18,7 @@ def test_search_tweets(api, helpers):
     )
     responses.add(
         responses.GET,
-        url="https://api.twitter.com/2/tweets/search/recent",
+        url="https://api.x.com/2/tweets/search/recent",
         json=tweets_data,
     )
     resp = api.search_tweets(
@@ -34,7 +34,7 @@ def test_search_tweets(api, helpers):
     )
     responses.add(
         responses.GET,
-        url="https://api.twitter.com/2/tweets/search/all",
+        url="https://api.x.com/2/tweets/search/all",
         json=tweets_data,
     )
     resp = api.search_tweets(

@@ -1,6 +1,6 @@
 The simple upload endpoint can only be used to upload images(gifs).
 
-You can get more information for this at [docs](https://developer.twitter.com/en/docs/twitter-api/v1/media/upload-media/api-reference/post-media-upload)
+You can get more information for this at [docs](https://developer.x.com/en/docs/twitter-api/v1/media/upload-media/api-reference/post-media-upload)
 
 follow the steps below to upload an image:
 

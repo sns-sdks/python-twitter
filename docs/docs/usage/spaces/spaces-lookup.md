@@ -1,5 +1,5 @@
 The Spaces lookup endpoints help you lookup live or scheduled Spaces, and enable you to build discovery experiences to give your users ways to find Spaces they may be interested in.
-You can get more information at [Lookup docs](https://developer.twitter.com/en/docs/twitter-api/spaces/lookup/introduction).
+You can get more information at [Lookup docs](https://developer.x.com/en/docs/twitter-api/spaces/lookup/introduction).
 
 There have multiple methods for get spaces data by api.
 

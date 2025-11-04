@@ -1,5 +1,5 @@
 
-Twitter allow app to lookup users. You can get more information at [Lookup docs](https://developer.twitter.com/en/docs/twitter-api/users/lookup/introduction).
+Twitter allow app to lookup users. You can get more information at [Lookup docs](https://developer.x.com/en/docs/twitter-api/users/lookup/introduction).
 
 If you have the username or ID for user(s) which you want to get data. You can use follows methods:
 

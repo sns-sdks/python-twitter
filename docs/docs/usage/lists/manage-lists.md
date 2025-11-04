@@ -4,7 +4,7 @@ For these endpoints, there are three methods available: POST, DELETE and PUT. Th
 
 There is a user rate limit of 300 requests per 15 minutes for all three endpoints.
 
-You can get more information for this at [docs](https://developer.twitter.com/en/docs/twitter-api/lists/manage-lists/introduction)
+You can get more information for this at [docs](https://developer.x.com/en/docs/twitter-api/lists/manage-lists/introduction)
 
 Note that you can create up to 1000 Lists per account.
 

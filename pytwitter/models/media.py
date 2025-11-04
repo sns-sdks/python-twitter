@@ -1,7 +1,7 @@
 """
     Media object
 
-    Refer: https://developer.twitter.com/en/docs/twitter-api/data-dictionary/object-model/media
+    Refer: https://developer.x.com/en/docs/twitter-api/data-dictionary/object-model/media
 """
 
 from dataclasses import dataclass, field

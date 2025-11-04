@@ -1,6 +1,6 @@
 """
     Usage object
-    Refer:https://developer.twitter.com/en/docs/twitter-api/usage/tweets/api-reference/get-usage-tweets
+    Refer:https://developer.x.com/en/docs/twitter-api/usage/tweets/api-reference/get-usage-tweets
 """
 
 from dataclasses import dataclass, field

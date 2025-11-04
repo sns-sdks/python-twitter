@@ -1,7 +1,7 @@
 """
     extends objects
 
-    Refer: https://developer.twitter.com/en/docs/twitter-api/expansions
+    Refer: https://developer.x.com/en/docs/twitter-api/expansions
 """
 
 from dataclasses import dataclass, field
@@ -89,7 +89,7 @@ class Includes(BaseModel):
 class TweetCount(BaseModel):
     """
     A class representing the counts for tweets match a search query.
-    Refer: https://developer.twitter.com/en/docs/twitter-api/tweets/counts/api-reference/get-tweets-counts-recent
+    Refer: https://developer.x.com/en/docs/twitter-api/tweets/counts/api-reference/get-tweets-counts-recent
     """
 
     start: Optional[str] = field(default=None)
