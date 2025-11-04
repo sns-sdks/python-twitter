@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.9.3](https://github.com/sns-sdks/python-twitter/v0.9.2) (2025-11-04)
+
+### Features
+
+- Add new apis for upload v2.
+- migrate twitter domain from twitter.com to x.com
+
 ## [0.9.2](https://github.com/sns-sdks/python-twitter/v0.9.2) (2024-10-29)
 
 ### Features
@@ -9,7 +16,6 @@ All notable changes to this project will be documented in this file.
 - Add new apis for user block dm.
 - Add new fields for user model
 - update dependency.
-
 
 ## [0.9.1](https://github.com/sns-sdks/python-twitter/v0.9.1) (2024-03-18)
 
