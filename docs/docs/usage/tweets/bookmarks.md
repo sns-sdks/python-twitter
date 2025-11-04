@@ -1,6 +1,6 @@
 Bookmarks are a core feature of the Twitter app that allows you to “save” Tweets and easily access them later. With these endpoints, you can retrieve, create, delete or build solutions to manage your Bookmarks via the API.  
 
-You can get more information for this at [docs](https://developer.twitter.com/en/docs/twitter-api/tweets/bookmarks/introduction)
+You can get more information for this at [docs](https://developer.x.com/en/docs/twitter-api/tweets/bookmarks/introduction)
 
 ## Manage Bookmarks
 

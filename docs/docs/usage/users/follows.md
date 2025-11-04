@@ -2,7 +2,7 @@ Following users is one of the most foundational actions on Twitter.
 
 Twitter offer two sets of endpoint groups to help you lookup, create, and delete follow relationships: follows lookup and manage follows.
 
-You can get more information for this at [docs](https://developer.twitter.com/en/docs/twitter-api/users/follows/introduction)
+You can get more information for this at [docs](https://developer.x.com/en/docs/twitter-api/users/follows/introduction)
 
 ## Follows lookup
 

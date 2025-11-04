@@ -12,7 +12,7 @@ from pytwitter import PyTwitterError
 def test_parser_response_no_json(api):
     responses.add(
         responses.GET,
-        url="https://api.twitter.com/2/users/123",
+        url="https://api.x.com/2/users/123",
         body="",
     )
     with pytest.raises(PyTwitterError):
@@ -23,7 +23,7 @@ def test_parser_response_no_json(api):
 def test_parser_response_not_ok(api):
     responses.add(
         responses.GET,
-        url="https://api.twitter.com/2/users/123",
+        url="https://api.x.com/2/users/123",
         json={
             "title": "Unauthorized",
             "type": "about:blank",
@@ -40,7 +40,7 @@ def test_parser_response_not_ok(api):
 def test_parser_response_have_error(api):
     responses.add(
         responses.GET,
-        url="https://api.twitter.com/2/users/123",
+        url="https://api.x.com/2/users/123",
         json={
             "errors": {
                 "title": "Unauthorized",
@@ -56,18 +56,18 @@ def test_parser_response_have_error(api):
 
 @responses.activate
 def test_parser_response_have_reason_error(api):
-    # Refer: https://developer.twitter.com/en/support/twitter-api/error-troubleshooting
+    # Refer: https://developer.x.com/en/support/twitter-api/error-troubleshooting
     responses.add(
         responses.GET,
-        url="https://api.twitter.com/2/users/123",
+        url="https://api.x.com/2/users/123",
         json={
             "client_id": "101010101",
             "required_enrollment": "Standard Basic",
-            "registration_url": "https://developer.twitter.com/en/account",
+            "registration_url": "https://developer.x.com/en/account",
             "title": "Client Forbidden",
             "detail": "This request must be made using an approved developer account that is enrolled in the requested endpoint. Learn more by visiting our documentation.",
             "reason": "client-not-enrolled",
-            "type": "https://api.twitter.com/2/problems/client-forbidden",
+            "type": "https://api.x.com/2/problems/client-forbidden",
         },
     )
     with pytest.raises(PyTwitterError):

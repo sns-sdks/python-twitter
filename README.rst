@@ -3,7 +3,7 @@ python-twitter
 A simple Python wrapper for Twitter API v2 :sparkles: :cake: :sparkles:.
 
 .. image:: https://img.shields.io/endpoint?url=https%3A%2F%2Ftwbadges.glitch.me%2Fbadges%2Fv2
-   :target: https://developer.twitter.com/en/docs/twitter-api
+   :target: https://developer.x.com/en/docs/twitter-api
    :alt: v2
 
 .. image:: https://github.com/sns-sdks/python-twitter/workflows/Test/badge.svg
@@ -24,7 +24,7 @@ A simple Python wrapper for Twitter API v2 :sparkles: :cake: :sparkles:.
 Introduction
 ============
 
-Twitter has published new version `Twitter API V2 <https://twitter.com/TwitterDev/status/1293593516040269825>`_ for developer at Aug 13, 2020.
+Twitter has published new version `Twitter API V2 <https://x.com/TwitterDev/status/1293593516040269825>`_ for developer at Aug 13, 2020.
 
 This library provides a service to easily use this new version Twitter API.
 
@@ -32,7 +32,7 @@ This library provides a service to easily use this new version Twitter API.
 Documentation
 =============
 
-You can get all API descriptions `Twitter API v2 Documentation <https://developer.twitter.com/en/docs/twitter-api>`_.
+You can get all API descriptions `Twitter API v2 Documentation <https://developer.x.com/en/docs/twitter-api>`_.
 
 Docs for this library on `here <https://sns-sdks.github.io/python-twitter/>`_
 

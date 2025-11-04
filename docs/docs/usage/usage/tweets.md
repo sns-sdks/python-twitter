@@ -1,6 +1,6 @@
 The Usage API in the Twitter API v2 allows developers to programmatically retrieve their project usage. Using thie endpoint, developers can keep a track and monitor of the number of Tweets they have pulled for a given billing cycle.
 
-You can learn more about the Usage API in the [docs](https://developer.twitter.com/en/docs/twitter-api/usage/tweets/introduction).
+You can learn more about the Usage API in the [docs](https://developer.x.com/en/docs/twitter-api/usage/tweets/introduction).
 
 !!! tip "Note"
     

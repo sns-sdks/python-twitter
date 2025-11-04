@@ -10,7 +10,7 @@ def test_get_list(api, helpers):
     list_id = "84839422"
     responses.add(
         responses.GET,
-        url=f"https://api.twitter.com/2/lists/{list_id}",
+        url=f"https://api.x.com/2/lists/{list_id}",
         json=helpers.load_json_data("testdata/apis/lists/list_resp.json"),
     )
 
@@ -24,7 +24,7 @@ def test_get_user_owned_lists(api, helpers):
 
     responses.add(
         responses.GET,
-        url=f"https://api.twitter.com/2/users/{user_id}/owned_lists",
+        url=f"https://api.x.com/2/users/{user_id}/owned_lists",
         json=helpers.load_json_data("testdata/apis/lists/user_lists_resp.json"),
     )
 
@@ -42,7 +42,7 @@ def test_get_user_owned_lists(api, helpers):
 def test_create_list(api_with_user, helpers):
     responses.add(
         responses.POST,
-        url="https://api.twitter.com/2/lists",
+        url="https://api.x.com/2/lists",
         json={"data": {"id": "1441162269824405510", "name": "test v2 create list"}},
     )
 
@@ -62,7 +62,7 @@ def test_update_list(api_with_user, helpers):
     list_id = "1441162269824405510"
     responses.add(
         responses.PUT,
-        url=f"https://api.twitter.com/2/lists/{list_id}",
+        url=f"https://api.x.com/2/lists/{list_id}",
         json={"data": {"updated": True}},
     )
 
@@ -80,7 +80,7 @@ def test_delete_list(api_with_user, helpers):
     list_id = "1441162269824405510"
     responses.add(
         responses.DELETE,
-        url=f"https://api.twitter.com/2/lists/{list_id}",
+        url=f"https://api.x.com/2/lists/{list_id}",
         json={"data": {"deleted": True}},
     )
 
@@ -93,7 +93,7 @@ def test_get_list_tweets(api, helpers):
     list_id = "84839422"
     responses.add(
         responses.GET,
-        url=f"https://api.twitter.com/2/lists/{list_id}/tweets",
+        url=f"https://api.x.com/2/lists/{list_id}/tweets",
         json=helpers.load_json_data("testdata/apis/lists/list_tweets_resp.json"),
     )
 
@@ -109,7 +109,7 @@ def test_get_list_members(api, helpers):
     list_id = "84839422"
     responses.add(
         responses.GET,
-        url=f"https://api.twitter.com/2/lists/{list_id}/members",
+        url=f"https://api.x.com/2/lists/{list_id}/members",
         json=helpers.load_json_data("testdata/apis/lists/list_members_resp.json"),
     )
 
@@ -128,7 +128,7 @@ def test_get_user_memberships_lists(api, helpers):
     user_id = "84839422"
     responses.add(
         responses.GET,
-        url=f"https://api.twitter.com/2/users/{user_id}/list_memberships",
+        url=f"https://api.x.com/2/users/{user_id}/list_memberships",
         json=helpers.load_json_data(
             "testdata/apis/lists/user_memberships_lists_resp.json"
         ),
@@ -150,7 +150,7 @@ def test_add_member_to_list(api_with_user, helpers):
     user_id = "2244994945"
     responses.add(
         responses.POST,
-        url=f"https://api.twitter.com/2/lists/{list_id}/members",
+        url=f"https://api.x.com/2/lists/{list_id}/members",
         json={"data": {"is_member": True}},
     )
 
@@ -164,7 +164,7 @@ def test_remove_member_to_list(api_with_user, helpers):
     user_id = "2244994945"
     responses.add(
         responses.DELETE,
-        url=f"https://api.twitter.com/2/lists/{list_id}/members/{user_id}",
+        url=f"https://api.x.com/2/lists/{list_id}/members/{user_id}",
         json={"data": {"is_member": False}},
     )
 
@@ -177,7 +177,7 @@ def test_get_list_followers(api, helpers):
     list_id = "84839422"
     responses.add(
         responses.GET,
-        url=f"https://api.twitter.com/2/lists/{list_id}/followers",
+        url=f"https://api.x.com/2/lists/{list_id}/followers",
         json=helpers.load_json_data("testdata/apis/lists/list_followers_resp.json"),
     )
 
@@ -196,7 +196,7 @@ def test_get_user_followed_lists(api, helpers):
     user_id = "2244994945"
     responses.add(
         responses.GET,
-        url=f"https://api.twitter.com/2/users/{user_id}/followed_lists",
+        url=f"https://api.x.com/2/users/{user_id}/followed_lists",
         json=helpers.load_json_data(
             "testdata/apis/lists/user_followed_lists_resp.json"
         ),
@@ -218,7 +218,7 @@ def test_follow_list(api_with_user, helpers):
     user_id = "2244994945"
     responses.add(
         responses.POST,
-        url=f"https://api.twitter.com/2/users/{user_id}/followed_lists",
+        url=f"https://api.x.com/2/users/{user_id}/followed_lists",
         json={"data": {"following": True}},
     )
 
@@ -232,7 +232,7 @@ def test_unfollow_list(api_with_user, helpers):
     user_id = "2244994945"
     responses.add(
         responses.DELETE,
-        url=f"https://api.twitter.com/2/users/{user_id}/followed_lists/{list_id}",
+        url=f"https://api.x.com/2/users/{user_id}/followed_lists/{list_id}",
         json={"data": {"following": False}},
     )
 
@@ -245,7 +245,7 @@ def test_get_user_pinned_lists(api, helpers):
     user_id = "2244994945"
     responses.add(
         responses.GET,
-        url=f"https://api.twitter.com/2/users/{user_id}/pinned_lists",
+        url=f"https://api.x.com/2/users/{user_id}/pinned_lists",
         json=helpers.load_json_data("testdata/apis/lists/user_pinned_lists_resp.json"),
     )
 
@@ -265,7 +265,7 @@ def test_pin_list(api_with_user, helpers):
     user_id = "2244994945"
     responses.add(
         responses.POST,
-        url=f"https://api.twitter.com/2/users/{user_id}/pinned_lists",
+        url=f"https://api.x.com/2/users/{user_id}/pinned_lists",
         json={"data": {"pinned": True}},
     )
 
@@ -279,7 +279,7 @@ def test_unpin_list(api_with_user, helpers):
     user_id = "2244994945"
     responses.add(
         responses.DELETE,
-        url=f"https://api.twitter.com/2/users/{user_id}/pinned_lists/{list_id}",
+        url=f"https://api.x.com/2/users/{user_id}/pinned_lists/{list_id}",
         json={"data": {"pinned": False}},
     )
 

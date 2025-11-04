@@ -1,7 +1,7 @@
 """
     Place object
 
-    Refer: https://developer.twitter.com/en/docs/twitter-api/data-dictionary/object-model/place
+    Refer: https://developer.x.com/en/docs/twitter-api/data-dictionary/object-model/place
 """
 
 from dataclasses import dataclass, field, make_dataclass

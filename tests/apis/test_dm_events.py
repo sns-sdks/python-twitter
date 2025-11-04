@@ -14,7 +14,7 @@ def test_get_dm_events_by_participant(api_with_user, helpers):
 
     responses.add(
         responses.GET,
-        url=f"https://api.twitter.com/2/dm_conversations/with/{participant_id}/dm_events",
+        url=f"https://api.x.com/2/dm_conversations/with/{participant_id}/dm_events",
         json=events_data,
     )
 
@@ -34,7 +34,7 @@ def test_get_dm_events_by_conversation(api_with_user, helpers):
 
     responses.add(
         responses.GET,
-        url=f"https://api.twitter.com/2/dm_conversations/{dm_conversation_id}/dm_events",
+        url=f"https://api.x.com/2/dm_conversations/{dm_conversation_id}/dm_events",
         json=events_data,
     )
 
@@ -51,7 +51,7 @@ def test_get_dm_events(api_with_user, helpers):
 
     responses.add(
         responses.GET,
-        url=f"https://api.twitter.com/2/dm_events",
+        url=f"https://api.x.com/2/dm_events",
         json=events_data,
     )
 
@@ -68,7 +68,7 @@ def test_create_message_to_participant(api_with_user, helpers):
 
     responses.add(
         responses.POST,
-        url=f"https://api.twitter.com/2/dm_conversations/with/{participant_id}/messages",
+        url=f"https://api.x.com/2/dm_conversations/with/{participant_id}/messages",
         json=data,
     )
     resp = api_with_user.create_message_to_participant(
@@ -86,7 +86,7 @@ def test_create_message_to_conversation(api_with_user, helpers):
 
     responses.add(
         responses.POST,
-        url=f"https://api.twitter.com/2/dm_conversations/{dm_conversation_id}/messages",
+        url=f"https://api.x.com/2/dm_conversations/{dm_conversation_id}/messages",
         json=data,
     )
     resp = api_with_user.create_message_to_conversation(
@@ -102,7 +102,7 @@ def test_create_conversation(api_with_user, helpers):
     data = helpers.load_json_data("testdata/apis/dm_events/events_create.json")
     responses.add(
         responses.POST,
-        url=f"https://api.twitter.com/2/dm_conversations",
+        url=f"https://api.x.com/2/dm_conversations",
         json=data,
     )
     resp = api_with_user.create_conversation(

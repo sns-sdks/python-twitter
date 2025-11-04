@@ -2,7 +2,7 @@ The manage mute endpoints enable you to mute or unmute a specified account on be
 
 For these endpoints, there are two methods available: POST and DELETE. The POST method allows you to mute an account, and the DELETE method allows you to unmute an account. There is a user rate limit of 50 requests per 15 minutes for both the POST and DELETE endpoints.
 
-You can get more information for this at [docs](https://developer.twitter.com/en/docs/twitter-api/users/mutes/introduction)
+You can get more information for this at [docs](https://developer.x.com/en/docs/twitter-api/users/mutes/introduction)
 
 ## Manage Mutes
 

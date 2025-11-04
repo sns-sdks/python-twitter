@@ -19,7 +19,7 @@ logger = logging.getLogger(__name__)
 
 
 class StreamApi:
-    BASE_URL = "https://api.twitter.com/2"
+    BASE_URL = "https://api.x.com/2"
 
     def __init__(
         self,
@@ -78,7 +78,7 @@ class StreamApi:
             "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
         }
         resp = requests.post(
-            url="https://api.twitter.com/oauth2/token",
+            url="https://api.x.com/oauth2/token",
             data={"grant_type": "client_credentials"},
             headers=headers,
         )
@@ -163,7 +163,7 @@ class StreamApi:
 
     def on_keep_alive(self):
         """
-        Refer: https://developer.twitter.com/en/docs/twitter-api/tweets/sampled-stream/integrate/handling-disconnections
+        Refer: https://developer.x.com/en/docs/twitter-api/tweets/sampled-stream/integrate/handling-disconnections
         :return:
         """
         logger.debug("Received keep alive signal")
@@ -354,7 +354,7 @@ class StreamApi:
         Add or delete rules to your stream.
 
         :param rules: Json body for your rules.
-            See more detail: https://developer.twitter.com/en/docs/twitter-api/tweets/filtered-stream/api-reference/post-tweets-search-stream-rules
+            See more detail: https://developer.x.com/en/docs/twitter-api/tweets/filtered-stream/api-reference/post-tweets-search-stream-rules
         :param dry_run: Set to true can test the syntax of your rules without submitting it.
         :param return_json: Type for returned data. If you set True JSON data will be returned.
         :return: Response object or json data

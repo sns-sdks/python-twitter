@@ -14,7 +14,7 @@ def test_get_tweet(api, helpers):
 
     responses.add(
         responses.GET,
-        url=f"https://api.twitter.com/2/tweets/{tweet_id}",
+        url=f"https://api.x.com/2/tweets/{tweet_id}",
         json=tweet_data,
     )
 
@@ -45,7 +45,7 @@ def test_get_tweets(api, helpers):
 
     responses.add(
         responses.GET,
-        url=f"https://api.twitter.com/2/tweets",
+        url=f"https://api.x.com/2/tweets",
         json=tweets_data,
     )
 
@@ -76,7 +76,7 @@ def test_like_and_unlike_tweet(api_with_user):
 
     responses.add(
         responses.POST,
-        url=f"https://api.twitter.com/2/users/{user_id}/likes",
+        url=f"https://api.x.com/2/users/{user_id}/likes",
         json={"data": {"liked": True}},
     )
 
@@ -85,7 +85,7 @@ def test_like_and_unlike_tweet(api_with_user):
 
     responses.add(
         responses.DELETE,
-        url=f"https://api.twitter.com/2/users/{user_id}/likes/{tweet_id}",
+        url=f"https://api.x.com/2/users/{user_id}/likes/{tweet_id}",
         json={"data": {"liked": False}},
     )
 
@@ -101,7 +101,7 @@ def test_tweet_liking_users(api, helpers):
     tweet_id = "1395447825366847488"
     responses.add(
         responses.GET,
-        url=f"https://api.twitter.com/2/tweets/{tweet_id}/liking_users",
+        url=f"https://api.x.com/2/tweets/{tweet_id}/liking_users",
         json=tweets_data,
     )
 
@@ -134,7 +134,7 @@ def test_get_user_bookmarks(api_with_user, helpers):
     )
     responses.add(
         responses.GET,
-        url=f"https://api.twitter.com/2/users/{user_id}/bookmarks",
+        url=f"https://api.x.com/2/users/{user_id}/bookmarks",
         json=tweets_data,
     )
 
@@ -154,7 +154,7 @@ def test_user_bookmark_tweet_or_remove_tweet(api_with_user):
 
     responses.add(
         responses.POST,
-        url=f"https://api.twitter.com/2/users/{user_id}/bookmarks",
+        url=f"https://api.x.com/2/users/{user_id}/bookmarks",
         json={"data": {"bookmarked": True}},
     )
 
@@ -163,7 +163,7 @@ def test_user_bookmark_tweet_or_remove_tweet(api_with_user):
 
     responses.add(
         responses.DELETE,
-        url=f"https://api.twitter.com/2/users/{user_id}/bookmarks/{tweet_id}",
+        url=f"https://api.x.com/2/users/{user_id}/bookmarks/{tweet_id}",
         json={"data": {"bookmarked": False}},
     )
 
@@ -179,7 +179,7 @@ def test_get_tweet_quote_tweets(api, helpers):
     tweet_id = "1409931481552543749"
     responses.add(
         responses.GET,
-        url=f"https://api.twitter.com/2/tweets/{tweet_id}/quote_tweets",
+        url=f"https://api.x.com/2/tweets/{tweet_id}/quote_tweets",
         json=tweets_data,
     )
 
@@ -209,7 +209,7 @@ def test_get_tweet_retweeted_tweets(api, helpers):
     tweet_id = "1720506615714213927"
     responses.add(
         responses.GET,
-        url=f"https://api.twitter.com/2/tweets/{tweet_id}/retweets",
+        url=f"https://api.x.com/2/tweets/{tweet_id}/retweets",
         json=tweets_data,
     )
 
@@ -249,7 +249,7 @@ def test_get_tweets_count(api, helpers):
 
     responses.add(
         responses.GET,
-        url="https://api.twitter.com/2/tweets/counts/recent",
+        url="https://api.x.com/2/tweets/counts/recent",
         json=recent_counts_data,
     )
     resp = api.get_tweets_counts(
@@ -261,7 +261,7 @@ def test_get_tweets_count(api, helpers):
 
     responses.add(
         responses.GET,
-        url="https://api.twitter.com/2/tweets/counts/all",
+        url="https://api.x.com/2/tweets/counts/all",
         json=all_counts_data,
     )
     resp_json = api.get_tweets_counts(
@@ -285,7 +285,7 @@ def test_tweet_retweeted_users(api, helpers):
     tweet_id = "1354143047324299264"
     responses.add(
         responses.GET,
-        url=f"https://api.twitter.com/2/tweets/{tweet_id}/retweeted_by",
+        url=f"https://api.x.com/2/tweets/{tweet_id}/retweeted_by",
         json=tweets_data,
     )
 
@@ -307,7 +307,7 @@ def test_retweet_remove_retweet_tweet(api_with_user, helpers):
 
     responses.add(
         responses.POST,
-        url=f"https://api.twitter.com/2/users/{uid}/retweets",
+        url=f"https://api.x.com/2/users/{uid}/retweets",
         json={"data": {"retweeted": True}},
     )
 
@@ -316,7 +316,7 @@ def test_retweet_remove_retweet_tweet(api_with_user, helpers):
 
     responses.add(
         responses.DELETE,
-        url=f"https://api.twitter.com/2/users/{uid}/retweets/{tweet_id}",
+        url=f"https://api.x.com/2/users/{uid}/retweets/{tweet_id}",
         json={"data": {"retweeted": False}},
     )
 
@@ -328,7 +328,7 @@ def test_retweet_remove_retweet_tweet(api_with_user, helpers):
 def test_create_tweet(api_with_user, helpers):
     responses.add(
         responses.POST,
-        url="https://api.twitter.com/2/tweets",
+        url="https://api.x.com/2/tweets",
         json=helpers.load_json_data("testdata/apis/tweet/create_tweet_resp.json"),
     )
 
@@ -336,7 +336,7 @@ def test_create_tweet(api_with_user, helpers):
     assert resp.id == "1445880548472328192"
 
     resp = api_with_user.create_tweet(
-        direct_message_deep_link="https://twitter.com/messages/compose?recipient_id=2244994945",
+        direct_message_deep_link="https://x.com/messages/compose?recipient_id=2244994945",
         for_super_followers_only=True,
         geo_place_id="5a110d312052166f",
         media_media_ids=["1455952740635586573"],
@@ -358,7 +358,7 @@ def test_delete_tweet(api_with_user, helpers):
 
     responses.add(
         responses.DELETE,
-        url=f"https://api.twitter.com/2/tweets/{tweet_id}",
+        url=f"https://api.x.com/2/tweets/{tweet_id}",
         json={"data": {"deleted": True}},
     )
 

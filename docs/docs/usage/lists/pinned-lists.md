@@ -6,7 +6,7 @@ For these endpoints, there are two methods available: POST and DELETE. The POST 
 
 There is a user rate limit of 50 requests per 15 minutes for both endpoints.
 
-You can get more information for this at [docs](https://developer.twitter.com/en/docs/twitter-api/lists/pinned-lists/introduction)
+You can get more information for this at [docs](https://developer.x.com/en/docs/twitter-api/lists/pinned-lists/introduction)
 
 ### Pin a list
 
@@ -30,9 +30,9 @@ my_api.unpin_list(user_id=my_api.auth_user_id, list_id="ID for list to unpin")
 
 Pinned List lookup has one available endpoint that allows you to retrieve an authenticated user's pinned Lists. There is a rate limit of 15 requests per 15 minutes for this endpoint.
 
-Since you are making requests on behalf of a user with all pinned List endpoints, you must authenticate with [OAuth 1.0a User Context](https://developer-staging.twitter.com/en/docs/authentication/oauth-1-0a) and use the Access Tokens associated with a user that has authorized your App.  You can generate Access Tokens using the [3-legged OAuth flow](https://developer-staging.twitter.com/en/docs/authentication/oauth-1-0a/obtaining-user-access-tokens).
+Since you are making requests on behalf of a user with all pinned List endpoints, you must authenticate with [OAuth 1.0a User Context](https://developer-staging.x.com/en/docs/authentication/oauth-1-0a) and use the Access Tokens associated with a user that has authorized your App.  You can generate Access Tokens using the [3-legged OAuth flow](https://developer-staging.x.com/en/docs/authentication/oauth-1-0a/obtaining-user-access-tokens).
 
-You can get more information for this at [docs](https://developer.twitter.com/en/docs/twitter-api/lists/pinned-lists/introduction)
+You can get more information for this at [docs](https://developer.x.com/en/docs/twitter-api/lists/pinned-lists/introduction)
 
 ### Get user pinned lists
 

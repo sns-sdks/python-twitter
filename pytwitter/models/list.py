@@ -1,7 +1,7 @@
 """
     Model for list.
 
-    Refer: https://developer.twitter.com/en/docs/twitter-api/lists/manage-lists/api-reference/post-lists
+    Refer: https://developer.x.com/en/docs/twitter-api/lists/manage-lists/api-reference/post-lists
 """
 
 from dataclasses import dataclass, field

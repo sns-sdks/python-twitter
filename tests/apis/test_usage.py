@@ -9,7 +9,7 @@ import responses
 def test_get_usage_tweets(api, helpers):
     responses.add(
         responses.GET,
-        url=f"https://api.twitter.com/2/usage/tweets",
+        url=f"https://api.x.com/2/usage/tweets",
         json=helpers.load_json_data("testdata/apis/usage/usage_tweets_resp.json"),
     )
 

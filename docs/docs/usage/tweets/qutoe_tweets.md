@@ -2,7 +2,7 @@ The Quote Tweets lookup endpoint gives the Quote Tweets for a given Tweet ID.  T
 
 Tweets are delivered in reverse-chronological order, starting with the most recent. Results are paginated up to 100 Tweets per page (10 Tweets by default). Pagination tokens are provided for paging through large sets of Tweets.
 
-You can get more information for this at [docs](https://developer.twitter.com/en/docs/twitter-api/tweets/quote-tweets/introduction)
+You can get more information for this at [docs](https://developer.x.com/en/docs/twitter-api/tweets/quote-tweets/introduction)
 
 ## Quote Tweets
 

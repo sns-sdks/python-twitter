@@ -12,7 +12,7 @@ def test_get_compliance_job(api, helpers):
 
     responses.add(
         responses.GET,
-        url=f"https://api.twitter.com/2/compliance/jobs/{job_id}",
+        url=f"https://api.x.com/2/compliance/jobs/{job_id}",
         json=helpers.load_json_data("testdata/apis/compliance_jobs/job_resp.json"),
     )
 
@@ -24,7 +24,7 @@ def test_get_compliance_job(api, helpers):
 def test_get_compliance_jobs(api, helpers):
     responses.add(
         responses.GET,
-        url=f"https://api.twitter.com/2/compliance/jobs",
+        url=f"https://api.x.com/2/compliance/jobs",
         json=helpers.load_json_data("testdata/apis/compliance_jobs/jobs_resp.json"),
     )
 
@@ -37,7 +37,7 @@ def test_get_compliance_jobs(api, helpers):
 def test_create_compliance_job(api, helpers):
     responses.add(
         responses.POST,
-        url=f"https://api.twitter.com/2/compliance/jobs",
+        url=f"https://api.x.com/2/compliance/jobs",
         json=helpers.load_json_data(
             "testdata/apis/compliance_jobs/create_job_resp.json"
         ),

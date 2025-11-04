@@ -11,7 +11,7 @@ def test_get_space(api, helpers):
 
     responses.add(
         responses.GET,
-        url=f"https://api.twitter.com/2/spaces/{space_id}",
+        url=f"https://api.x.com/2/spaces/{space_id}",
         json=helpers.load_json_data("testdata/apis/space/space_resp.json"),
     )
 
@@ -25,7 +25,7 @@ def test_get_spaces(api, helpers):
 
     responses.add(
         responses.GET,
-        url=f"https://api.twitter.com/2/spaces",
+        url=f"https://api.x.com/2/spaces",
         json=helpers.load_json_data("testdata/apis/space/spaces_resp.json"),
     )
 
@@ -40,7 +40,7 @@ def test_get_spaces_by_creators(api, helpers):
 
     responses.add(
         responses.GET,
-        url=f"https://api.twitter.com/2/spaces/by/creator_ids",
+        url=f"https://api.x.com/2/spaces/by/creator_ids",
         json=helpers.load_json_data("testdata/apis/space/spaces_by_creators.json"),
     )
 
@@ -54,7 +54,7 @@ def test_get_spaces_by_creators(api, helpers):
 def test_search_spaces(api, helpers):
     responses.add(
         responses.GET,
-        url=f"https://api.twitter.com/2/spaces/search",
+        url=f"https://api.x.com/2/spaces/search",
         json=helpers.load_json_data("testdata/apis/space/spaces_search_resp.json"),
     )
 
@@ -73,7 +73,7 @@ def test_get_buyers_by_space(api, helpers):
     space_id = "1DXxyRYNejbKM"
     responses.add(
         responses.GET,
-        url=f"https://api.twitter.com/2/spaces/{space_id}/buyers",
+        url=f"https://api.x.com/2/spaces/{space_id}/buyers",
         json=helpers.load_json_data("testdata/apis/space/buyers_by_space.json"),
     )
 
@@ -92,7 +92,7 @@ def test_get_tweets_by_space(api, helpers):
     space_id = "1DXxyRYNejbKM"
     responses.add(
         responses.GET,
-        url=f"https://api.twitter.com/2/spaces/{space_id}/tweets",
+        url=f"https://api.x.com/2/spaces/{space_id}/tweets",
         json=helpers.load_json_data("testdata/apis/space/tweets_by_space.json"),
     )
 

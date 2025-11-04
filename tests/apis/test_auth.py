@@ -12,9 +12,7 @@ from pytwitter import Api, PyTwitterError
 def test_generate_bearer_token(api, helpers):
     token_data = helpers.load_json_data("testdata/apis/authflow/bearer_token.json")
 
-    responses.add(
-        responses.POST, url="https://api.twitter.com/oauth2/token", json=token_data
-    )
+    responses.add(responses.POST, url="https://api.x.com/oauth2/token", json=token_data)
 
     # test initial by app
     Api(
@@ -41,7 +39,7 @@ def test_invalidate_bearer_token(api, helpers):
 
     responses.add(
         responses.POST,
-        url="https://api.twitter.com/oauth2/invalidate_token",
+        url="https://api.x.com/oauth2/invalidate_token",
         json=token_data,
     )
 
@@ -76,7 +74,7 @@ def test_user_auth():
 def test_oauth_flow():
     responses.add(
         responses.POST,
-        url="https://api.twitter.com/oauth/request_token",
+        url="https://api.x.com/oauth/request_token",
         json={
             "oauth_token": "uid-token",
             "oauth_token_secret": "oauth token secret",
@@ -96,7 +94,7 @@ def test_oauth_flow():
 
     responses.add(
         responses.POST,
-        url="https://api.twitter.com/oauth/access_token",
+        url="https://api.x.com/oauth/access_token",
         json={
             "oauth_token": "uid-token",
             "oauth_token_secret": "oauth token secret",
@@ -121,7 +119,7 @@ def test_oauth_flow():
 def test_oauth_uid():
     responses.add(
         responses.POST,
-        url="https://api.twitter.com/oauth/request_token",
+        url="https://api.x.com/oauth/request_token",
         json={
             "oauth_token": "uid-token",
             "oauth_token_secret": "oauth token secret",
@@ -137,7 +135,7 @@ def test_oauth_uid():
 
     responses.add(
         responses.POST,
-        url="https://api.twitter.com/oauth/access_token",
+        url="https://api.x.com/oauth/access_token",
         json={
             "oauth_token": "uid-token",
             "oauth_token_secret": "oauth token secret",
@@ -165,7 +163,7 @@ def test_invalidate_access_token():
     )
     responses.add(
         responses.POST,
-        url="https://api.twitter.com/1.1/oauth/invalidate_token",
+        url="https://api.x.com/1.1/oauth/invalidate_token",
         json={"access_token": "ACCESS_TOKEN"},
     )
 
@@ -191,7 +189,7 @@ def test_oauth2_flow():
 
     responses.add(
         responses.POST,
-        url="https://api.twitter.com/2/oauth2/token",
+        url="https://api.x.com/2/oauth2/token",
         json={
             "token_type": "bearer",
             "expires_in": 7200,

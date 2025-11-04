@@ -22,7 +22,7 @@ LIMIT_HEADERS = {
     "x-rate-limit-reset": int(time.time()) + 60 * 5,
 }
 
-USER_URL = "https://api.twitter.com/2/users/2244994945"
+USER_URL = "https://api.x.com/2/users/2244994945"
 
 
 class TestRateLimit:
@@ -46,12 +46,12 @@ class TestRateLimit:
         assert d.limit == 300
         assert d.remaining == 299
 
-        following_url = "https://api.twitter.com/2/users/123456/following"
+        following_url = "https://api.x.com/2/users/123456/following"
         d = user_rate_limit.get_limit(following_url, method="POST")
         assert d.limit == 15
 
         d = rate_limit.set_limit(
-            url="https://api.twitter.com/2/users/123456/following",
+            url="https://api.x.com/2/users/123456/following",
             headers=self.generate_headers(15, 10, 1612522029),
         )
         assert d.remaining == 10
@@ -66,7 +66,7 @@ class TestRateLimit:
     def test_url_to_resource(self):
         assert pytwitter.RateLimit.url_to_endpoint(USER_URL).resource == "/users/:id"
 
-        other_url = "https://api.twitter.com/2/tests/url"
+        other_url = "https://api.x.com/2/tests/url"
         assert pytwitter.RateLimit.url_to_endpoint(other_url).resource == "/tests/url"
 
     @patch("time.sleep")
@@ -74,7 +74,7 @@ class TestRateLimit:
     def test_api_sleep(self, patched_time_sleep, helpers):
         api = pytwitter.Api(bearer_token="bearer token", sleep_on_rate_limit=True)
         user_id = "123456"
-        url = f"https://api.twitter.com/2/users/{user_id}"
+        url = f"https://api.x.com/2/users/{user_id}"
         users_data = helpers.load_json_data("testdata/apis/user/user_resp.json")
         responses.add(responses.GET, url=url, json=users_data)
 

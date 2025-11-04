@@ -4,7 +4,7 @@ We have two available methods for manage Tweets, POST and DELETE. The POST metho
 
 There is a user rate limit of 200 requests per 15 minutes for the POST method. The DELETE method has a rate limit of 50 requests per 15 minutes. Additionally, there is a limit of 300 requests per 3 hours, including Tweets created with either manage Tweets or manage Retweets. 
 
-You can get more information for this at [docs](https://developer.twitter.com/en/docs/twitter-api/tweets/manage-tweets/introduction)
+You can get more information for this at [docs](https://developer.x.com/en/docs/twitter-api/tweets/manage-tweets/introduction)
 
 ## Post a Tweet	
 

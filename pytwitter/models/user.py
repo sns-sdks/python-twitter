@@ -1,7 +1,7 @@
 """
     user object
 
-    Refer: https://developer.twitter.com/en/docs/twitter-api/data-dictionary/object-model/user
+    Refer: https://developer.x.com/en/docs/twitter-api/data-dictionary/object-model/user
 """
 
 from dataclasses import dataclass, field
@@ -61,7 +61,7 @@ class PublicMetrics(BaseModel):
 @dataclass
 class UserWithheld(BaseModel):
     """
-    refer: https://help.twitter.com/en/rules-and-policies/tweet-withheld-by-country
+    refer: https://help.x.com/en/rules-and-policies/tweet-withheld-by-country
     """
 
     scope: Optional[str] = field(default=None)

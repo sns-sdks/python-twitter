@@ -1,7 +1,7 @@
 """
     tweet object
 
-    Refer: https://developer.twitter.com/en/docs/twitter-api/data-dictionary/object-model/tweet
+    Refer: https://developer.x.com/en/docs/twitter-api/data-dictionary/object-model/tweet
 """
 
 import textwrap
@@ -44,7 +44,7 @@ class TweetEditControls(BaseModel):
 @dataclass
 class TweetContextAnnotation(BaseModel):
     """
-    Refer https://developer.twitter.com/en/docs/twitter-api/annotations
+    Refer https://developer.x.com/en/docs/twitter-api/annotations
     """
 
     domain: Optional[TweetContextAnnotationDomain] = field(
@@ -151,7 +151,7 @@ class TweetPublicMetrics(BaseModel):
 @dataclass
 class TweetWithheld(BaseModel):
     """
-    refer: https://help.twitter.com/en/rules-and-policies/tweet-withheld-by-country
+    refer: https://help.x.com/en/rules-and-policies/tweet-withheld-by-country
     """
 
     copyright: Optional[bool] = field(default=None, repr=False)
